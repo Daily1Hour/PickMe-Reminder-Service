@@ -1,3 +1,4 @@
+import { Type } from "class-transformer";
 import { IsString, IsDate } from "class-validator";
 
 export class CreateRequestDTO {
@@ -5,6 +6,7 @@ export class CreateRequestDTO {
     event_id: string;
 
     @IsDate()
+    @Type(() => Date)
     send_at: Date;
 
     @IsString()
