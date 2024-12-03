@@ -9,6 +9,6 @@ export default class NotificationController {
 
     @Post()
     async create(@Body() dto: CreateRequestDTO) {
-        console.log("post", dto);
+        return this.service.registerNotification(dto);
     }
 }
