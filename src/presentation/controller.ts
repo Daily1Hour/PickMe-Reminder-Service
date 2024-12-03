@@ -1,4 +1,13 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller, Post } from "@nestjs/common";
 
-@Controller('notification')
-export class NotificationController {}
+import { NotificationService } from "src/application/service";
+
+@Controller("/")
+export default class NotificationController {
+    constructor(private readonly service: NotificationService) {}
+
+    @Post()
+    async create(@Body() dto) {
+        console.log("post", dto);
+    }
+}
