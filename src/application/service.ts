@@ -1,12 +1,15 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 
 import NotificationEntity from "src/domain/entity";
-import NotificationRepository from "src/infrastructure/repository";
+import INotificationRepository from "src/domain/repository";
 import { CreateRequestDTO } from "src/presentation/dto";
 
 @Injectable()
 export class NotificationService {
-    constructor(private readonly repository: NotificationRepository) {}
+    constructor(
+        @Inject("INotificationRepository")
+        private readonly repository: INotificationRepository,
+    ) {}
 
     async registerNotification({ event_id, send_at, status }: CreateRequestDTO) {
         const entity = new NotificationEntity(event_id, send_at, status);
