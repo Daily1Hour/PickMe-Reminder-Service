@@ -3,6 +3,7 @@ declare global {
         interface ProcessEnv {
             COGNITO_USER_POOL_ID: string;
             COGNITO_CLIENT_ID: string;
+            PORT: number;
 
             DB_TYPE: "mysql" | "postgres" | "sqlite" | "mariadb" | "mongodb";
             DB_HOST: string;
