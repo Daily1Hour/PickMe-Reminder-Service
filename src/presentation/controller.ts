@@ -1,6 +1,7 @@
 import { Body, Controller, Post } from "@nestjs/common";
 
-import { NotificationService } from "src/application/service";
+import NotificationService from "src/application/service";
+
 import { CreateRequestDTO } from "./dto";
 
 @Controller("/")

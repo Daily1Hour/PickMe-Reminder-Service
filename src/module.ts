@@ -1,8 +1,10 @@
 import { Module } from "@nestjs/common";
 
-import { NotificationService } from "./service";
-import NotificationController from "src/presentation/controller";
+import NotificationService from "src/application/service";
+
 import DefaultNotificationRepository from "src/infrastructure/default-repository";
+
+import NotificationController from "src/presentation/controller";
 
 @Module({
     providers: [
