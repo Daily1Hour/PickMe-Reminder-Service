@@ -12,3 +12,8 @@ export class CreateRequestDTO {
     @IsString()
     status: "Pending" | "Sent" | "Failed";
 }
+
+export class ReadRequestDTO {
+    @IsString()
+    event_id: string;
+}

@@ -4,7 +4,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 
 import NotificationEntity from "src/domain/entity";
 
-import { RegisterRequestDTO } from "./dto";
+import { ReadRequestDTO, RegisterRequestDTO } from "./dto";
 import NotificationORMEntity from "src/infrastructure/ormEntity";
 
 @Injectable()
@@ -19,5 +19,9 @@ export default class NotificationService {
 
         const ormEntity = this.repository.create(entity); // ORM 엔티티 생성
         await this.repository.save(ormEntity); // 레포지토리에 저장
+    }
+
+    async getNotifications({ event_id }: ReadRequestDTO): Promise<NotificationORMEntity[]> {
+        return this.repository.find({ where: { event_id } });
     }
 }

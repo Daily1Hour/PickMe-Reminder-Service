@@ -3,3 +3,7 @@ export interface RegisterRequestDTO {
     send_at: Date;
     status: "Pending" | "Sent" | "Failed";
 }
+
+export interface ReadRequestDTO {
+    event_id: string;
+}
