@@ -1,21 +1,23 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
+import { Repository } from "typeorm";
+import { InjectRepository } from "@nestjs/typeorm";
 
 import NotificationEntity from "src/domain/entity";
 
-import INotificationRepository from "src/application/repository";
-
 import { RegisterRequestDTO } from "./dto";
+import NotificationORMEntity from "src/infrastructure/ormEntity";
 
 @Injectable()
 export default class NotificationService {
     constructor(
-        @Inject("INotificationRepository")
-        private readonly repository: INotificationRepository,
+        @InjectRepository(NotificationORMEntity)
+        private repository: Repository<NotificationORMEntity>,
     ) {}
 
     async registerNotification({ event_id, send_at, status }: RegisterRequestDTO) {
-        const entity = new NotificationEntity(event_id, send_at, status);
+        const entity = new NotificationEntity(event_id, send_at, status); // 도메인 객체 생성
 
-        await this.repository.save(entity);
+        const ormEntity = this.repository.create(entity); // ORM 엔티티 생성
+        await this.repository.save(ormEntity); // 레포지토리에 저장
     }
 }
