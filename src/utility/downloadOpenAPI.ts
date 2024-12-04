@@ -16,11 +16,11 @@ async function openapi() {
     const yamlDocument = YAML.stringify(document, 10, 2);
 
     // JSON 파일로 Swagger 명세서 저장
-    writeFile("./swagger-spec.yaml", yamlDocument, (err) => {
+    writeFile("./openapi.yaml", yamlDocument, (err) => {
         if (err) {
             console.error("Error writing file", err);
         } else {
-            console.log("Swagger spec saved to swagger-spec.yaml");
+            console.log("Swagger spec saved to openapi.yaml");
             process.exit(0);
         }
     });
