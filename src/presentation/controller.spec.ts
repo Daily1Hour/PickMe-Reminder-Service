@@ -1,28 +1,46 @@
 import { Test, TestingModule } from "@nestjs/testing";
-
+import { INestApplication } from "@nestjs/common";
+import * as request from "supertest";
 import NotificationController from "./controller";
 import NotificationService from "src/application/service";
-import DefaultNotificationRepository from "src/infrastructure/default-repository";
+import { CreateRequestDTO } from "./dto";
 
 describe("NotificationController", () => {
-    let controller: NotificationController;
+    let app: INestApplication;
+    let service: NotificationService;
 
-    beforeEach(async () => {
-        const module: TestingModule = await Test.createTestingModule({
+    beforeAll(async () => {
+        const moduleFixture: TestingModule = await Test.createTestingModule({
+            controllers: [NotificationController],
             providers: [
-                NotificationService,
                 {
-                    provide: "INotificationRepository",
-                    useClass: DefaultNotificationRepository,
+                    provide: NotificationService,
+                    useValue: {
+                        registerNotification: jest.fn().mockResolvedValue({}),
+                    },
                 },
             ],
-            controllers: [NotificationController],
         }).compile();
 
-        controller = module.get<NotificationController>(NotificationController);
+        app = moduleFixture.createNestApplication();
+        service = moduleFixture.get<NotificationService>(NotificationService);
+        await app.init();
     });
 
-    it("should be defined", () => {
-        expect(controller).toBeDefined();
+    it("/POST create", async () => {
+        const dto: CreateRequestDTO = {
+            event_id: "1",
+            send_at: new Date(),
+            status: "Pending",
+        };
+        const response = null;
+
+        jest.spyOn(service, "registerNotification").mockResolvedValue(response);
+
+        return request(app.getHttpServer()).post("/").send(dto).expect(201);
+    });
+
+    afterAll(async () => {
+        await app.close();
     });
 });
