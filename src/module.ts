@@ -1,4 +1,5 @@
 import { Module } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 
 import NotificationService from "src/application/service";
 
@@ -15,5 +16,6 @@ import NotificationController from "src/presentation/controller";
         },
     ],
     controllers: [NotificationController],
+    imports: [ConfigModule.forRoot()],
 })
 export class NotificationModule {}
