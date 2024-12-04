@@ -4,7 +4,7 @@ import NotificationEntity from "src/domain/entity";
 
 import INotificationRepository from "src/application/repository";
 
-import { CreateRequestDTO } from "src/presentation/dto"; // 역참조
+import { RegisterRequestDTO } from "./dto";
 
 @Injectable()
 export default class NotificationService {
@@ -13,7 +13,7 @@ export default class NotificationService {
         private readonly repository: INotificationRepository,
     ) {}
 
-    async registerNotification({ event_id, send_at, status }: CreateRequestDTO) {
+    async registerNotification({ event_id, send_at, status }: RegisterRequestDTO) {
         const entity = new NotificationEntity(event_id, send_at, status);
 
         await this.repository.save(entity);
