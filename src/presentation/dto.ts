@@ -1,6 +1,8 @@
 import { Type } from "class-transformer";
 import { IsString, IsDate } from "class-validator";
 
+import { NotificationStatus } from "src/application/dto";
+
 export class CreateRequestDTO {
     @IsString()
     event_id: string;
@@ -10,7 +12,7 @@ export class CreateRequestDTO {
     send_at: Date;
 
     @IsString()
-    status: "Pending" | "Sent" | "Failed";
+    status: NotificationStatus;
 }
 
 export class ReadRequestDTO {

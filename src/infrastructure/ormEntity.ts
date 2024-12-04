@@ -1,5 +1,7 @@
 import { Column, Entity, PrimaryColumn } from "typeorm";
 
+import { NotificationStatus } from "src/application/dto";
+
 @Entity("Notification")
 export default class NotificationORMEntity {
     @PrimaryColumn()
@@ -8,6 +10,6 @@ export default class NotificationORMEntity {
     @Column({ type: "date" })
     send_at: Date;
 
-    @Column({ default: "Pending" })
-    status: "Pending" | "Sent" | "Failed";
+    @Column({ type: "enum", enum: NotificationStatus, default: NotificationStatus.Pending })
+    status: NotificationStatus;
 }
