@@ -1,18 +1,26 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { NotificationService } from './service';
+import { Test, TestingModule } from "@nestjs/testing";
 
-describe('NotificationService', () => {
-  let service: NotificationService;
+import NotificationService from "./service";
+import DefaultNotificationRepository from "src/infrastructure/default-repository";
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [NotificationService],
-    }).compile();
+describe("NotificationService", () => {
+    let service: NotificationService;
 
-    service = module.get<NotificationService>(NotificationService);
-  });
+    beforeEach(async () => {
+        const module: TestingModule = await Test.createTestingModule({
+            providers: [
+                NotificationService,
+                {
+                    provide: "INotificationRepository",
+                    useClass: DefaultNotificationRepository,
+                },
+            ],
+        }).compile();
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
+        service = module.get<NotificationService>(NotificationService);
+    });
+
+    it("should be defined", () => {
+        expect(service).toBeDefined();
+    });
 });
