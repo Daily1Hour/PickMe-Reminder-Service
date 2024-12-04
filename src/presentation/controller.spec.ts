@@ -1,8 +1,11 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { INestApplication } from "@nestjs/common";
 import * as request from "supertest";
-import NotificationController from "./controller";
+
 import NotificationService from "src/application/service";
+import { NotificationStatus } from "src/application/dto";
+
+import NotificationController from "./controller";
 import { CreateRequestDTO } from "./dto";
 
 describe("NotificationController", () => {
@@ -31,7 +34,7 @@ describe("NotificationController", () => {
         const dto: CreateRequestDTO = {
             event_id: "1",
             send_at: new Date(),
-            status: "Pending",
+            status: NotificationStatus.Pending,
         };
         const response = null;
 

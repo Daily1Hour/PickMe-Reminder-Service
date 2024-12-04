@@ -7,7 +7,7 @@ import NotificationEntity from "src/domain/entity";
 import NotificationORMEntity from "src/infrastructure/ormEntity";
 
 import NotificationService from "./service";
-import { RegisterRequestDTO } from "./dto";
+import { NotificationStatus, RegisterRequestDTO } from "./dto";
 
 describe("NotificationService", () => {
     let service: NotificationService;
@@ -39,7 +39,7 @@ describe("NotificationService", () => {
             const dto: RegisterRequestDTO = {
                 event_id: "1",
                 send_at: new Date(),
-                status: "Pending",
+                status: NotificationStatus.Pending,
             };
             const entity = new NotificationEntity(dto.event_id, dto.send_at, dto.status);
             const ormEntity = { ...entity, id: 1 };
