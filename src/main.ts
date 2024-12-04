@@ -2,6 +2,7 @@ import { NestFactory } from "@nestjs/core";
 import { ValidationPipe } from "@nestjs/common";
 
 import { NotificationModule } from "./module";
+import { JwtInterceptor } from "./infrastructure/auth/jwtInterceptor";
 
 async function bootstrap() {
     const app = await NestFactory.create(NotificationModule);
@@ -14,6 +15,8 @@ async function bootstrap() {
             forbidNonWhitelisted: true, // DTO에 없는 속성이 있으면 에러
         }),
     );
+
+    app.useGlobalInterceptors(new JwtInterceptor()); // 전역 인터셉터 설정
 
     await app.listen(process.env.PORT ?? 3000);
 }
