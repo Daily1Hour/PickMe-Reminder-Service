@@ -13,6 +13,7 @@ async function bootstrap() {
         .setTitle("알림 API")
         .setDescription("API 명세서") // API 설명
         .setVersion("1.0")
+        .addBearerAuth() // Bearer Auth 추가
         .build();
 
     // Swagger 설정
