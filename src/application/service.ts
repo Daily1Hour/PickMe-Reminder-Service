@@ -1,11 +1,12 @@
 import { Injectable } from "@nestjs/common";
-import { Repository } from "typeorm";
+import { DeleteResult, Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 
 import NotificationEntity from "src/domain/entity";
 
-import { ReadRequestDTO, RegisterRequestDTO } from "./dto";
 import NotificationORMEntity from "src/infrastructure/ormEntity";
+
+import { ReadRequestDTO, RegisterRequestDTO } from "./dto";
 
 @Injectable()
 export default class NotificationService {
@@ -21,7 +22,11 @@ export default class NotificationService {
         await this.repository.save(ormEntity); // 레포지토리에 저장
     }
 
-    async getNotifications({ event_id }: ReadRequestDTO): Promise<NotificationORMEntity[]> {
-        return this.repository.find({ where: { event_id } });
+    async getNotifications({ event_id }: ReadRequestDTO): Promise<NotificationORMEntity> {
+        return this.repository.findOne({ where: { event_id } });
+    }
+
+    async deleteNotifications({ event_id }: ReadRequestDTO): Promise<DeleteResult> {
+        return this.repository.delete({ event_id });
     }
 }

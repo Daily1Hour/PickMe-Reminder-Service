@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Post, Put } from "@nestjs/common";
 
 import NotificationService from "src/application/service";
 
@@ -16,5 +16,15 @@ export default class NotificationController {
     @Get()
     async read(@Body() dto: ReadRequestDTO) {
         return this.service.getNotifications(dto);
+    }
+
+    @Put()
+    async update(@Body() dto: CreateRequestDTO) {
+        return this.service.registerNotification(dto);
+    }
+
+    @Delete()
+    async delete(@Body() dto: ReadRequestDTO) {
+        return this.service.deleteNotifications(dto);
     }
 }
