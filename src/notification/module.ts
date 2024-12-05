@@ -2,11 +2,11 @@ import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
-import NotificationService from "src/application/service";
+import NotificationService from "src/notification/application/service";
 
-import NotificationORMEntity from "src/infrastructure/ormEntity";
+import NotificationORMEntity from "src/notification/infrastructure/ormEntity";
 
-import NotificationController from "src/presentation/controller";
+import NotificationController from "src/notification/presentation/controller";
 
 @Module({
     providers: [NotificationService],
