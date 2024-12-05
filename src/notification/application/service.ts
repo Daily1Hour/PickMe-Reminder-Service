@@ -26,8 +26,17 @@ export default class NotificationService {
         return this.repository.findOne({ where: { event_id } });
     }
 
-    async getFilteredList({ send_at, status }: OptionsDTO): Promise<NotificationORMEntity[]> {
-        return this.repository.find({ where: { send_at, status } });
+    async getFilteredList({
+        start_time,
+        end_time,
+        status,
+    }: OptionsDTO): Promise<NotificationORMEntity[]> {
+        return this.repository
+            .createQueryBuilder("item")
+            .andWhere("item.send_at >= :start_time", { start_time })
+            .andWhere("item.send_at <= :end_time", { end_time })
+            .andWhere("item.status = :status", { status })
+            .getMany();
     }
 
     async delete({ event_id }: ReadRequestDTO): Promise<DeleteResult> {

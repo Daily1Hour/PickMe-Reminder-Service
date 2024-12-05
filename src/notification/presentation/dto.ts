@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsString, IsDate, IsOptional } from "class-validator";
+import { IsString, IsDate, IsOptional, ValidateIf } from "class-validator";
 
 import { NotificationStatus } from "src/notification/application/dto";
 
@@ -38,9 +38,17 @@ export class ReadRequestDTO {
 export class OptionsDTO {
     @IsDate()
     @IsOptional()
+    @ValidateIf((o) => o.end_time) // end_time과 엮음
     @Type(() => Date)
-    @ApiProperty({ description: "알림 발송 시간" })
-    send_at: Date;
+    @ApiProperty({ description: "시작 시간" })
+    start_time: Date;
+
+    @IsDate()
+    @IsOptional()
+    @ValidateIf((o) => o.start_time) // start_time과 엮음
+    @Type(() => Date)
+    @ApiProperty({ description: "종료 시간" })
+    end_time: Date;
 
     @IsString()
     @IsOptional()

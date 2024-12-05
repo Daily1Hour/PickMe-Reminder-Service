@@ -13,6 +13,7 @@ export interface ReadRequestDTO {
 }
 
 export interface OptionsDTO {
-    send_at?: Date;
+    start_time?: Date;
+    end_time?: Date;
     status?: NotificationStatus;
 }
