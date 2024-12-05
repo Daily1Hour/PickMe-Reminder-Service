@@ -4,6 +4,7 @@ import { IsString, IsDate, IsOptional, ValidateIf } from "class-validator";
 
 import { NotificationStatus } from "src/notification/application/dto";
 
+import { IsTimeRange } from "./IsTimeRange";
 import { TrimSeconds } from "./TrimSeconds";
 import { AtLeastOneOption } from "./AtLeastOneOption";
 
@@ -40,15 +41,18 @@ export class OptionsDTO {
     @IsOptional()
     @ValidateIf((o) => o.end_time) // end_time과 엮음
     @Type(() => Date)
-    @ApiProperty({ description: "시작 시간" })
-    start_time: Date;
+    @ApiProperty({ description: "시작 시간", required: false })
+    start_time?: Date;
 
     @IsDate()
     @IsOptional()
     @ValidateIf((o) => o.start_time) // start_time과 엮음
     @Type(() => Date)
-    @ApiProperty({ description: "종료 시간" })
-    end_time: Date;
+    @ApiProperty({ description: "종료 시간", required: false })
+    end_time?: Date;
+
+    @IsTimeRange({ message: "시작 시간과 종료 시간은 짝으로 제공되거나 없어야합니다." })
+    time_range?: string;
 
     @IsString()
     @IsOptional()
