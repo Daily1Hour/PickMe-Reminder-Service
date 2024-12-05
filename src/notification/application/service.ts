@@ -31,7 +31,7 @@ export default class NotificationService {
         return this.register({ ...paramDTO, ...bodyDTO, ...entity });
     }
 
-    async get({ event_id }: ReadRequestDTO): Promise<NotificationORMEntity> {
+    async get({ event_id }: ReadRequestDTO): Promise<NotificationEntity> {
         return this.repository.findOne({ where: { event_id } });
     }
 
@@ -39,7 +39,7 @@ export default class NotificationService {
         start_time,
         end_time,
         status,
-    }: OptionsDTO): Promise<NotificationORMEntity[]> {
+    }: OptionsDTO): Promise<NotificationEntity[]> {
         return this.repository
             .createQueryBuilder("item")
             .andWhere("item.send_at >= :start_time", { start_time })
