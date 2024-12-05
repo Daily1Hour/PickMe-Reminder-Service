@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryColumn } from "typeorm";
 
-import { NotificationStatus } from "src/application/dto";
+import { NotificationStatus } from "src/notification/application/dto";
 
 @Entity("Notification")
 export default class NotificationORMEntity {

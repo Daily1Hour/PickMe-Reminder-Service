@@ -2,9 +2,9 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 
-import NotificationEntity from "src/domain/entity";
+import NotificationEntity from "src/notification/domain/entity";
 
-import NotificationORMEntity from "src/infrastructure/ormEntity";
+import NotificationORMEntity from "src/notification/infrastructure/ormEntity";
 
 import NotificationService from "./service";
 import { NotificationStatus, RegisterRequestDTO } from "./dto";

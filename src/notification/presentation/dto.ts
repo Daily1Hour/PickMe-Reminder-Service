@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsString, IsDate, IsOptional } from "class-validator";
 
-import { NotificationStatus } from "src/application/dto";
+import { NotificationStatus } from "src/notification/application/dto";
 
 export class CreateRequestDTO {
     @IsString()

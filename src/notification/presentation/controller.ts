@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiResponse } from "@nestjs/swagger";
 
-import NotificationService from "src/application/service";
+import NotificationService from "src/notification/application/service";
 
 import { CreateRequestDTO, ReadRequestDTO } from "./dto";
 
