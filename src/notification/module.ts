@@ -28,5 +28,6 @@ import NotificationController from "src/notification/presentation/controller";
         // TypeORM ORM 엔티티 설정
         TypeOrmModule.forFeature([NotificationORMEntity]),
     ],
+    exports: [NotificationService],
 })
 export class NotificationModule {}
