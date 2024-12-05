@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
+import {
+    BadRequestException,
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    Put,
+    Query,
+} from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiResponse } from "@nestjs/swagger";
 
 import NotificationService from "src/notification/application/service";
@@ -29,8 +39,11 @@ export default class NotificationController {
     @Get()
     @ApiOperation({ summary: "알림 옵션 조회" })
     @ApiResponse({ status: 200, description: "성공적으로 조회" })
-    async readByOptions(@Query() { send_at, status }: OptionsDTO) {
-        return this.service.getFilteredList({ send_at, status });
+    async readByOptions(@Query() query: OptionsDTO) {
+        if (Object.keys(query).length === 0) {
+            throw new BadRequestException("At least one filter option must be provided.");
+        }
+        return this.service.getFilteredList(query);
     }
 
     @Put()
