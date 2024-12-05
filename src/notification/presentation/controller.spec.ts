@@ -6,7 +6,7 @@ import NotificationService from "src/notification/application/service";
 import { NotificationStatus } from "src/notification/application/dto";
 
 import NotificationController from "./controller";
-import { CreateRequestDTO } from "./dto";
+import { CreateRequestDTO } from "./dtos";
 
 describe("NotificationController", () => {
     let app: INestApplication;

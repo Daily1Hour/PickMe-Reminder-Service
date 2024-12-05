@@ -3,7 +3,7 @@ import { ApiBearerAuth, ApiOperation, ApiResponse } from "@nestjs/swagger";
 
 import NotificationService from "src/notification/application/service";
 
-import { CreateRequestDTO, OptionsDTO, ReadRequestDTO } from "./dto";
+import { CreateRequestDTO, ReadRequestDTO, ParametersDTO } from "./dtos";
 
 @Controller("/")
 @ApiBearerAuth()
@@ -29,7 +29,7 @@ export default class NotificationController {
     @Get()
     @ApiOperation({ summary: "알림 옵션 조회" })
     @ApiResponse({ status: 200, description: "성공적으로 조회" })
-    async readByOptions(@Query() query: OptionsDTO) {
+    async readByOptions(@Query() query: ParametersDTO) {
         return this.service.getFilteredList(query);
     }
 
