@@ -7,7 +7,7 @@ export default class NotificationORMEntity {
     @PrimaryColumn()
     event_id: string;
 
-    @Column({ type: "date" })
+    @Column({ type: "datetime" })
     send_at: Date;
 
     @Column({ type: "enum", enum: NotificationStatus, default: NotificationStatus.Pending })
