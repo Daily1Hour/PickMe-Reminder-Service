@@ -10,14 +10,22 @@ export default class ParametersDTO {
     @IsOptional()
     @ValidateIf((o) => o.end_time) // end_time과 엮음
     @Type(() => Date)
-    @ApiProperty({ description: "시작 시간", required: false })
+    @ApiProperty({
+        description: "시작 시간",
+        required: false,
+        example: "2024-12-01T00:00:00+09:00",
+    })
     start_time?: Date;
 
     @IsDate()
     @IsOptional()
     @ValidateIf((o) => o.start_time) // start_time과 엮음
     @Type(() => Date)
-    @ApiProperty({ description: "종료 시간", required: false })
+    @ApiProperty({
+        description: "종료 시간",
+        required: false,
+        example: "2024-12-05T00:00:00+09:00",
+    })
     end_time?: Date;
 
     @IsTimeRange({ message: "시작 시간과 종료 시간은 짝으로 제공되거나 없어야합니다." })

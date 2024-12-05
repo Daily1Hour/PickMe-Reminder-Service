@@ -1,5 +1,11 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
-import { ApiBearerAuth, ApiOperation, ApiResponse } from "@nestjs/swagger";
+import {
+    ApiBearerAuth,
+    ApiExtraModels,
+    ApiOperation,
+    ApiParam,
+    ApiResponse,
+} from "@nestjs/swagger";
 
 import NotificationService from "src/notification/application/service";
 
@@ -29,6 +35,7 @@ export default class NotificationController {
     @Get()
     @ApiOperation({ summary: "알림 옵션 조회" })
     @ApiResponse({ status: 200, description: "성공적으로 조회" })
+    @ApiExtraModels(ParametersDTO)
     async readByOptions(@Query() query: ParametersDTO) {
         return this.service.getFilteredList(query);
     }
@@ -43,6 +50,7 @@ export default class NotificationController {
     @Delete(":event_id")
     @ApiOperation({ summary: "알림 삭제" })
     @ApiResponse({ status: 200, description: "성공적으로 수정" })
+    @ApiParam({ name: "event_id", type: ReadRequestDTO })
     async delete(@Param() dto: ReadRequestDTO) {
         return this.service.delete(dto);
     }
