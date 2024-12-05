@@ -4,9 +4,7 @@ import { IsString, IsDate, IsOptional, ValidateIf } from "class-validator";
 
 import { NotificationStatus } from "src/notification/application/dto";
 
-import { IsTimeRange } from "../utility/decorators/IsTimeRange";
-import { TrimSeconds } from "../utility/decorators/TrimSeconds";
-import { AtLeastOneOption } from "../utility/decorators/AtLeastOneOption";
+import { AtLeastOneOption, IsTimeRange, TrimSeconds } from "src/notification/utility/decorators";
 
 export class CreateRequestDTO {
     @IsString()
