@@ -1,0 +1,176 @@
+openapi: 3.0.0
+paths:
+  /:
+    post:
+      operationId: NotificationController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRequestDTO'
+      responses:
+        '201':
+          description: '성공적으로 등록'
+        '400':
+          description: '입력 값 오류'
+        '401':
+          description: '권한 없음'
+      security:
+        -
+          bearer: []
+      summary: '알림 등록'
+      tags:
+        - Notification
+    get:
+      operationId: NotificationController_readByOptions
+      parameters:
+        -
+          name: start_time
+          required: false
+          in: query
+          description: '시작 시간'
+          schema:
+            format: date-time
+            type: string
+        -
+          name: end_time
+          required: false
+          in: query
+          description: '종료 시간'
+          schema:
+            format: date-time
+            type: string
+        -
+          name: status
+          required: false
+          in: query
+          description: '알림 상태'
+          schema:
+            example: Pending
+            enum:
+              - Pending
+              - Sent
+              - Failed
+            type: string
+      responses:
+        '200':
+          description: '성공적으로 조회'
+        '400':
+          description: '입력 값 오류'
+        '401':
+          description: '권한 없음'
+      security:
+        -
+          bearer: []
+      summary: '알림 옵션 조회'
+      tags:
+        - Notification
+    put:
+      operationId: NotificationController_update
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRequestDTO'
+      responses:
+        '200':
+          description: '성공적으로 수정'
+        '400':
+          description: '입력 값 오류'
+        '401':
+          description: '권한 없음'
+      security:
+        -
+          bearer: []
+      summary: '알림 수정'
+      tags:
+        - Notification
+  '/{event_id}':
+    get:
+      operationId: NotificationController_read
+      parameters:
+        -
+          name: event_id
+          required: true
+          in: path
+          description: '수행될 이벤트 ID'
+          schema:
+            example: 507f1f77bcf86cd799439011
+            type: string
+      responses:
+        '200':
+          description: '성공적으로 조회'
+        '400':
+          description: '입력 값 오류'
+        '401':
+          description: '권한 없음'
+      security:
+        -
+          bearer: []
+      summary: '알림 조회'
+      tags:
+        - Notification
+    delete:
+      operationId: NotificationController_delete
+      parameters:
+        -
+          name: event_id
+          required: true
+          in: path
+          description: '수행될 이벤트 ID'
+          schema:
+            example: 507f1f77bcf86cd799439011
+            type: string
+      responses:
+        '200':
+          description: '성공적으로 수정'
+        '400':
+          description: '입력 값 오류'
+        '401':
+          description: '권한 없음'
+      security:
+        -
+          bearer: []
+      summary: '알림 삭제'
+      tags:
+        - Notification
+info:
+  title: '알림 API'
+  description: 'API 명세서'
+  version: '1.0'
+  contact: {}
+tags: []
+servers: []
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+  schemas:
+    CreateRequestDTO:
+      type: object
+      properties:
+        event_id:
+          type: string
+          description: '수행될 이벤트 ID'
+          example: 507f1f77bcf86cd799439011
+        send_at:
+          format: date-time
+          type: string
+          description: '알림 발송 시간'
+        status:
+          type: string
+          description: '알림 상태'
+          enum:
+            - Pending
+            - Sent
+            - Failed
+          example: Pending
+      required:
+        - event_id
+        - send_at
