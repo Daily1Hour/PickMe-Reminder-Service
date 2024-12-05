@@ -16,34 +16,34 @@ export default class NotificationController {
     @ApiOperation({ summary: "알림 등록" })
     @ApiResponse({ status: 201, description: "성공적으로 등록" })
     async create(@Body() dto: CreateRequestDTO) {
-        return this.service.registerNotification(dto);
+        return this.service.register(dto);
     }
 
     @Get(":event_id")
     @ApiOperation({ summary: "알림 조회" })
     @ApiResponse({ status: 200, description: "성공적으로 조회" })
     async read(@Param() dto: ReadRequestDTO) {
-        return this.service.getNotifications(dto);
+        return this.service.get(dto);
     }
 
     @Get()
     @ApiOperation({ summary: "알림 옵션 조회" })
     @ApiResponse({ status: 200, description: "성공적으로 조회" })
     async readByOptions(@Query() { send_at, status }: OptionsDTO) {
-        return this.service.getFilteredNotifications({ send_at, status });
+        return this.service.getFilteredList({ send_at, status });
     }
 
     @Put()
     @ApiOperation({ summary: "알림 수정" })
     @ApiResponse({ status: 200, description: "성공적으로 수정" })
     async update(@Body() dto: CreateRequestDTO) {
-        return this.service.registerNotification(dto);
+        return this.service.register(dto);
     }
 
     @Delete(":event_id")
     @ApiOperation({ summary: "알림 삭제" })
     @ApiResponse({ status: 200, description: "성공적으로 수정" })
     async delete(@Param() dto: ReadRequestDTO) {
-        return this.service.deleteNotifications(dto);
+        return this.service.delete(dto);
     }
 }

@@ -47,7 +47,7 @@ describe("NotificationService", () => {
             jest.spyOn(repository, "create").mockReturnValue(ormEntity as any);
             jest.spyOn(repository, "save").mockResolvedValue(ormEntity as any);
 
-            await service.registerNotification(dto);
+            await service.register(dto);
 
             expect(repository.create).toHaveBeenCalledWith(entity);
             expect(repository.save).toHaveBeenCalledWith(ormEntity);

@@ -19,7 +19,7 @@ describe("NotificationController", () => {
                 {
                     provide: NotificationService,
                     useValue: {
-                        registerNotification: jest.fn().mockResolvedValue({}),
+                        register: jest.fn().mockResolvedValue({}),
                     },
                 },
             ],
@@ -38,7 +38,7 @@ describe("NotificationController", () => {
         };
         const response = null;
 
-        jest.spyOn(service, "registerNotification").mockResolvedValue(response);
+        jest.spyOn(service, "register").mockResolvedValue(response);
 
         return request(app.getHttpServer()).post("/").send(dto).expect(201);
     });
