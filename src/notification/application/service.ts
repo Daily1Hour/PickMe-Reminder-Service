@@ -6,7 +6,7 @@ import NotificationEntity from "src/notification/domain/entity";
 
 import NotificationORMEntity from "src/notification/infrastructure/ormEntity";
 
-import { ReadRequestDTO, RegisterRequestDTO } from "./dto";
+import { OptionsDTO, ReadRequestDTO, RegisterRequestDTO } from "./dto";
 
 @Injectable()
 export default class NotificationService {
@@ -24,6 +24,10 @@ export default class NotificationService {
 
     async getNotifications({ event_id }: ReadRequestDTO): Promise<NotificationORMEntity> {
         return this.repository.findOne({ where: { event_id } });
+    }
+
+    async getFilteredNotifications({ send_at, status }: OptionsDTO): Promise<NotificationORMEntity[]> {
+        return this.repository.find({ where: { send_at, status } });
     }
 
     async deleteNotifications({ event_id }: ReadRequestDTO): Promise<DeleteResult> {

@@ -1,9 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiResponse } from "@nestjs/swagger";
 
 import NotificationService from "src/notification/application/service";
 
-import { CreateRequestDTO, ReadRequestDTO } from "./dto";
+import { CreateRequestDTO, OptionsDTO, ReadRequestDTO } from "./dto";
 
 @Controller("/")
 @ApiBearerAuth()
@@ -24,6 +24,13 @@ export default class NotificationController {
     @ApiResponse({ status: 200, description: "성공적으로 조회" })
     async read(@Param() dto: ReadRequestDTO) {
         return this.service.getNotifications(dto);
+    }
+
+    @Get()
+    @ApiOperation({ summary: "알림 옵션 조회" })
+    @ApiResponse({ status: 200, description: "성공적으로 조회" })
+    async readByOptions(@Query() { send_at, status }: OptionsDTO) {
+        return this.service.getFilteredNotifications({ send_at, status });
     }
 
     @Put()

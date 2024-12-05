@@ -32,3 +32,21 @@ export class ReadRequestDTO {
     @ApiProperty({ description: "수행될 이벤트 ID", example: "507f1f77bcf86cd799439011" })
     event_id: string;
 }
+
+export class OptionsDTO {
+    @IsDate()
+    @IsOptional()
+    @Type(() => Date)
+    @ApiProperty({ description: "알림 발송 시간" })
+    send_at: Date;
+
+    @IsString()
+    @IsOptional()
+    @ApiProperty({
+        description: "알림 상태",
+        enum: NotificationStatus,
+        required: false,
+        example: "Pending",
+    })
+    status?: NotificationStatus;
+}
