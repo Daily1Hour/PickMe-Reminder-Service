@@ -18,7 +18,7 @@ class TimeRangeConstraint implements ValidatorConstraintInterface {
 
         // 동시에 존재하거나 동시에 존재하지 않아야 함
         // 시작 시간은 종료 시간보다 작아야 함
-        return !!start_time === !!end_time && start_time < end_time;
+        return !!start_time === !!end_time && (!start_time || start_time < end_time);
     }
 
     defaultMessage(_args: ValidationArguments) {
