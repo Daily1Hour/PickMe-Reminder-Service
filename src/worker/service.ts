@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { Cron } from "@nestjs/schedule";
 
 import NotificationService from "src/notification/application/service";
 
@@ -13,5 +14,11 @@ export class WorkerService {
         });
 
         console.log(notifications);
+    }
+
+    @Cron("0 * * * *") // 매 정시에 실행
+    async handleCron() {
+        console.log("잡 수행 시간:", new Date());
+        await this.start();
     }
 }
