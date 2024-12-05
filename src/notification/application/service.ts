@@ -6,7 +6,7 @@ import NotificationEntity from "src/notification/domain/entity";
 
 import NotificationORMEntity from "src/notification/infrastructure/ormEntity";
 
-import { OptionsDTO, ReadRequestDTO, RegisterRequestDTO } from "./dto";
+import { OptionsDTO, ReadRequestDTO, RegisterRequestDTO, UpdateRequestDTO } from "./dto";
 
 @Injectable()
 export default class NotificationService {
@@ -20,6 +20,15 @@ export default class NotificationService {
 
         const ormEntity = this.repository.create(entity); // ORM 엔티티 생성
         await this.repository.save(ormEntity); // 레포지토리에 저장
+    }
+
+    async update(paramDTO: ReadRequestDTO, bodyDTO: UpdateRequestDTO) {
+        const entity = await this.get(paramDTO); // 해당 엔티티가 있는지 확인
+        if (!entity) {
+            throw new Error("Entity not found.");
+        }
+
+        return this.register({ ...paramDTO, ...bodyDTO, ...entity });
     }
 
     async get({ event_id }: ReadRequestDTO): Promise<NotificationORMEntity> {

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query } from "@nestjs/common";
 import {
     ApiBearerAuth,
     ApiExtraModels,
@@ -9,7 +9,7 @@ import {
 
 import NotificationService from "src/notification/application/service";
 
-import { CreateRequestDTO, ReadRequestDTO, ParametersDTO } from "./dtos";
+import { CreateRequestDTO, ReadRequestDTO, UpdateRequestDTO, ParametersDTO } from "./dtos";
 
 @Controller("/")
 @ApiBearerAuth()
@@ -40,11 +40,18 @@ export default class NotificationController {
         return this.service.getFilteredList(query);
     }
 
-    @Put()
+    @Put(":event_id")
     @ApiOperation({ summary: "알림 수정" })
     @ApiResponse({ status: 200, description: "성공적으로 수정" })
-    async update(@Body() dto: CreateRequestDTO) {
-        return this.service.register(dto);
+    async update(@Param() paramDTO: ReadRequestDTO, @Body() bodyDTO: CreateRequestDTO) {
+        return this.service.register({ ...paramDTO, ...bodyDTO });
+    }
+
+    @Patch(":event_id")
+    @ApiOperation({ summary: "알림 일부 수정" })
+    @ApiResponse({ status: 200, description: "성공적으로 수정" })
+    async updatePartial(@Param() paramDTO: ReadRequestDTO, @Body() bodyDTO: UpdateRequestDTO) {
+        return this.service.update(paramDTO, bodyDTO);
     }
 
     @Delete(":event_id")

@@ -8,6 +8,11 @@ export interface RegisterRequestDTO {
     status?: NotificationStatus;
 }
 
+export interface UpdateRequestDTO {
+    send_at?: Date;
+    status?: NotificationStatus;
+}
+
 export interface ReadRequestDTO {
     event_id: string;
 }
