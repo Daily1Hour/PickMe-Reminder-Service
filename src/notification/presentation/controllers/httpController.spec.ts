@@ -5,8 +5,8 @@ import * as request from "supertest";
 import NotificationService from "src/notification/application/service";
 import { NotificationStatus } from "src/notification/application/dto";
 
-import NotificationController from "./controller";
-import { CreateRequestDTO, ReadRequestDTO, ParametersDTO, UpdateRequestDTO } from "./dtos";
+import NotificationController from "./httpController";
+import { CreateRequestDTO, ParametersDTO, UpdateRequestDTO } from "../dtos";
 
 describe("NotificationController", () => {
     let app: INestApplication;

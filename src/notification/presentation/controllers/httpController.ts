@@ -5,18 +5,19 @@ import {
     ApiOperation,
     ApiParam,
     ApiResponse,
+    ApiTags,
 } from "@nestjs/swagger";
-import { MessagePattern, Payload } from "@nestjs/microservices";
 
 import NotificationService from "src/notification/application/service";
 
-import { CreateRequestDTO, ReadRequestDTO, UpdateRequestDTO, ParametersDTO } from "./dtos";
+import { CreateRequestDTO, ReadRequestDTO, UpdateRequestDTO, ParametersDTO } from "../dtos";
 
 @Controller("/")
+@ApiTags("HTTP API")
 @ApiBearerAuth()
 @ApiResponse({ status: 401, description: "권한 없음" })
 @ApiResponse({ status: 400, description: "입력 값 오류" })
-export default class NotificationController {
+export default class NotificationHttpController {
     constructor(private readonly service: NotificationService) {}
 
     @Post()
@@ -37,8 +38,7 @@ export default class NotificationController {
     @ApiOperation({ summary: "알림 옵션 조회" })
     @ApiResponse({ status: 200, description: "성공적으로 조회" })
     @ApiExtraModels(ParametersDTO)
-    @MessagePattern({ cmd: "readByOptions" })
-    async readByOptions(@Payload() query: ParametersDTO) {
+    async readByOptions(@Query() query: ParametersDTO) {
         return this.service.getFilteredList(query);
     }
 
