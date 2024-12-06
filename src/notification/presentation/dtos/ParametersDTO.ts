@@ -3,13 +3,14 @@ import { Type } from "class-transformer";
 import { IsDate, IsOptional, ValidateIf, IsString } from "class-validator";
 
 import { NotificationStatus } from "@notification/domain/entity";
-import { IsTimeRange, AtLeastOneOption } from "@notification/utility/decorators";
+import { IsTimeRange, AtLeastOneOption, TrimSeconds } from "@notification/utility/decorators";
 
 export default class ParametersDTO {
     @IsDate()
     @IsOptional()
     @ValidateIf((o) => o.end_time) // end_time과 엮음
     @Type(() => Date)
+    @TrimSeconds()
     @ApiProperty({
         description: "시작 시간",
         required: false,
@@ -21,6 +22,7 @@ export default class ParametersDTO {
     @IsOptional()
     @ValidateIf((o) => o.start_time) // start_time과 엮음
     @Type(() => Date)
+    @TrimSeconds()
     @ApiProperty({
         description: "종료 시간",
         required: false,
