@@ -23,4 +23,12 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'off',
     "linebreak-style": ["off"]
   },
+  "overrides": [
+    {
+      "files": ["jest.config.js"],
+      "rules": {
+        "@typescript-eslint/no-require-imports": "off"
+      }
+    }
+  ],
 };
