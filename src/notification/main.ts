@@ -25,14 +25,14 @@ async function bootstrap() {
     // 전역 인터셉터 설정
     app.useGlobalInterceptors(new JwtInterceptor());
 
-    await app.listen(process.env.PORT ?? 3000);
+    await app.listen(process.env.PORT || 3000);
 
     // 마이크로서비스 설정
     app.connectMicroservice<MicroserviceOptions>({
         transport: Transport.TCP, // TCP 프로토콜 사용
         options: {
             host: "localhost",
-            port: 3001,
+            port: process.env.MS_PORT || 3001,
         },
     });
 

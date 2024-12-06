@@ -7,7 +7,7 @@ import { IWorkerClient } from "../application/client";
 @Injectable()
 export class WorkerClientImpl implements IWorkerClient {
     // 마이크로서비스로 TCP 연결
-    @Client({ transport: Transport.TCP, options: { host: "localhost", port: 3001 } })
+    @Client({ transport: Transport.TCP, options: { host: "localhost", port: process.env.MS_PORT || 3002 } })
     private client: ClientTCP;
 
     async readByOptions(query: any) {

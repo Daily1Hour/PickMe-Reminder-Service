@@ -4,6 +4,7 @@ declare global {
             COGNITO_USER_POOL_ID: string;
             COGNITO_CLIENT_ID: string;
             PORT: number;
+            MS_PORT: number;
 
             DB_TYPE: "mysql" | "postgres" | "sqlite" | "mariadb" | "mongodb";
             DB_HOST: string;
@@ -11,6 +12,8 @@ declare global {
             DB_USERNAME: string;
             DB_PASSWORD: string;
             DB_PORT: number;
+
+            WORKER_PORT: number;
         }
     }
 }
