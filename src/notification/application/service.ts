@@ -2,9 +2,9 @@ import { Injectable } from "@nestjs/common";
 import { DeleteResult, Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 
-import NotificationEntity from "src/notification/domain/entity";
+import NotificationEntity from "@notification/domain/entity";
 
-import NotificationORMEntity from "src/notification/infrastructure/ormEntity";
+import NotificationORMEntity from "@notification/infrastructure/ormEntity";
 
 import { OptionsDTO, ReadRequestDTO, RegisterRequestDTO, UpdateRequestDTO } from "./dto";
 

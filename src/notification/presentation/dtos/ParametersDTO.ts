@@ -2,8 +2,8 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsDate, IsOptional, ValidateIf, IsString } from "class-validator";
 
-import { NotificationStatus } from "src/notification/domain/entity";
-import { IsTimeRange, AtLeastOneOption } from "src/notification/utility/decorators";
+import { NotificationStatus } from "@notification/domain/entity";
+import { IsTimeRange, AtLeastOneOption } from "@notification/utility/decorators";
 
 export default class ParametersDTO {
     @IsDate()
