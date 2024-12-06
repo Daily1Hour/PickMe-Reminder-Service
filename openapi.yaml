@@ -33,6 +33,7 @@ paths:
           description: '시작 시간'
           schema:
             format: date-time
+            example: '2024-12-01T00:00:00+09:00'
             type: string
         -
           name: end_time
@@ -41,6 +42,7 @@ paths:
           description: '종료 시간'
           schema:
             format: date-time
+            example: '2024-12-05T00:00:00+09:00'
             type: string
         -
           name: status
@@ -65,28 +67,6 @@ paths:
         -
           bearer: []
       summary: '알림 옵션 조회'
-      tags:
-        - Notification
-    put:
-      operationId: NotificationController_update
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateRequestDTO'
-      responses:
-        '200':
-          description: '성공적으로 수정'
-        '400':
-          description: '입력 값 오류'
-        '401':
-          description: '권한 없음'
-      security:
-        -
-          bearer: []
-      summary: '알림 수정'
       tags:
         - Notification
   '/{event_id}':
@@ -114,8 +94,8 @@ paths:
       summary: '알림 조회'
       tags:
         - Notification
-    delete:
-      operationId: NotificationController_delete
+    put:
+      operationId: NotificationController_update
       parameters:
         -
           name: event_id
@@ -125,6 +105,65 @@ paths:
           schema:
             example: 507f1f77bcf86cd799439011
             type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRequestDTO'
+      responses:
+        '200':
+          description: '성공적으로 수정'
+        '400':
+          description: '입력 값 오류'
+        '401':
+          description: '권한 없음'
+      security:
+        -
+          bearer: []
+      summary: '알림 수정'
+      tags:
+        - Notification
+    patch:
+      operationId: NotificationController_updatePartial
+      parameters:
+        -
+          name: event_id
+          required: true
+          in: path
+          description: '수행될 이벤트 ID'
+          schema:
+            example: 507f1f77bcf86cd799439011
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRequestDTO'
+      responses:
+        '200':
+          description: '성공적으로 수정'
+        '400':
+          description: '입력 값 오류'
+        '401':
+          description: '권한 없음'
+      security:
+        -
+          bearer: []
+      summary: '알림 일부 수정'
+      tags:
+        - Notification
+    delete:
+      operationId: NotificationController_delete
+      parameters:
+        -
+          name: event_id
+          required: true
+          in: path
+          description: '수행될 이벤트 ID'
+          schema:
+            $ref: '#/components/schemas/ReadRequestDTO'
       responses:
         '200':
           description: '성공적으로 수정'
@@ -141,7 +180,7 @@ paths:
 info:
   title: '알림 API'
   description: 'API 명세서'
-  version: '1.0'
+  version: '1.1'
   contact: {}
 tags: []
 servers: []
@@ -174,3 +213,48 @@ components:
       required:
         - event_id
         - send_at
+    ParametersDTO:
+      type: object
+      properties:
+        start_time:
+          format: date-time
+          type: string
+          description: '시작 시간'
+          example: '2024-12-01T00:00:00+09:00'
+        end_time:
+          format: date-time
+          type: string
+          description: '종료 시간'
+          example: '2024-12-05T00:00:00+09:00'
+        status:
+          type: string
+          description: '알림 상태'
+          enum:
+            - Pending
+            - Sent
+            - Failed
+          example: Pending
+    UpdateRequestDTO:
+      type: object
+      properties:
+        send_at:
+          format: date-time
+          type: string
+          description: '알림 발송 시간'
+        status:
+          type: string
+          description: '알림 상태'
+          enum:
+            - Pending
+            - Sent
+            - Failed
+          example: Pending
+    ReadRequestDTO:
+      type: object
+      properties:
+        event_id:
+          type: string
+          description: '수행될 이벤트 ID'
+          example: 507f1f77bcf86cd799439011
+      required:
+        - event_id
