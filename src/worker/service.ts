@@ -16,6 +16,10 @@ export class WorkerService {
         // 마이크로서비스로 요청
         return firstValueFrom(this.client.send({ cmd: "readByOptions" }, query));
     }
+    async updatePartial(query: any) {
+        // 마이크로서비스로 요청
+        return firstValueFrom(this.client.send({ cmd: "updatePartial" }, query));
+    }
 
     async start() {
         const start_time = new Date();
@@ -30,6 +34,15 @@ export class WorkerService {
 
         // 발송 처리
         await dispatch(notifications);
+
+        console.log("발송 완료 처리");
+        // 발송 완료 처리
+        for (const notification of notifications) {
+            await this.updatePartial({
+                event_id: notification.event_id,
+                status: NotificationStatus.Sent,
+            });
+        }
     }
 
     @Cron("0 * * * *") // 매 정시에 실행
