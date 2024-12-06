@@ -3,9 +3,12 @@ import { ValidationPipe } from "@nestjs/common";
 
 import { NotificationModule } from "./module";
 import { JwtInterceptor } from "./infrastructure/auth/jwtInterceptor";
+import generatorSwagger from "./utility/generatorSwagger";
 
 async function bootstrap() {
     const app = await NestFactory.create(NotificationModule);
+
+    generatorSwagger(app); // Swagger 설정
 
     // 전역 파이프 설정
     app.useGlobalPipes(
