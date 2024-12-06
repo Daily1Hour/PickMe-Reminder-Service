@@ -6,11 +6,12 @@ import NotificationService from "src/notification/application/service";
 
 import NotificationORMEntity from "src/notification/infrastructure/ormEntity";
 
-import NotificationController from "src/notification/presentation/controller";
+import NotificationHttpController from "./presentation/controllers/httpController";
+import NotificationsMessageController from "./presentation/controllers/messageController";
 
 @Module({
     providers: [NotificationService],
-    controllers: [NotificationController],
+    controllers: [NotificationHttpController, NotificationsMessageController],
     imports: [
         // 환경 변수 글로벌 설정
         ConfigModule.forRoot(),
@@ -28,6 +29,6 @@ import NotificationController from "src/notification/presentation/controller";
         // TypeORM ORM 엔티티 설정
         TypeOrmModule.forFeature([NotificationORMEntity]),
     ],
-    exports: [NotificationService],
+    exports: [],
 })
 export class NotificationModule {}

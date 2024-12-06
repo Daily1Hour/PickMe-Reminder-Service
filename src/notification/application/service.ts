@@ -19,7 +19,7 @@ export default class NotificationService {
         const entity = new NotificationEntity(event_id, send_at, status); // 도메인 객체 생성
 
         const ormEntity = this.repository.create(entity); // ORM 엔티티 생성
-        await this.repository.save(ormEntity); // 레포지토리에 저장
+        return await this.repository.save(ormEntity); // 레포지토리에 저장
     }
 
     async update(paramDTO: ReadRequestDTO, bodyDTO: UpdateRequestDTO) {
@@ -28,7 +28,7 @@ export default class NotificationService {
             throw new Error("Entity not found.");
         }
 
-        return this.register({ ...paramDTO, ...bodyDTO, ...entity });
+        return this.register({ ...entity, ...paramDTO, ...bodyDTO });
     }
 
     async get({ event_id }: ReadRequestDTO): Promise<NotificationEntity> {

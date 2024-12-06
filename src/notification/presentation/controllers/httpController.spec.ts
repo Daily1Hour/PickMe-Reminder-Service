@@ -5,8 +5,8 @@ import * as request from "supertest";
 import NotificationService from "src/notification/application/service";
 import { NotificationStatus } from "src/notification/application/dto";
 
-import NotificationController from "./controller";
-import { CreateRequestDTO, ReadRequestDTO, ParametersDTO, UpdateRequestDTO } from "./dtos";
+import NotificationController from "./httpController";
+import { CreateRequestDTO, ParametersDTO, UpdateRequestDTO } from "../dtos";
 
 describe("NotificationController", () => {
     let app: INestApplication;
@@ -113,7 +113,10 @@ describe("NotificationController", () => {
         });
 
         it("/PATCH updatePartial", async () => {
-            const bodyDTO: UpdateRequestDTO = { status: NotificationStatus.Sent };
+            const bodyDTO: UpdateRequestDTO = {
+                status: NotificationStatus.Sent,
+                event_id: ""
+            };
             const response = undefined;
 
             jest.spyOn(service, "update").mockResolvedValue(response);
