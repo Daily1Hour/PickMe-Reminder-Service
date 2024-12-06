@@ -3,7 +3,7 @@ import { NestFactory } from "@nestjs/core";
 import { WorkerModule } from "./module";
 import { WorkerService } from "./service";
 
-const WORKER_PORT = process.env.WORKER_PORT || 3001;
+const WORKER_PORT = process.env.WORKER_PORT || 3002;
 
 async function bootstrap() {
     const app = await NestFactory.create(WorkerModule);
