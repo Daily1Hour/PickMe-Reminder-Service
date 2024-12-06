@@ -2,9 +2,9 @@ import { Injectable } from "@nestjs/common";
 import { DeleteResult, Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 
-import NotificationEntity from "src/notification/domain/entity";
+import NotificationEntity from "@notification/domain/entity";
 
-import NotificationORMEntity from "src/notification/infrastructure/ormEntity";
+import NotificationORMEntity from "@notification/infrastructure/ormEntity";
 
 import { OptionsDTO, ReadRequestDTO, RegisterRequestDTO, UpdateRequestDTO } from "./dto";
 
@@ -19,7 +19,7 @@ export default class NotificationService {
         const entity = new NotificationEntity(event_id, send_at, status); // 도메인 객체 생성
 
         const ormEntity = this.repository.create(entity); // ORM 엔티티 생성
-        await this.repository.save(ormEntity); // 레포지토리에 저장
+        return await this.repository.save(ormEntity); // 레포지토리에 저장
     }
 
     async update(paramDTO: ReadRequestDTO, bodyDTO: UpdateRequestDTO) {
@@ -28,10 +28,10 @@ export default class NotificationService {
             throw new Error("Entity not found.");
         }
 
-        return this.register({ ...paramDTO, ...bodyDTO, ...entity });
+        return this.register({ ...entity, ...paramDTO, ...bodyDTO });
     }
 
-    async get({ event_id }: ReadRequestDTO): Promise<NotificationORMEntity> {
+    async get({ event_id }: ReadRequestDTO): Promise<NotificationEntity> {
         return this.repository.findOne({ where: { event_id } });
     }
 
@@ -39,7 +39,7 @@ export default class NotificationService {
         start_time,
         end_time,
         status,
-    }: OptionsDTO): Promise<NotificationORMEntity[]> {
+    }: OptionsDTO): Promise<NotificationEntity[]> {
         return this.repository
             .createQueryBuilder("item")
             .andWhere("item.send_at >= :start_time", { start_time })
