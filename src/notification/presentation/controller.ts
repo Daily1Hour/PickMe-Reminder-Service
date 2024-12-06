@@ -6,6 +6,7 @@ import {
     ApiParam,
     ApiResponse,
 } from "@nestjs/swagger";
+import { MessagePattern, Payload } from "@nestjs/microservices";
 
 import NotificationService from "src/notification/application/service";
 
@@ -36,7 +37,8 @@ export default class NotificationController {
     @ApiOperation({ summary: "알림 옵션 조회" })
     @ApiResponse({ status: 200, description: "성공적으로 조회" })
     @ApiExtraModels(ParametersDTO)
-    async readByOptions(@Query() query: ParametersDTO) {
+    @MessagePattern({ cmd: "readByOptions" })
+    async readByOptions(@Payload() query: ParametersDTO) {
         return this.service.getFilteredList(query);
     }
 
