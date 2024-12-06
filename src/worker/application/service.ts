@@ -1,32 +1,20 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
-import { Client, ClientTCP, Transport } from "@nestjs/microservices";
-import { firstValueFrom } from "rxjs";
 
 import dispatch from "./dispatch";
 import { NotificationStatus } from "./dto";
+import { IWorkerClient } from "./client";
 
 @Injectable()
 export class WorkerService {
-    // 마이크로서비스로 TCP 연결
-    @Client({ transport: Transport.TCP, options: { host: "localhost", port: 3001 } })
-    private client: ClientTCP;
-
-    async readByOptions(query: any) {
-        // 마이크로서비스로 요청
-        return firstValueFrom(this.client.send({ cmd: "readByOptions" }, query));
-    }
-    async updatePartial(query: any) {
-        // 마이크로서비스로 요청
-        return firstValueFrom(this.client.send({ cmd: "updatePartial" }, query));
-    }
+    constructor(@Inject("IWorkerClient") private readonly client: IWorkerClient) {}
 
     async start() {
         const start_time = new Date();
         const end_time = new Date(start_time.getTime() + 60 * 60 * 1000); // 1시간 후
 
         // 발송할 알림들
-        const notifications = await this.readByOptions({
+        const notifications = await this.client.readByOptions({
             start_time,
             end_time,
             status: NotificationStatus.Pending,
@@ -38,7 +26,7 @@ export class WorkerService {
         console.log("발송 완료 처리");
         // 발송 완료 처리
         for (const notification of notifications) {
-            await this.updatePartial({
+            await this.client.updatePartial({
                 event_id: notification.event_id,
                 status: NotificationStatus.Sent,
             });
