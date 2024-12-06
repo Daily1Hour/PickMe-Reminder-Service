@@ -113,7 +113,10 @@ describe("NotificationController", () => {
         });
 
         it("/PATCH updatePartial", async () => {
-            const bodyDTO: UpdateRequestDTO = { status: NotificationStatus.Sent };
+            const bodyDTO: UpdateRequestDTO = {
+                status: NotificationStatus.Sent,
+                event_id: ""
+            };
             const response = undefined;
 
             jest.spyOn(service, "update").mockResolvedValue(response);
