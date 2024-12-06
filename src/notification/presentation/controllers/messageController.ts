@@ -2,7 +2,7 @@ import { Controller, Get, Patch } from "@nestjs/common";
 import { ApiOperation, ApiTags, ApiBody } from "@nestjs/swagger";
 import { MessagePattern, Payload } from "@nestjs/microservices";
 
-import NotificationService from "src/notification/application/service";
+import NotificationService from "@notification/application/service";
 
 import { ParametersDTO, UpdateRequestDTO } from "../dtos";
 
