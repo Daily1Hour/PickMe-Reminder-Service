@@ -1,4 +1,4 @@
-import { NotificationStatus } from "@notification/domain/entity";
+import { NotificationStatus } from "domain/entity";
 
 export { NotificationStatus };
 

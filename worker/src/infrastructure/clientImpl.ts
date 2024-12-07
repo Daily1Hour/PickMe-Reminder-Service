@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { ClientTCP } from "@nestjs/microservices";
 import { firstValueFrom } from "rxjs";
 
-import { IWorkerClient } from "../application/client";
+import { IWorkerClient } from "application/client";
 
 @Injectable()
 export class WorkerClientImpl implements IWorkerClient {

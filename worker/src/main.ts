@@ -1,7 +1,6 @@
 import { NestFactory } from "@nestjs/core";
 
 import { WorkerModule } from "./module";
-import { WorkerService } from "./application/service";
 
 const WORKER_PORT = process.env.WORKER_PORT || 3002;
 
