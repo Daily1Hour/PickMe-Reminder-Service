@@ -1,11 +1,11 @@
 services:
   mysql:
     image: mysql:latest
-    container_name: ${DB_HOST}
+    container_name: db-service
+    networks: # 지정 네트워크에 연결
+      - reminder-service-network
     environment:
       MYSQL_ROOT_PASSWORD: root
-    ports: # 외부에서 접근할 수 있도록 포트 할당
-      - "${DB_PORT}:3306"
     volumes:
       # /docker-entrypoint-initdb.d/ 경로의 .sql 파일은 자동으로 실행됨
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -14,17 +14,16 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    networks: # 지정 네트워크에 연결
-      - reminder-service-network
+    ports: # 외부에서 접근할 수 있도록 포트 할당
+      - "${DB_PORT}:3306"
 
   notification-microservice:
-    container_name: notification
     build:
       context: . # 현재 디렉토리의 Dockerfile로 빌드
       dockerfile: Dockerfile.notification
-    ports:
-      - "${PORT}:${PORT}"
-      - "${MS_PORT}:${MS_PORT}"
+    container_name: notification-microservice
+    networks:
+      - reminder-service-network
     environment:
       - COGNITO_USER_POOL_ID=${COGNITO_USER_POOL_ID}
       - COGNITO_CLIENT_ID=${COGNITO_CLIENT_ID}
@@ -32,7 +31,7 @@ services:
       - MS_PORT=${MS_PORT}
 
       - DB_TYPE=mysql
-      - DB_HOST=${DB_HOST}
+      - DB_HOST=db-service # mysql 컨테이너의 할당 IP
       - DB_SCHEMA=${DB_SCHEMA}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
@@ -40,24 +39,25 @@ services:
     depends_on: # mysql 컨테이너가 준비되었을 때 실행
       mysql:
         condition: service_healthy
-    networks:
-      - reminder-service-network
+    ports:
+      - "${PORT}:${PORT}"
+      - "${MS_PORT}:${MS_PORT}"
 
   worker-microservice:
     build:
       context: .
-      dockerfile: Dockerfile.worker  # worker Dockerfile 사용
-    ports:
-      - "${WORKER_PORT}:${WORKER_PORT}"
+      dockerfile: Dockerfile.worker # worker Dockerfile 사용
+    container_name: worker-microservice
+    networks:
+      - reminder-service-network
     environment:
-      - MS_HOST=${MS_HOST}
+      - MS_HOST=notification-microservice # notification-microservice 컨테이너의 할당 IP
       - MS_PORT=${MS_PORT}
-
       - WORKER_PORT=${WORKER_PORT}
     depends_on:
       - notification-microservice
-    networks:
-      - reminder-service-network
+    ports:
+      - "${WORKER_PORT}:${WORKER_PORT}"
 
 networks:
   reminder-service-network:
