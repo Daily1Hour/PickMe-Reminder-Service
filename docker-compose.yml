@@ -46,7 +46,7 @@ services:
   worker-microservice:
     build:
       context: .
-      dockerfile: Dockerfile.worker  # worker Dockerfile 사용
+      dockerfile: Dockerfile.worker # worker Dockerfile 사용
     ports:
       - "${WORKER_PORT}:${WORKER_PORT}"
     environment:

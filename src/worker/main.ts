@@ -10,7 +10,7 @@ async function bootstrap() {
 
     await app.listen(WORKER_PORT);
 
-    const service = app.get(WorkerService);
-    await service.start();
+    //const service = app.get(WorkerService);
+    //await service.start();
 }
 bootstrap();
