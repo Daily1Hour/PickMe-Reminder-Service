@@ -2,7 +2,8 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsString, IsDate, IsOptional } from "class-validator";
 
-import { NotificationStatus } from "src/notification/domain/entity";
+import { NotificationStatus } from "@notification/domain/entity";
+import { TrimSeconds } from "@notification/utility/decorators";
 
 export default class CreateRequestDTO {
     @IsString()
@@ -11,6 +12,7 @@ export default class CreateRequestDTO {
 
     @IsDate()
     @Type(() => Date)
+    @TrimSeconds()
     @ApiProperty({ description: "알림 발송 시간" })
     send_at: Date;
 
