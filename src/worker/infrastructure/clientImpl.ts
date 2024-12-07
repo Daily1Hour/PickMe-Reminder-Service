@@ -11,7 +11,7 @@ export class WorkerClientImpl implements IWorkerClient {
     constructor() {
         // 마이크로서비스 TCP 연결
         this.client = new ClientTCP({
-            host: "localhost",
+            host: process.env.MS_HOST || "localhost", // Notification 서비스의 호스트
             port: process.env.MS_PORT || 3001, // Notification 서비스의 포트
         });
     }

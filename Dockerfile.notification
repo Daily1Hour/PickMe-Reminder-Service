@@ -27,6 +27,7 @@ COPY --from=builder /app/node_modules ./node_modules
 
 ## 포트 설정
 EXPOSE 3000
+EXPOSE 3001
 
 ## 애플리케이션 실행
 CMD ["node", "dist/main.js"]

@@ -18,7 +18,10 @@ services:
       - reminder-service-network
 
   notification-microservice:
-    build: . # 현재 디렉토리의 Dockerfile로 빌드
+    container_name: notification
+    build:
+      context: . # 현재 디렉토리의 Dockerfile로 빌드
+      dockerfile: Dockerfile.notification
     ports:
       - "${PORT}:${PORT}"
       - "${MS_PORT}:${MS_PORT}"
@@ -34,11 +37,25 @@ services:
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_PORT=3306
-
-      - WORKER_PORT=${WORKER_PORT}
     depends_on: # mysql 컨테이너가 준비되었을 때 실행
       mysql:
         condition: service_healthy
+    networks:
+      - reminder-service-network
+
+  worker-microservice:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker  # worker Dockerfile 사용
+    ports:
+      - "${WORKER_PORT}:${WORKER_PORT}"
+    environment:
+      - MS_HOST=${MS_HOST}
+      - MS_PORT=${MS_PORT}
+
+      - WORKER_PORT=${WORKER_PORT}
+    depends_on:
+      - notification-microservice
     networks:
       - reminder-service-network
 
