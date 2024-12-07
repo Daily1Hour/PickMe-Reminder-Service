@@ -21,7 +21,7 @@ FROM node:18-alpine
 WORKDIR /app
 
 ## 빌드된 애플리케이션과 필요한 파일 복사
-COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/dist/notification/ ./dist
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
 
