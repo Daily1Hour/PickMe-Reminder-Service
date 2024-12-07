@@ -17,7 +17,9 @@ export class WorkerClientImpl implements IWorkerClient {
     }
 
     async onModuleInit() {
-        await this.client.connect();
+        setTimeout(async () => {
+            await this.client.connect();
+        }, 1000 * 10); // 10초 후에 연결
     }
     async readByOptions(query: any) {
         // 마이크로서비스로 요청
