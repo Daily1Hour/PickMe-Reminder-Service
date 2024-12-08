@@ -8,7 +8,7 @@ import {
     ApiTags,
 } from "@nestjs/swagger";
 
-import NotificationService from "@notification/application/service";
+import NotificationService from "application/service";
 
 import { CreateRequestDTO, ReadRequestDTO, UpdateRequestDTO, ParametersDTO } from "../dtos";
 
