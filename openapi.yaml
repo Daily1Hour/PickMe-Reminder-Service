@@ -2,7 +2,7 @@ openapi: 3.0.0
 paths:
   /:
     post:
-      operationId: NotificationController_create
+      operationId: NotificationHttpController_create
       parameters: []
       requestBody:
         required: true
@@ -22,9 +22,9 @@ paths:
           bearer: []
       summary: '알림 등록'
       tags:
-        - Notification
+        - 'HTTP API'
     get:
-      operationId: NotificationController_readByOptions
+      operationId: NotificationHttpController_readByOptions
       parameters:
         -
           name: start_time
@@ -68,10 +68,10 @@ paths:
           bearer: []
       summary: '알림 옵션 조회'
       tags:
-        - Notification
+        - 'HTTP API'
   '/{event_id}':
     get:
-      operationId: NotificationController_read
+      operationId: NotificationHttpController_read
       parameters:
         -
           name: event_id
@@ -93,9 +93,9 @@ paths:
           bearer: []
       summary: '알림 조회'
       tags:
-        - Notification
+        - 'HTTP API'
     put:
-      operationId: NotificationController_update
+      operationId: NotificationHttpController_update
       parameters:
         -
           name: event_id
@@ -123,9 +123,9 @@ paths:
           bearer: []
       summary: '알림 수정'
       tags:
-        - Notification
+        - 'HTTP API'
     patch:
-      operationId: NotificationController_updatePartial
+      operationId: NotificationHttpController_updatePartial
       parameters:
         -
           name: event_id
@@ -153,9 +153,9 @@ paths:
           bearer: []
       summary: '알림 일부 수정'
       tags:
-        - Notification
+        - 'HTTP API'
     delete:
-      operationId: NotificationController_delete
+      operationId: NotificationHttpController_delete
       parameters:
         -
           name: event_id
@@ -176,11 +176,38 @@ paths:
           bearer: []
       summary: '알림 삭제'
       tags:
-        - Notification
+        - 'HTTP API'
+  /message/docs:
+    get:
+      description: '이 API는 메시지 브로커를 통해 동작하며, HTTP 요청으로는 사용되지 않습니다.'
+      operationId: NotificationsMessageController_readByOptions
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParametersDTO'
+      responses:
+        '200':
+          description: ""
+      summary: '알림 옵션 조회'
+      tags:
+        - 'TCP API'
+    patch:
+      description: '이 API는 메시지 브로커를 통해 동작하며, HTTP 요청으로는 사용되지 않습니다.'
+      operationId: NotificationsMessageController_updatePartial
+      parameters: []
+      responses:
+        '200':
+          description: ""
+      summary: '알림 부분 수정'
+      tags:
+        - 'TCP API'
 info:
   title: '알림 API'
   description: 'API 명세서'
-  version: '1.1'
+  version: '1.0'
   contact: {}
 tags: []
 servers: []
@@ -237,6 +264,10 @@ components:
     UpdateRequestDTO:
       type: object
       properties:
+        event_id:
+          type: string
+          description: '수행될 이벤트 ID'
+          example: 507f1f77bcf86cd799439011
         send_at:
           format: date-time
           type: string
@@ -249,6 +280,8 @@ components:
             - Sent
             - Failed
           example: Pending
+      required:
+        - event_id
     ReadRequestDTO:
       type: object
       properties:
