@@ -1,7 +1,6 @@
 import { NestFactory } from "@nestjs/core";
 
 import { WorkerModule } from "./module";
-import { WorkerService } from "./application/service";
 
 const WORKER_PORT = process.env.WORKER_PORT || 3002;
 
@@ -10,7 +9,7 @@ async function bootstrap() {
 
     await app.listen(WORKER_PORT);
 
-    const service = app.get(WorkerService);
-    await service.start();
+    //const service = app.get(WorkerService);
+    //await service.start();
 }
 bootstrap();
