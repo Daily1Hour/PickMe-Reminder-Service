@@ -31,7 +31,7 @@ async function bootstrap() {
     app.connectMicroservice<MicroserviceOptions>({
         transport: Transport.TCP, // TCP 프로토콜 사용
         options: {
-            host: "localhost",
+            host: "0.0.0.0",
             port: process.env.MS_PORT || 3001,
         },
     });

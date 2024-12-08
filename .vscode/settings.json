@@ -4,9 +4,10 @@
         ".env": ".env.*",
         ".gitignore": ".gitattributes",
         "setup.ps1": "setup.*, .gitconfig, .gitmessage",
-        "tsconfig.json": "tsconfig.*.json, env.d.ts",
-        "*.ts": "$(capture).spec.ts",
-        "package.json": "package-lock.json, pnpm*, .yarnrc*, yarn*, .eslint*, eslint*, .prettier*, prettier*, .editorconfig, steiger.config.ts"
+        "tsconfig.json": "tsconfig.*.json, env.d.ts, global.d.ts",
+        "*.ts": "$(capture).spec.ts, $(capture).test.ts",
+        "docker-compose.yml": "Dockerfile.*",
+        "package.json": "package-lock.json, pnpm*, .yarnrc*, yarn*, .eslint*, eslint*, .prettier*, prettier*, .editorconfig, steiger.config.ts, jest.config.js, nest-cli.json"
     },
     "cSpell.words": [
         "nestjs",
