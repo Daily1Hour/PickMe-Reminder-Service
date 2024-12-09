@@ -2,9 +2,9 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { DeleteResult, Repository } from "typeorm";
 
-import NotificationEntity from "src/notification/domain/entity";
+import NotificationEntity from "notification/src/domain/entity";
 
-import NotificationORMEntity from "src/notification/infrastructure/ormEntity";
+import NotificationORMEntity from "notification/src/infrastructure/ormEntity";
 
 import NotificationService from "./service";
 import {
