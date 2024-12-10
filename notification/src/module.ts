@@ -17,7 +17,14 @@ const DynamooseProvider = {
 };
 
 @Module({
-    providers: [DynamooseProvider, NotificationService, DynamoRepository],
+    providers: [
+        DynamooseProvider,
+        NotificationService,
+        {
+            provide: "INotificationRepository", // 인터페이스 제공
+            useClass: DynamoRepository, // 구현체 연결
+        },
+    ],
     controllers: [NotificationHttpController, NotificationsMessageController],
     imports: [
         // 환경 변수 글로벌 설정

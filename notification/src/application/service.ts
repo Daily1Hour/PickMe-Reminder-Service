@@ -1,14 +1,16 @@
-import { Injectable } from "@nestjs/common";
-import { DeleteResult } from "typeorm";
+import { Inject, Injectable } from "@nestjs/common";
 
 import NotificationEntity from "domain/entity";
+import INotificationRepository from "domain/repository";
 
 import { OptionsDTO, ReadRequestDTO, RegisterRequestDTO, UpdateRequestDTO } from "./dto";
-import DynamoRepository from "infrastructure/dynamoRepository";
 
 @Injectable()
 export default class NotificationService {
-    constructor(private repository: DynamoRepository) {}
+    constructor(
+        @Inject("INotificationRepository")
+        private repository: INotificationRepository,
+    ) {}
 
     async register({ event_id, send_at, status }: RegisterRequestDTO) {
         const entity = new NotificationEntity(event_id, send_at, status); // 도메인 객체 생성
@@ -37,7 +39,7 @@ export default class NotificationService {
         return this.repository.findByReservationTime(start_time);
     }
 
-    async delete({ event_id }: ReadRequestDTO): Promise<DeleteResult> {
+    async delete({ event_id }: ReadRequestDTO): Promise<boolean> {
         return this.repository.deleteById(event_id);
     }
 }
