@@ -10,6 +10,7 @@
         "package.json": "package-lock.json, pnpm*, .yarnrc*, yarn*, .eslint*, eslint*, .prettier*, prettier*, .editorconfig, steiger.config.ts, jest.config.js, nest-cli.json"
     },
     "cSpell.words": [
+        "dynamoose",
         "nestjs",
         "pickme"
     ]
