@@ -6,6 +6,7 @@ declare global {
             PORT: number;
             MS_PORT: number;
 
+            DB_LOCAL: boolean;
             DB_HOST: string;
             DB_PORT: number;
 
