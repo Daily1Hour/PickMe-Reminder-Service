@@ -22,8 +22,16 @@ export default class DynamoRepository implements INotificationRepository {
         return this.model.get(event_id);
     }
 
-    async findByReservationTime(send_at: Date) {
-        return this.model.query("send_at").eq(send_at).exec();
+    async findByReservationTime(start_time: Date, _end_time: Date, status: NotificationStatus) {
+        const start_ts = new Date(start_time).getTime();
+
+        return this.model
+            .query("send_at")
+            .eq(start_ts)
+            .where("status")
+            .eq(status)
+            .using("send_at-status-index")
+            .exec();
     }
 
     async deleteById(event_id: string) {
