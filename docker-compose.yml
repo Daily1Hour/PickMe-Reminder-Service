@@ -1,21 +1,11 @@
 services:
-  mysql:
-    image: mysql:latest
+  db-service:
+    image: amazon/dynamodb-local:latest
     container_name: db-service
     networks: # 지정 네트워크에 연결
       - reminder-service-network
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-    volumes:
-      # /docker-entrypoint-initdb.d/ 경로의 .sql 파일은 자동으로 실행됨
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
-    healthcheck: # 컨테이너의 상태를 주기적으로 확인
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     ports: # 외부에서 접근할 수 있도록 포트 할당
-      - "${DB_PORT}:3306"
+      - "${DB_PORT}:8000"
 
   notification-microservice:
     build:
@@ -30,15 +20,8 @@ services:
       - PORT=${PORT}
       - MS_PORT=${MS_PORT}
 
-      - DB_TYPE=mysql
-      - DB_HOST=db-service # mysql 컨테이너의 할당 IP
-      - DB_SCHEMA=${DB_SCHEMA}
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_PORT=3306
-    depends_on: # mysql 컨테이너가 준비되었을 때 실행
-      mysql:
-        condition: service_healthy
+      - DB_HOST=db-service
+      - DB_PORT=8000
     ports:
       - "${PORT}:${PORT}"
       - "${MS_PORT}:${MS_PORT}"
