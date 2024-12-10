@@ -36,7 +36,7 @@ export default class NotificationService {
         end_time,
         status,
     }: OptionsDTO): Promise<NotificationEntity[]> {
-        return this.repository.findByReservationTime(start_time);
+        return this.repository.findByReservationTime(start_time, end_time, status);
     }
 
     async delete({ event_id }: ReadRequestDTO): Promise<boolean> {
