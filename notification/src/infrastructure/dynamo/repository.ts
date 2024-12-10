@@ -1,25 +1,17 @@
-import dynamoose from "dynamoose";
-import { Inject, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
+import { ModelType } from "dynamoose/dist/General";
 
 import NotificationEntity, { NotificationStatus } from "domain/entity";
 import INotificationRepository from "domain/repository";
 
+import DynamoModel from "./model";
+
 @Injectable()
 export default class DynamoRepository implements INotificationRepository {
-    private readonly model;
+    private readonly model: ModelType<any>;
 
-    constructor(@Inject("DYNAMOOSE") private readonly dynamooseInstance: typeof dynamoose) {
-        this.model = dynamooseInstance.model(
-            "PickMe-Reminder",
-            new dynamooseInstance.Schema({
-                event_id: { type: String, hashKey: true },
-                send_at: Date,
-                status: {
-                    type: String,
-                    enum: Object.values(NotificationStatus),
-                },
-            }),
-        );
+    constructor(model: DynamoModel) {
+        this.model = model.getModel();
     }
 
     async create(eventData: NotificationEntity) {
