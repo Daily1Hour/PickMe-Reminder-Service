@@ -20,13 +20,20 @@ export default class DynamooseModel {
                     rangeKey: "status",
                 },
             },
+            ttl: {
+                type: Number,
+            },
             status: {
                 type: String,
                 enum: Object.values(NotificationStatus),
             },
         });
 
-        this.model = this.instance.model("PickMe-Reminder", schema);
+        this.model = this.instance.model("PickMe-Reminder", schema, {
+            expires: {
+                attribute: "ttl",
+            },
+        });
     }
 
     getModel() {
