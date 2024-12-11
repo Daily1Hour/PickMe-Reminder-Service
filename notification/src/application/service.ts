@@ -1,25 +1,21 @@
-import { Injectable } from "@nestjs/common";
-import { DeleteResult, Repository } from "typeorm";
-import { InjectRepository } from "@nestjs/typeorm";
+import { Inject, Injectable } from "@nestjs/common";
 
 import NotificationEntity from "domain/entity";
-
-import NotificationORMEntity from "infrastructure/ormEntity";
+import INotificationRepository from "domain/repository";
 
 import { OptionsDTO, ReadRequestDTO, RegisterRequestDTO, UpdateRequestDTO } from "./dto";
 
 @Injectable()
 export default class NotificationService {
     constructor(
-        @InjectRepository(NotificationORMEntity)
-        private repository: Repository<NotificationORMEntity>,
+        @Inject("INotificationRepository")
+        private repository: INotificationRepository,
     ) {}
 
     async register({ event_id, send_at, status }: RegisterRequestDTO) {
         const entity = new NotificationEntity(event_id, send_at, status); // 도메인 객체 생성
 
-        const ormEntity = this.repository.create(entity); // ORM 엔티티 생성
-        return await this.repository.save(ormEntity); // 레포지토리에 저장
+        return this.repository.create(entity); // ORM 엔티티 생성
     }
 
     async update(paramDTO: ReadRequestDTO, bodyDTO: UpdateRequestDTO) {
@@ -32,7 +28,7 @@ export default class NotificationService {
     }
 
     async get({ event_id }: ReadRequestDTO): Promise<NotificationEntity> {
-        return this.repository.findOne({ where: { event_id } });
+        return this.repository.findById(event_id);
     }
 
     async getFilteredList({
@@ -40,15 +36,10 @@ export default class NotificationService {
         end_time,
         status,
     }: OptionsDTO): Promise<NotificationEntity[]> {
-        return this.repository
-            .createQueryBuilder("item")
-            .andWhere("item.send_at >= :start_time", { start_time })
-            .andWhere("item.send_at <= :end_time", { end_time })
-            .andWhere("item.status = :status", { status })
-            .getMany();
+        return this.repository.findByReservationTime(start_time, end_time, status);
     }
 
-    async delete({ event_id }: ReadRequestDTO): Promise<DeleteResult> {
-        return this.repository.delete({ event_id });
+    async delete({ event_id }: ReadRequestDTO): Promise<boolean> {
+        return this.repository.deleteById(event_id);
     }
 }
