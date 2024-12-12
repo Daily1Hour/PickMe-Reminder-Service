@@ -67,14 +67,6 @@ PickMe-Reminder-Service
 │     └─ auto-assign.yml
 ├─ .gitignore
 ├─ .prettierrc # 포맷터
-├─ db # sql문
-│  └─ init.sql # 데이터베이스 초기화, 권한 부여
-├─ docker-compose.yml # 도커컴포즈
-├─ Dockerfile.notification # 알림 마이크로서비스 도커파일
-├─ Dockerfile.worker # 워커 마이크로서비스 도커파일
-├─ global.d.ts # 환경변수 타입
-├─ jest.config.js # jest 테스트툴 설정
-├─ nest-cli.json # nestjs 모듈 구조 설정
 ├─ notification # 알림 마이크로서비스
 │  ├─ src
 │  │  ├─ application # 유즈케이스 계층
@@ -82,12 +74,16 @@ PickMe-Reminder-Service
 │  │  │  ├─ service.spec.ts
 │  │  │  └─ service.ts # 유즈케이스
 │  │  ├─ domain # 도메인 계층
-│  │  │  └─ entity.ts # 엔티티 객체
-│  │  ├─ infrastructure # 인터페이스 계층
+│  │  │  ├─ entity.ts # 엔티티 객체
+│  │  │  └─ repository.ts # 레포지토리 인터페이스
+│  │  ├─ infrastructure # 인프라스트럭쳐 계층
 │  │  │  ├─ auth
 │  │  │  │  ├─ jwtInterceptor.ts # JWT 토큰 인터셉터
 │  │  │  │  └─ verifier.ts # Cognito로 토큰 인증
-│  │  │  └─ ormEntity.ts # ORM 매핑 객체
+│  │  │  └─ dynamo # DynamoDB
+│  │  │     ├─ model.ts # 스키마
+│  │  │     ├─ provider.ts # 프로바이더 의존성
+│  │  │     └─ repository.ts # 레포지토리 구현체
 │  │  ├─ main.ts # 서버 실행 진입점
 │  │  ├─ module.ts # 의존성 주입 모듈
 │  │  ├─ presentation # 프레임워크 계층
@@ -112,23 +108,29 @@ PickMe-Reminder-Service
 │  │     └─ generatorSwagger.ts # 스웨거 문서 생성
 │  ├─ tsconfig.build.json
 │  └─ tsconfig.json # typescript 설정
-├─ package-lock.json
+├─ worker # 알림 워커 서비스
+│  ├─ src
+│  │  ├─ application
+│  │  │  ├─ client.ts # 마이크로서비스 호출 인터페이스
+│  │  │  ├─ dispatch.ts # 발송 처리
+│  │  │  ├─ dto.ts # 페이로드 DTO
+│  │  │  └─ service.ts # 알림 TCP 요청, 발송 처리, 완료 처리
+│  │  ├─ infrastructure
+│  │  │  ├─ clientImpl.ts # 마이크로서비스 호출 구현체
+│  │  │  └─ cron.ts # 잡 스케줄러
+│  │  ├─ main.ts # 서버 실행 진입점
+│  │  └─ module.ts # 의존성 주입 모듈
+│  ├─ tsconfig.build.json
+│  └─ tsconfig.json
+├─ nest-cli.json # nestjs 모듈 구조 설정
+├─ docker-compose.yml # 도커컴포즈
+│  ├─ Dockerfile.notification # 알림 마이크로서비스 도커파일
+│  └─ Dockerfile.worker # 워커 마이크로서비스 도커파일
+├─ global.d.ts # 환경변수 타입
 ├─ package.json # 의존성 관리
-├─ test # 통합 테스트
-│  ├─ app.e2e-spec.ts
-│  └─ jest-e2e.json
-└─ worker # 알림 워커 서비스
-   ├─ src
-   │  ├─ application
-   │  │  ├─ client.ts # 마이크로서비스 호출 인터페이스
-   │  │  ├─ dispatch.ts # 발송 처리
-   │  │  ├─ dto.ts # 페이로드 DTO
-   │  │  └─ service.ts # 알림 TCP 요청, 발송 처리, 완료 처리
-   │  ├─ infrastructure
-   │  │  ├─ clientImpl.ts # 마이크로서비스 호출 구현체
-   │  │  └─ cron.ts # 잡 스케줄러
-   │  ├─ main.ts # 서버 실행 진입점
-   │  └─ module.ts # 의존성 주입 모듈
-   ├─ tsconfig.build.json
-   └─ tsconfig.json
+│  └─ package-lock.json
+├─ jest.config.js # jest 테스트툴 설정
+└─ test # 통합 테스트
+   ├─ app.e2e-spec.ts
+   └─ jest-e2e.json
 ```
