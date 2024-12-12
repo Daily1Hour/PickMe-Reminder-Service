@@ -4,9 +4,8 @@
 
 ## 🛠️ 기술 스택
 
-[![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=flat&logo=nestjs&logoColor=white)](https://nestjs.com/)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=javascript&logoColor=white)
-[![TypeORM](https://img.shields.io/badge/TypeORM-FE0803?style=flat&logo=typeorm&logoColor=white)](https://typeorm.io/)  
+[![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=flat&logo=nestjs&logoColor=white)](https://nestjs.com/) [![Amazon DynamoDB](https://img.shields.io/badge/DynamoDB-4053D6?style=flat&logo=amazondynamodb&logoColor=white)](https://nestjs.com/)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=javascript&logoColor=white)  
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=Docker&logoColor=white)](https://www.docker.com/)
 [![Jest](https://img.shields.io/badge/Jest-C21325?style=flat&logo=jest&logoColor=white)](https://jestjs.io/)
 [![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=flat&logo=eslint&logoColor=white)](https://eslint.org/)
@@ -53,7 +52,7 @@ $ npm run start:prod
 
 ## 🖧 배치 다이어그램
 
-![Microservice](https://github.com/user-attachments/assets/77d87e4a-f2f8-457b-9da6-5f015406d97c)
+![Microservice](https://github.com/user-attachments/assets/05fbf436-1b2d-4e2f-837f-e6e4bcb4e9f0)
 
 ## 📂 폴더 구조
 
@@ -68,14 +67,6 @@ PickMe-Reminder-Service
 │     └─ auto-assign.yml
 ├─ .gitignore
 ├─ .prettierrc # 포맷터
-├─ db # sql문
-│  └─ init.sql # 데이터베이스 초기화, 권한 부여
-├─ docker-compose.yml # 도커컴포즈
-├─ Dockerfile.notification # 알림 마이크로서비스 도커파일
-├─ Dockerfile.worker # 워커 마이크로서비스 도커파일
-├─ global.d.ts # 환경변수 타입
-├─ jest.config.js # jest 테스트툴 설정
-├─ nest-cli.json # nestjs 모듈 구조 설정
 ├─ notification # 알림 마이크로서비스
 │  ├─ src
 │  │  ├─ application # 유즈케이스 계층
@@ -83,12 +74,16 @@ PickMe-Reminder-Service
 │  │  │  ├─ service.spec.ts
 │  │  │  └─ service.ts # 유즈케이스
 │  │  ├─ domain # 도메인 계층
-│  │  │  └─ entity.ts # 엔티티 객체
-│  │  ├─ infrastructure # 인터페이스 계층
+│  │  │  ├─ entity.ts # 엔티티 객체
+│  │  │  └─ repository.ts # 레포지토리 인터페이스
+│  │  ├─ infrastructure # 인프라스트럭쳐 계층
 │  │  │  ├─ auth
 │  │  │  │  ├─ jwtInterceptor.ts # JWT 토큰 인터셉터
 │  │  │  │  └─ verifier.ts # Cognito로 토큰 인증
-│  │  │  └─ ormEntity.ts # ORM 매핑 객체
+│  │  │  └─ dynamo # DynamoDB
+│  │  │     ├─ model.ts # 스키마
+│  │  │     ├─ provider.ts # 프로바이더 의존성
+│  │  │     └─ repository.ts # 레포지토리 구현체
 │  │  ├─ main.ts # 서버 실행 진입점
 │  │  ├─ module.ts # 의존성 주입 모듈
 │  │  ├─ presentation # 프레임워크 계층
@@ -113,23 +108,29 @@ PickMe-Reminder-Service
 │  │     └─ generatorSwagger.ts # 스웨거 문서 생성
 │  ├─ tsconfig.build.json
 │  └─ tsconfig.json # typescript 설정
-├─ package-lock.json
+├─ worker # 알림 워커 서비스
+│  ├─ src
+│  │  ├─ application
+│  │  │  ├─ client.ts # 마이크로서비스 호출 인터페이스
+│  │  │  ├─ dispatch.ts # 발송 처리
+│  │  │  ├─ dto.ts # 페이로드 DTO
+│  │  │  └─ service.ts # 알림 TCP 요청, 발송 처리, 완료 처리
+│  │  ├─ infrastructure
+│  │  │  ├─ clientImpl.ts # 마이크로서비스 호출 구현체
+│  │  │  └─ cron.ts # 잡 스케줄러
+│  │  ├─ main.ts # 서버 실행 진입점
+│  │  └─ module.ts # 의존성 주입 모듈
+│  ├─ tsconfig.build.json
+│  └─ tsconfig.json
+├─ nest-cli.json # nestjs 모듈 구조 설정
+├─ docker-compose.yml # 도커컴포즈
+│  ├─ Dockerfile.notification # 알림 마이크로서비스 도커파일
+│  └─ Dockerfile.worker # 워커 마이크로서비스 도커파일
+├─ global.d.ts # 환경변수 타입
 ├─ package.json # 의존성 관리
-├─ test # 통합 테스트
-│  ├─ app.e2e-spec.ts
-│  └─ jest-e2e.json
-└─ worker # 알림 워커 서비스
-   ├─ src
-   │  ├─ application
-   │  │  ├─ client.ts # 마이크로서비스 호출 인터페이스
-   │  │  ├─ dispatch.ts # 발송 처리
-   │  │  ├─ dto.ts # 페이로드 DTO
-   │  │  └─ service.ts # 알림 TCP 요청, 발송 처리, 완료 처리
-   │  ├─ infrastructure
-   │  │  ├─ clientImpl.ts # 마이크로서비스 호출 구현체
-   │  │  └─ cron.ts # 잡 스케줄러
-   │  ├─ main.ts # 서버 실행 진입점
-   │  └─ module.ts # 의존성 주입 모듈
-   ├─ tsconfig.build.json
-   └─ tsconfig.json
+│  └─ package-lock.json
+├─ jest.config.js # jest 테스트툴 설정
+└─ test # 통합 테스트
+   ├─ app.e2e-spec.ts
+   └─ jest-e2e.json
 ```
