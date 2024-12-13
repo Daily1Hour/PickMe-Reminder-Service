@@ -3,7 +3,7 @@ import { Injectable } from "@nestjs/common";
 import { INotificationSender } from "application/ports/sender";
 import { NotificationEntity } from "application/dto";
 
-import { OnesignalClient } from "./api/onesignalClient";
+import { OnesignalClient } from "../api/onesignalClient";
 
 @Injectable()
 export class WebNotificationSender implements INotificationSender {
