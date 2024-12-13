@@ -2,8 +2,8 @@ import axios from "axios";
 
 import { NotificationEntity } from "./dto";
 
-const ONESIGNAL_APP_ID = "";
-const ONESIGNAL_API_KEY = "";
+const ONESIGNAL_APP_ID = process.env.ONESIGNAL_APP_ID;
+const ONESIGNAL_API_KEY = process.env.ONESIGNAL_API_KEY;
 const ONESIGNAL_API_URL = "https://api.onesignal.com/notifications";
 
 export default async function dispatch(data: NotificationEntity[]) {
