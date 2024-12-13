@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { ScheduleModule } from "@nestjs/schedule";
 
-import { WorkerService } from "application/service";
+import { WorkerService } from "application/usecases/service";
 
 import { WorkerClientImpl } from "infrastructure/clientImpl";
 import { WorkerCronService } from "infrastructure/cron";

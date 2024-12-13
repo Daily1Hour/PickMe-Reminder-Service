@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { INotificationSender } from "application/sender";
+import { INotificationSender } from "application/ports/sender";
 import { NotificationEntity } from "application/dto";
 
 export class WebNotificationSender implements INotificationSender {

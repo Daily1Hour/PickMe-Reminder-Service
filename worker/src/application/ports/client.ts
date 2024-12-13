@@ -1,4 +1,4 @@
-import { NotificationEntity, ParametersDTO } from "./dto";
+import { NotificationEntity, ParametersDTO } from "../dto";
 
 export interface IWorkerClient {
     readByOptions(query: ParametersDTO): Promise<NotificationEntity[]>;
