@@ -9,3 +9,9 @@ export interface NotificationEntity {
     send_at: Date; // 알림 발송 시간
     status: NotificationStatus; // 알림 상태
 }
+
+export interface ParametersDTO {
+    start_time?: Date;
+    end_time?: Date;
+    status?: NotificationStatus;
+}
