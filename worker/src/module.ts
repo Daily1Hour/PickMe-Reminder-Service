@@ -4,8 +4,9 @@ import { ScheduleModule } from "@nestjs/schedule";
 
 import { WorkerService } from "application/usecases/service";
 
-import { WorkerClientImpl } from "infrastructure/clientImpl";
 import { WorkerCronService } from "infrastructure/cron";
+import { WorkerClientImpl } from "infrastructure/clientImpl";
+import { OnesignalClient } from "infrastructure/api/onesignalClient";
 import { WebNotificationSender } from "infrastructure/webSender";
 
 @Module({
@@ -21,6 +22,7 @@ import { WebNotificationSender } from "infrastructure/webSender";
             useClass: WebNotificationSender,
         },
         WorkerCronService,
+        OnesignalClient,
     ],
 })
 export class WorkerModule {}
