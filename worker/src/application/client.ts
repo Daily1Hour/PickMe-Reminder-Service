@@ -1,5 +1,7 @@
-export interface IWorkerClient {
-    readByOptions(query: any): Promise<any>;
+import { NotificationEntity, ParametersDTO } from "./dto";
 
-    updatePartial(query: any): Promise<any>;
+export interface IWorkerClient {
+    readByOptions(query: ParametersDTO): Promise<NotificationEntity[]>;
+
+    updatePartial(query: ParametersDTO & { event_id: string }): Promise<NotificationEntity>;
 }
