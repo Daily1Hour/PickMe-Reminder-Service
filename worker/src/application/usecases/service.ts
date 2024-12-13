@@ -4,6 +4,8 @@ import { NotificationStatus } from "../dto";
 import { IWorkerClient } from "../ports/client";
 import { INotificationSender } from "../ports/sender";
 
+import getEvent from "./getEvent";
+
 @Injectable()
 export class WorkerService {
     constructor(
@@ -23,8 +25,11 @@ export class WorkerService {
                 status: NotificationStatus.Pending,
             });
 
+            // 알림 내용 조회
+            const messages = await Promise.all(notifications.map(getEvent));
+
             // 발송 처리
-            await this.sender.dispatch(notifications);
+            await this.sender.dispatch(messages);
 
             console.log("발송 완료 처리");
             // 발송 완료 처리
