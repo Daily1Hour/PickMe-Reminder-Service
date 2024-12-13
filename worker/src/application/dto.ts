@@ -15,3 +15,15 @@ export interface ParametersDTO {
     end_time?: Date;
     status?: NotificationStatus;
 }
+
+export interface EventDetails {
+    interviewDetailId: string;
+    company: {
+        name: string;
+        location: string;
+    };
+    interviewTime: Date;
+    position: string;
+    category: string;
+    description: string;
+}

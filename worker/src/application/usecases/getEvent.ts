@@ -1,28 +1,18 @@
 import axios from "axios";
 
-export default async function getEvent(event_id: { event_id: string }) {
-    type InterviewDetails = {
-        interviewDetailId: string;
-        company: {
-            name: string;
-            location: string;
-        };
-        interviewTime: Date;
-        position: string;
-        category: string;
-        description: string;
-    };
+import { EventDetails } from "application/dto";
 
+export default async function getEvent({ event_id }: { event_id: string }) {
     const {
         clientId,
-        interviewDetails: {
+        eventDetails: {
             company: { name: companyName, location },
             interviewTime,
             position,
             category,
             description,
         },
-    }: { id: string; clientId: string; interviewDetails: InterviewDetails } = await axios.get(
+    }: { clientId: string; eventDetails: EventDetails } = await axios.get(
         "http://localhost:8081/calendar/interviews",
         {
             params: {
