@@ -7,7 +7,7 @@ import { WorkerService } from "application/usecases/service";
 import { WorkerCronService } from "infrastructure/cron";
 import { WorkerClientImpl } from "infrastructure/clientImpl";
 import { OnesignalClient } from "infrastructure/api/onesignalClient";
-import { WebNotificationSender } from "infrastructure/webSender";
+import { WebNotificationSender } from "infrastructure/senders/webSender";
 
 @Module({
     imports: [ScheduleModule.forRoot(), ConfigModule.forRoot()],
