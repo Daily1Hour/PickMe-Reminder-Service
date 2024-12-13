@@ -6,6 +6,7 @@ import { WorkerService } from "application/service";
 
 import { WorkerClientImpl } from "infrastructure/clientImpl";
 import { WorkerCronService } from "infrastructure/cron";
+import { WebNotificationSender } from "infrastructure/webSender";
 
 @Module({
     imports: [ScheduleModule.forRoot(), ConfigModule.forRoot()],
@@ -14,6 +15,10 @@ import { WorkerCronService } from "infrastructure/cron";
         {
             provide: "IWorkerClient", // 인터페이스 제공
             useClass: WorkerClientImpl, // 구현체 연결
+        },
+        {
+            provide: "INotificationSender",
+            useClass: WebNotificationSender,
         },
         WorkerCronService,
     ],
