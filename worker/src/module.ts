@@ -1,4 +1,5 @@
 import { Module } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import { ScheduleModule } from "@nestjs/schedule";
 
 import { WorkerService } from "application/service";
@@ -7,7 +8,7 @@ import { WorkerClientImpl } from "infrastructure/clientImpl";
 import { WorkerCronService } from "infrastructure/cron";
 
 @Module({
-    imports: [ScheduleModule.forRoot()],
+    imports: [ScheduleModule.forRoot(), ConfigModule.forRoot()],
     providers: [
         WorkerService,
         {
