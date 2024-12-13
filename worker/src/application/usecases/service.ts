@@ -1,8 +1,8 @@
 import { Inject, Injectable } from "@nestjs/common";
 
-import { NotificationStatus } from "./dto";
-import { IWorkerClient } from "./client";
-import { INotificationSender } from "./sender";
+import { NotificationStatus } from "../dto";
+import { IWorkerClient } from "../ports/client";
+import { INotificationSender } from "../ports/sender";
 
 @Injectable()
 export class WorkerService {

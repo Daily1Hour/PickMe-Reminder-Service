@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
 
-import { WorkerService } from "application/service";
+import { WorkerService } from "application/usecases/service";
 
 @Injectable()
 export class WorkerCronService {
