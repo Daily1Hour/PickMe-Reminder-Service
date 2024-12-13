@@ -1,12 +1,15 @@
 import { Inject, Injectable } from "@nestjs/common";
 
-import dispatch from "./dispatch";
 import { NotificationStatus } from "./dto";
 import { IWorkerClient } from "./client";
+import { INotificationSender } from "./sender";
 
 @Injectable()
 export class WorkerService {
-    constructor(@Inject("IWorkerClient") private readonly client: IWorkerClient) {}
+    constructor(
+        @Inject("IWorkerClient") private readonly client: IWorkerClient,
+        @Inject("INotificationSender") private readonly sender: INotificationSender,
+    ) {}
 
     async start() {
         const start_time = new Date();
@@ -21,7 +24,7 @@ export class WorkerService {
             });
 
             // 발송 처리
-            await dispatch(notifications);
+            await this.sender.dispatch(notifications);
 
             console.log("발송 완료 처리");
             // 발송 완료 처리
