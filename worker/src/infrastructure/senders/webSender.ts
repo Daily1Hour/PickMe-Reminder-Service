@@ -15,10 +15,10 @@ export class WebNotificationSender implements INotificationSender {
         position,
         category,
         description,
+        clientId,
     }: EventDetail): Promise<void> {
-        console.log(companyName, location, interviewTime, position, category, description);
         try {
-            const external_id = ["user_id"];
+            const external_id = [clientId];
 
             const response = await this.client.post(null, {
                 target_channel: "push",

@@ -26,4 +26,5 @@ export interface EventDetail {
     position: string;
     category: string;
     description: string;
+    clientId: string;
 }
