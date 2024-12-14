@@ -1,3 +1,5 @@
+import { EventDetail } from "application/dto";
+
 export interface INotificationSender {
-    dispatch(notification: any[]): Promise<void>;
+    dispatch(notification: EventDetail): Promise<void>;
 }
