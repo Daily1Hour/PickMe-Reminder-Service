@@ -27,7 +27,9 @@ export class WorkerService {
             });
 
             // 알림 내용 조회
-            const messages = await Promise.all(notifications.map(this.receiver.receive));
+            const messages = await Promise.all(
+                notifications.map(this.receiver.receive.bind(this.receiver)),
+            );
 
             // 발송 처리
             await this.sender.dispatch(messages);
