@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
 
-import { IEventReceiver } from "application/ports/receiver";
+import { IEventReceiver } from "application/ports";
 import { EventDetail } from "application/dto";
 
-import { CalendarClient } from "infrastructure/api/calendarClient";
+import { CalendarClient } from "../api";
 
 @Injectable()
 export class CalendarEventReceiver implements IEventReceiver {
