@@ -1,20 +1,16 @@
 import { Injectable } from "@nestjs/common";
-import axios from "axios";
 
 import { IEventReceiver } from "application/ports/receiver";
 import { EventDetail } from "application/dto";
 
+import { CalendarClient } from "infrastructure/api/calendarClient";
+
 @Injectable()
 export class CalendarEventReceiver implements IEventReceiver {
-    async receive({ event_id }: { event_id: string }): Promise<void> {
-        const CALENDAR_API_URL = process.env.CALENDAR_API_URL;
-        const ACCESS_TOKEN = "";
+    constructor(private readonly client: CalendarClient) {}
 
-        const { status, data } = await axios.get(CALENDAR_API_URL, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${ACCESS_TOKEN}`,
-            },
+    async receive({ event_id }: { event_id: string }): Promise<void> {
+        const { status, data } = await this.client.get(null, {
             params: {
                 interviewDetailId: event_id,
             },
