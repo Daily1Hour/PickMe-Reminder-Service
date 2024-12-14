@@ -16,7 +16,7 @@ export interface ParametersDTO {
     status?: NotificationStatus;
 }
 
-export interface EventDetails {
+export interface EventDetail {
     interviewDetailId: string;
     company: {
         name: string;

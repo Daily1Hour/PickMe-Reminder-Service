@@ -8,6 +8,7 @@ import { WorkerCronService } from "infrastructure/cron";
 import { WorkerClientImpl } from "infrastructure/clientImpl";
 import { OnesignalClient } from "infrastructure/api/onesignalClient";
 import { WebNotificationSender } from "infrastructure/senders/webSender";
+import { CalendarEventReceiver } from "infrastructure/receivers/calendarReceiver";
 
 @Module({
     imports: [ScheduleModule.forRoot(), ConfigModule.forRoot()],
@@ -20,6 +21,10 @@ import { WebNotificationSender } from "infrastructure/senders/webSender";
         {
             provide: "INotificationSender",
             useClass: WebNotificationSender,
+        },
+        {
+            provide: "IEventReceiver",
+            useClass: CalendarEventReceiver,
         },
         WorkerCronService,
         OnesignalClient,

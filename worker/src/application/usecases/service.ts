@@ -1,16 +1,17 @@
 import { Inject, Injectable } from "@nestjs/common";
 
-import { NotificationStatus } from "../dto";
-import { IWorkerClient } from "../ports/client";
-import { INotificationSender } from "../ports/sender";
+import { IWorkerClient } from "application/ports/client";
+import { IEventReceiver } from "application/ports/receiver";
+import { INotificationSender } from "application/ports/sender";
 
-import getEvent from "./getEvent";
+import { NotificationStatus } from "../dto";
 
 @Injectable()
 export class WorkerService {
     constructor(
         @Inject("IWorkerClient") private readonly client: IWorkerClient,
         @Inject("INotificationSender") private readonly sender: INotificationSender,
+        @Inject("IEventReceiver") private readonly receiver: IEventReceiver,
     ) {}
 
     async start() {
@@ -26,7 +27,7 @@ export class WorkerService {
             });
 
             // 알림 내용 조회
-            const messages = await Promise.all(notifications.map(getEvent));
+            const messages = await Promise.all(notifications.map(this.receiver.receive));
 
             // 발송 처리
             await this.sender.dispatch(messages);
