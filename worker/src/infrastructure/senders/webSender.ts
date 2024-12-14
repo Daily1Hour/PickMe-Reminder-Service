@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 
 import { INotificationSender } from "application/ports/sender";
-import { NotificationEntity } from "application/dto";
+import { EventDetail } from "application/dto";
 
 import { OnesignalClient } from "../api/onesignalClient";
 
@@ -9,14 +9,21 @@ import { OnesignalClient } from "../api/onesignalClient";
 export class WebNotificationSender implements INotificationSender {
     constructor(private readonly client: OnesignalClient) {}
 
-    async dispatch(payload: NotificationEntity[]): Promise<void> {
+    async dispatch({
+        company: { name: companyName, location },
+        interviewTime,
+        position,
+        category,
+        description,
+    }: EventDetail): Promise<void> {
+        console.log(companyName, location, interviewTime, position, category, description);
         try {
             const external_id = ["user_id"];
 
             const response = await this.client.post(null, {
                 target_channel: "push",
                 contents: {
-                    en: "알림 메시지",
+                    en: `${companyName}\n${description}\n${location}\n${interviewTime}\n${position} ${category}`,
                 },
                 include_aliases: {
                     external_id,

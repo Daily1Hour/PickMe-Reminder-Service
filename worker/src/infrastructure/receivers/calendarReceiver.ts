@@ -9,7 +9,7 @@ import { CalendarClient } from "infrastructure/api/calendarClient";
 export class CalendarEventReceiver implements IEventReceiver {
     constructor(private readonly client: CalendarClient) {}
 
-    async receive({ event_id }: { event_id: string }): Promise<void> {
+    async receive({ event_id }: { event_id: string }) {
         const { status, data } = await this.client.get(null, {
             params: {
                 interviewDetailId: event_id,
@@ -23,23 +23,7 @@ export class CalendarEventReceiver implements IEventReceiver {
             }: { clientId: string; interviewDetails: EventDetail[] } = data;
 
             if (interviewDetails.length) {
-                const {
-                    company: { name: companyName, location },
-                    interviewTime,
-                    position,
-                    category,
-                    description,
-                } = interviewDetails[0];
-
-                console.log(
-                    clientId,
-                    companyName,
-                    location,
-                    interviewTime,
-                    position,
-                    category,
-                    description,
-                );
+                return { clientId, ...interviewDetails[0] };
             } else {
                 throw new Error("해당 이벤트 ID에 대한 상세 정보가 없습니다.");
             }
