@@ -23,7 +23,7 @@ export class WebNotificationSender implements INotificationSender {
             const response = await this.client.post(null, {
                 target_channel: "push",
                 contents: {
-                    en: `${companyName}\n${description}\n${location}\n${interviewTime}\n${position} ${category}`,
+                    en: `${companyName}\n${description}\n${location}\n${new Date(interviewTime).toLocaleTimeString()}\n${position} ${category}`,
                 },
                 include_aliases: {
                     external_id,
