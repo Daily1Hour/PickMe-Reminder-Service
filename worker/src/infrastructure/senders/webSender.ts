@@ -18,6 +18,7 @@ export class WebNotificationSender implements INotificationSender {
         clientId,
     }: EventDetail): Promise<void> {
         try {
+            // 호출할 ID
             const external_id = [clientId];
 
             const response = await this.client.post(null, {
