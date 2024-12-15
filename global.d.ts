@@ -14,6 +14,11 @@ declare global {
             DB_PORT: number;
 
             WORKER_PORT: number;
+
+            ONESIGNAL_APP_ID: string;
+            ONESIGNAL_API_KEY: string;
+
+            CALENDAR_API_URL: string;
         }
     }
 }
