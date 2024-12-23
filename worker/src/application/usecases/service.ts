@@ -1,9 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 
-import { IWorkerClient } from "application/ports/client";
-import { IEventReceiver } from "application/ports/receiver";
-import { INotificationSender } from "application/ports/sender";
-
+import { IWorkerClient, INotificationSender, IEventReceiver } from "../ports";
 import { EventDetail, NotificationStatus } from "../dto";
 
 @Injectable()

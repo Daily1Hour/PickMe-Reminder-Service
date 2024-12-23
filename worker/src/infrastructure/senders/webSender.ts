@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 
-import { INotificationSender } from "application/ports/sender";
+import { INotificationSender } from "application/ports";
 import { EventDetail } from "application/dto";
 
 import { OnesignalClient } from "../api/onesignalClient";
