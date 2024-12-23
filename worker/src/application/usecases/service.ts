@@ -32,22 +32,18 @@ export class WorkerService {
             .forEach(async (message: Promise<EventDetail>) => {
                 try {
                     this.sender.dispatch(await message);
+                    console.log("발송 완료");
+
+                    // 발송 완료 처리
+                    const { interviewDetailId: event_id } = await message;
+
+                    await this.client.updatePartial({
+                        event_id,
+                        status: NotificationStatus.Sent,
+                    });
                 } catch (error) {
                     console.error("발송 처리 중 에러 발생", error);
                 }
             });
-
-        try {
-            console.log("발송 완료 처리 중 ");
-            // 발송 완료 처리
-            for (const notification of notifications) {
-                await this.client.updatePartial({
-                    event_id: notification.event_id,
-                    status: NotificationStatus.Sent,
-                });
-            }
-        } catch (error) {
-            console.error("발송 처리 중 에러 발생", error);
-        }
     }
 }
