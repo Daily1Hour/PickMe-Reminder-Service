@@ -7,12 +7,10 @@ export class CalendarClient {
 
     constructor() {
         const CALENDAR_API_URL = process.env.CALENDAR_API_URL;
-        const ACCESS_TOKEN = "";
 
         this.instance = axios.create({
             baseURL: CALENDAR_API_URL,
             headers: {
-                Authorization: `Bearer ${ACCESS_TOKEN}`,
                 Accept: "application/json",
                 "Content-Type": "application/json",
             },
