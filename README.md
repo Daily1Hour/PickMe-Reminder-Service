@@ -4,9 +4,11 @@
 
 ## 🛠️ 기술 스택
 
-[![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=flat&logo=nestjs&logoColor=white)](https://nestjs.com/) [![Amazon DynamoDB](https://img.shields.io/badge/DynamoDB-4053D6?style=flat&logo=amazondynamodb&logoColor=white)](https://nestjs.com/)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=javascript&logoColor=white)  
+[![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=flat&logo=nestjs&logoColor=white)](https://nestjs.com/)
+[![OneSignal](https://img.shields.io/badge/OneSignal-E54B4D.svg?logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTQ5LjcwMiAwQzY2Ljk0NC4xNjEtLjQ2OCA2OC4xMS4wMDIgMTUwLjg2N2MuNDE0IDc3LjI5MiA1OS4zNTYgMTQwLjc0NiAxMzQuNzU4IDE0OC4zNTVhMS43MjcgMS43MjcgMCAwIDAgMS44OTYtMS43MjRWMTQ5Ljk5OWgtMTEuNjJhMS43MjUgMS43MjUgMCAwIDEtMS43MjQtMS43MjR2LTIzLjI1M2ExLjcyIDEuNzIgMCAwIDEgMS43MjQtMS43MjRoMzYuNTg2YTEuNzI1IDEuNzI1IDAgMCAxIDEuNzI0IDEuNzI0djE3Mi40NzZhMS43MTggMS43MTggMCAwIDAgLjU2MiAxLjI4MiAxLjczOCAxLjczOCAwIDAgMCAxLjMyOS40NDJDMjQwLjkyIDI5MS41ODQgMzAwIDIyNy42OTQgMzAwIDE0OS45OTkgMzAwIDY3LjA1NyAyMzIuNjc5LS4xNjEgMTQ5LjcwMiAwem00Mi42NjcgMjY1LjgwM2ExLjcyNCAxLjcyNCAwIDAgMS0yLjI5OS0xLjYyN3YtMjQuNjJhMi41OSAyLjU5IDAgMCAxIDEuNDgzLTIuMzM0IDk2LjcyNyA5Ni43MjcgMCAwIDAgNTUuMDU3LTg3LjIyM2MwLTUzLjc3NS00NC4xNjEtOTcuNDI0LTk4LjExNS05Ni41OTctNTEuMzIxLjc4Mi05My40MTggNDIuMTU1LTk1LjA1NiA5My40NTNhOTYuNzA5IDk2LjcwOSAwIDAgMCA1NS4wMjIgOTAuMzY3IDIuNTkgMi41OSAwIDAgMSAxLjQ4OSAyLjMzNHYyNC42MjZhMS43MjMgMS43MjMgMCAwIDEtMi4yOTkgMS42MjZDNjAuMTI4IDI0OC4zNzcgMjYuMjE1IDIwMi40NyAyNi43MDMgMTQ4Ljg1IDI3LjMwNyA4MS44NjcgODIuMDI1IDI3LjIxOCAxNDkuMDMgMjYuNzAxIDIxNy40NiAyNi4xNzIgMjczLjI5OSA4MS42OSAyNzMuMjk5IDE1MGMwIDUzLjEyLTMzLjc2NCA5OC40OTktODAuOTMgMTE1LjgwNHoiIGZpbGw9IiNGRkYiLz48L3N2Zz4=&style=flat&logoColor)](https://onesignal.com/)
+[![Amazon DynamoDB](https://img.shields.io/badge/DynamoDB-4053D6?style=flat&logo=amazondynamodb&logoColor=white)](https://aws.amazon.com/ko/dynamodb/)  
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=Docker&logoColor=white)](https://www.docker.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=javascript&logoColor=white)](https://www.typescriptlang.org/)
 [![Jest](https://img.shields.io/badge/Jest-C21325?style=flat&logo=jest&logoColor=white)](https://jestjs.io/)
 [![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=flat&logo=eslint&logoColor=white)](https://eslint.org/)
 
@@ -52,7 +54,7 @@ $ npm run start:prod
 
 ## 🖧 배치 다이어그램
 
-![Microservice](https://github.com/user-attachments/assets/05fbf436-1b2d-4e2f-837f-e6e4bcb4e9f0)
+![Microservice](https://github.com/user-attachments/assets/c9184abc-057e-45a5-9c37-0380283a6f5f)
 
 ## 📂 폴더 구조
 
@@ -111,13 +113,25 @@ PickMe-Reminder-Service
 ├─ worker # 알림 워커 서비스
 │  ├─ src
 │  │  ├─ application
-│  │  │  ├─ client.ts # 마이크로서비스 호출 인터페이스
-│  │  │  ├─ dispatch.ts # 발송 처리
 │  │  │  ├─ dto.ts # 페이로드 DTO
-│  │  │  └─ service.ts # 알림 TCP 요청, 발송 처리, 완료 처리
+│  │  │  ├─ ports # 인터페이스
+│  │  │  │  ├─ client.ts # 알림 저장 서비스
+│  │  │  │  ├─ index.ts
+│  │  │  │  ├─ receiver.ts # 메시지 수신
+│  │  │  │  └─ sender.ts # 메시지 발송
+│  │  │  └─ usecases
+│  │  │     ├─ cron.ts # 잡 스케줄러
+│  │  │     └─ service.ts # 알림 TCP 요청, 발송 처리, 완료 처리
 │  │  ├─ infrastructure
+│  │  │  ├─ api # axios API 인터셉터
+│  │  │  │  ├─ calendarClient.ts
+│  │  │  │  ├─ index.ts
+│  │  │  │  └─ onesignalClient.ts
 │  │  │  ├─ clientImpl.ts # 마이크로서비스 호출 구현체
-│  │  │  └─ cron.ts # 잡 스케줄러
+│  │  │  ├─ receivers
+│  │  │  │  └─ calendarReceiver.ts # 캘린더 서비스 구현체
+│  │  │  └─ senders
+│  │  │     └─ webSender.ts # 웹 메시지 발송 구현체
 │  │  ├─ main.ts # 서버 실행 진입점
 │  │  └─ module.ts # 의존성 주입 모듈
 │  ├─ tsconfig.build.json
