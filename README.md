@@ -2,6 +2,15 @@
 
 > API를 통해 알림 시간을 관리하고, 스케쥴러가 매시간 알림을 발송하는 서비스
 
+## 🚩 목차
+
+- [🛠️ 기술 스택](#️-기술-스택)
+- [📄 API 명세서](#-API-명세서)
+- [🔀 데이터 흐름 다이어그램](#-데이터-흐름-다이어그램)
+- [📦 배치 다이어그램](#-배치-다이어그램)
+- [🚀 실행 방법](#-실행-방법)
+- [📂 폴더 구조](#-폴더-구조)
+
 ## 🛠️ 기술 스택
 
 [![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=flat&logo=nestjs&logoColor=white)](https://nestjs.com/)
@@ -24,6 +33,35 @@
 | PUT    | /{event_id} | 수정      | Authorization:<br> Bearer \<token> |                                                           | event_id: string <br> send_at: date <br> status: enum    | 200: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
 | PATCH  | /{event_id} | 부분 수정 | Authorization:<br> Bearer \<token> |                                                           | event_id?: string <br> send_at?: date <br> status?: enum | 200: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
 | DELETE | /{event_id} | 삭제      | Authorization:<br> Bearer \<token> |                                                           |                                                          | 200: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
+
+## 🔀 데이터 흐름 다이어그램
+
+```mermaid
+flowchart LR
+   Web["웹사이트"] --> event@{ shape: bow-rect, label: "이벤트 정보" } --> |REST/HTTP| Notification/server
+
+   subgraph Reminder
+      subgraph Worker
+         Worker/Cron@{ shape: circle, label: "스케줄러" }
+      end
+
+      subgraph Notification
+         Notification/server@{ shape: circle, label: "등록 서버" }
+         Notification/db@{ shape: lin-cyl, label: "DynamoDB" }
+
+         Notification/server <--> Notification/db
+      end
+
+      Worker/Cron <-.-> |TCP| Notification/server
+   end
+
+   Calendar --> data@{ shape: bow-rect, label: "이벤트 상세 정보" } --> Worker/Cron
+   Worker/Cron --> |HTTP| message@{ shape: bow-rect, label: "메시지" } --> OneSignal
+```
+
+## 📦 배치 다이어그램
+
+![Microservice](https://github.com/user-attachments/assets/c9184abc-057e-45a5-9c37-0380283a6f5f)
 
 ## 🚀 실행 방법
 
@@ -51,10 +89,6 @@ $ npm run start:dev
 # production
 $ npm run start:prod
 ```
-
-## 🖧 배치 다이어그램
-
-![Microservice](https://github.com/user-attachments/assets/c9184abc-057e-45a5-9c37-0380283a6f5f)
 
 ## 📂 폴더 구조
 
