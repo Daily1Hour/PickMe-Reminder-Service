@@ -23,7 +23,7 @@
 
 ## 📄 API 명세서
 
-[![Swagger](https://img.shields.io/badge/Swagger-Green?style=flat&logo=swagger&logoColor=white)](https://daily1hour.github.io/PickMe-Reminder-Service/)
+[![Swagger](https://img.shields.io/badge/Swagger-Green?style=flat&logo=swagger&logoColor=white) 🔍열기](https://daily1hour.github.io/PickMe-Reminder-Service/)
 
 | Method | URI         | Summary   | Request Header                     | Query String                                              | Request Body                                             | Code                                                |
 | ------ | ----------- | --------- | ---------------------------------- | --------------------------------------------------------- | -------------------------------------------------------- | --------------------------------------------------- |
@@ -38,7 +38,11 @@
 
 ```mermaid
 flowchart LR
-   Web["웹사이트"] --> event@{ shape: bow-rect, label: "이벤트 정보" } --> |REST/HTTP| Notification/server
+   Web["웹사이트"]
+   click Web "https://github.com/Daily1Hour/PickMe-Calendar-Application"
+   event@{ shape: bow-rect, label: "이벤트 정보" }
+
+   Web --> event --> |REST/HTTP| Notification/server
 
    subgraph Reminder
       subgraph Worker
@@ -55,7 +59,11 @@ flowchart LR
       Worker/Cron <-.-> |TCP| Notification/server
    end
 
-   Calendar --> data@{ shape: bow-rect, label: "이벤트 상세 정보" } --> Worker/Cron
+   Calendar
+   click Calendar "https://github.com/Daily1Hour/PickMe-Calendar-Service"
+   data@{ shape: bow-rect, label: "이벤트 상세 정보" }
+
+   Calendar --> data --> Worker/Cron
    Worker/Cron --> |HTTP| message@{ shape: bow-rect, label: "메시지" } --> OneSignal
 ```
 
