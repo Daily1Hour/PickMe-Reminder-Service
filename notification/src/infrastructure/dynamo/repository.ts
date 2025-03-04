@@ -15,7 +15,10 @@ export default class DynamoRepository implements INotificationRepository {
     }
 
     async create(eventData: NotificationEntity) {
-        return this.model.create(eventData);
+        return this.model.update({
+            ...eventData,
+            ttl: Math.floor(eventData.send_at.getTime() / 1000) + 60 * 60, // 1시간 후 삭제
+        });
     }
 
     async findById(event_id: string) {
