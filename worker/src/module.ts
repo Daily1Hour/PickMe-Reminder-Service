@@ -11,7 +11,13 @@ import { CalendarEventReceiver } from "infrastructure/receivers/calendarReceiver
 import { OnesignalClient, CalendarClient } from "infrastructure/api";
 
 @Module({
-    imports: [ScheduleModule.forRoot(), ConfigModule.forRoot()],
+    imports: [
+        ScheduleModule.forRoot(),
+        ConfigModule.forRoot({
+            isGlobal: true,
+            envFilePath: [".env.local", ".env"],
+        }),
+    ],
     providers: [
         /** 유즈케이스 */
         WorkerService,

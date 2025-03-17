@@ -23,7 +23,10 @@ import DynamooseModel from "infrastructure/dynamo/model";
     controllers: [NotificationHttpController, NotificationsMessageController],
     imports: [
         // 환경 변수 글로벌 설정
-        ConfigModule.forRoot(),
+        ConfigModule.forRoot({
+            isGlobal: true,
+            envFilePath: [".env.local", ".env"],
+        }),
     ],
     exports: [],
 })
