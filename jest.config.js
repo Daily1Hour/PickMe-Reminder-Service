@@ -7,4 +7,18 @@ module.exports = {
     collectCoverageFrom: ["**/*.(t|j)s"], // 테스트 커버리지 측정 대상 파일 지정
     coverageDirectory: "../coverage", // 커버리지 보고서
     testEnvironment: "node",
+
+    // html 리포터 설정
+    reporters: [
+        "default",
+        [
+            "jest-html-reporters",
+            {
+                publicPath: "./dist",
+                filename: "test-report.html",
+                includeFailureMsg: true, // 실패한 테스트 케이스의 실패 메시지
+                expand: true, // 테스트 케이스의 세부 정보
+            },
+        ],
+    ],
 };
