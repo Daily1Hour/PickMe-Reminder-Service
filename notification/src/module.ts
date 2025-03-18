@@ -1,33 +1,32 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { TypeOrmModule } from "@nestjs/typeorm";
 
 import NotificationService from "./application/service";
 
-import NotificationORMEntity from "./infrastructure/ormEntity";
+import NotificationHttpController from "presentation/controllers/httpController";
+import NotificationsMessageController from "presentation/controllers/messageController";
 
-import NotificationHttpController from "./presentation/controllers/httpController";
-import NotificationsMessageController from "./presentation/controllers/messageController";
+import DynamooseProvider from "infrastructure/dynamo/provider";
+import DynamoRepository from "infrastructure/dynamo/repository";
+import DynamooseModel from "infrastructure/dynamo/model";
 
 @Module({
-    providers: [NotificationService],
+    providers: [
+        DynamooseProvider,
+        NotificationService,
+        {
+            provide: "INotificationRepository", // 인터페이스 제공
+            useClass: DynamoRepository, // 구현체 연결
+        },
+        DynamooseModel,
+    ],
     controllers: [NotificationHttpController, NotificationsMessageController],
     imports: [
         // 환경 변수 글로벌 설정
-        ConfigModule.forRoot(),
-        // TypeORM 설정
-        TypeOrmModule.forRoot({
-            type: process.env.DB_TYPE,
-            host: process.env.DB_HOST,
-            database: process.env.DB_SCHEMA,
-            username: process.env.DB_USERNAME,
-            password: process.env.DB_PASSWORD,
-            port: process.env.DB_PORT,
-            entities: [NotificationORMEntity],
-            synchronize: true,
+        ConfigModule.forRoot({
+            isGlobal: true,
+            envFilePath: [".env.local", ".env"],
         }),
-        // TypeORM ORM 엔티티 설정
-        TypeOrmModule.forFeature([NotificationORMEntity]),
     ],
     exports: [],
 })
