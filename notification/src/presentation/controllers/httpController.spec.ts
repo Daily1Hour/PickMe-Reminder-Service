@@ -2,11 +2,12 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { INestApplication } from "@nestjs/common";
 import * as request from "supertest";
 
-import NotificationService from "notification/src/application/service";
-import { NotificationStatus } from "notification/src/application/dto";
+import { NotificationStatus } from "domain/entity";
 
-import NotificationController from "./httpController";
+import NotificationService from "application/service";
+
 import { CreateRequestDTO, ParametersDTO, UpdateRequestDTO } from "../dtos";
+import NotificationController from "./httpController";
 
 describe("NotificationController", () => {
     let app: INestApplication;
@@ -115,7 +116,7 @@ describe("NotificationController", () => {
         it("/PATCH updatePartial", async () => {
             const bodyDTO: UpdateRequestDTO = {
                 status: NotificationStatus.Sent,
-                event_id: ""
+                event_id: "",
             };
             const response = undefined;
 
