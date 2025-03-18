@@ -1,190 +1,137 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { getRepositoryToken } from "@nestjs/typeorm";
-import { DeleteResult, Repository } from "typeorm";
 
-import NotificationEntity from "notification/src/domain/entity";
+import INotificationRepository from "domain/repository";
+import NotificationEntity, { NotificationStatus } from "domain/entity";
 
-import NotificationORMEntity from "notification/src/infrastructure/ormEntity";
-
+import { RegisterRequestDTO, ReadRequestDTO, UpdateRequestDTO, OptionsDTO } from "./dto";
 import NotificationService from "./service";
-import {
-    NotificationStatus,
-    RegisterRequestDTO,
-    ReadRequestDTO,
-    UpdateRequestDTO,
-    OptionsDTO,
-} from "./dto";
 
 describe("NotificationService", () => {
     let service: NotificationService;
-    let repository: Repository<NotificationORMEntity>;
+    let repository: INotificationRepository;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             providers: [
                 NotificationService,
                 {
-                    provide: getRepositoryToken(NotificationORMEntity), // 테스트용 레포지토리 설정
-                    useClass: Repository,
+                    provide: "INotificationRepository", // 테스트용 레포지토리 설정
+                    useValue: {
+                        create: jest.fn(),
+                        findById: jest.fn(),
+                        findByReservationTime: jest.fn(),
+                        deleteById: jest.fn(),
+                    },
                 },
             ],
         }).compile();
 
         service = module.get<NotificationService>(NotificationService);
-        repository = module.get<Repository<NotificationORMEntity>>(
-            getRepositoryToken(NotificationORMEntity),
-        );
+        repository = module.get<INotificationRepository>("INotificationRepository");
     });
 
-    it("should be defined", () => {
+    it("서비스 정의", () => {
         expect(service).toBeDefined();
     });
 
-    describe("registerNotification", () => {
-        it("should create and save a notification", async () => {
+    describe("register", () => {
+        it("새로운 알림 엔터티를 생성", async () => {
             const dto: RegisterRequestDTO = {
                 event_id: "1",
                 send_at: new Date(),
                 status: NotificationStatus.Pending,
             };
             const entity = new NotificationEntity(dto.event_id, dto.send_at, dto.status);
-            const ormEntity = { ...entity, id: 1 };
 
-            jest.spyOn(repository, "create").mockReturnValue(ormEntity as any);
-            jest.spyOn(repository, "save").mockResolvedValue(ormEntity as any);
+            jest.spyOn(repository, "create").mockResolvedValue(entity);
 
-            await service.register(dto);
-
+            expect(await service.register(dto)).toEqual(entity);
             expect(repository.create).toHaveBeenCalledWith(entity);
-            expect(repository.save).toHaveBeenCalledWith(ormEntity);
+        });
+    });
+
+    describe("update", () => {
+        it("알림 엔터티를 업데이트", async () => {
+            const paramDTO: ReadRequestDTO = { event_id: "1" };
+            const bodyDTO: UpdateRequestDTO = {
+                send_at: new Date(),
+                status: NotificationStatus.Sent,
+            };
+            const existingEntity = new NotificationEntity(
+                paramDTO.event_id,
+                new Date(),
+                NotificationStatus.Pending,
+            );
+
+            jest.spyOn(service, "get").mockResolvedValue(existingEntity);
+            jest.spyOn(service, "register").mockResolvedValue(existingEntity);
+
+            expect(await service.update(paramDTO, bodyDTO)).toEqual(existingEntity);
+            expect(service.get).toHaveBeenCalledWith(paramDTO);
+            expect(service.register).toHaveBeenCalledWith({
+                ...existingEntity,
+                ...paramDTO,
+                ...bodyDTO,
+            });
         });
 
-        describe("NotificationService", () => {
-            let service: NotificationService;
-            let repository: Repository<NotificationORMEntity>;
+        it("엔터티를 찾을 수 없으면 오류를 발생", async () => {
+            const paramDTO: ReadRequestDTO = { event_id: "1" };
+            const bodyDTO: UpdateRequestDTO = {
+                send_at: new Date(),
+                status: NotificationStatus.Sent,
+            };
 
-            beforeEach(async () => {
-                const module: TestingModule = await Test.createTestingModule({
-                    providers: [
-                        NotificationService,
-                        {
-                            provide: getRepositoryToken(NotificationORMEntity), // 테스트용 레포지토리 설정
-                            useClass: Repository,
-                        },
-                    ],
-                }).compile();
+            jest.spyOn(service, "get").mockResolvedValue(null);
 
-                service = module.get<NotificationService>(NotificationService);
-                repository = module.get<Repository<NotificationORMEntity>>(
-                    getRepositoryToken(NotificationORMEntity),
-                );
-            });
+            await expect(service.update(paramDTO, bodyDTO)).rejects.toThrow("Entity not found.");
+        });
+    });
 
-            it("should be defined", () => {
-                expect(service).toBeDefined();
-            });
+    describe("get", () => {
+        it("id로 알림 엔터티를 반환", async () => {
+            const dto: ReadRequestDTO = { event_id: "1" };
+            const entity = new NotificationEntity(
+                dto.event_id,
+                new Date(),
+                NotificationStatus.Pending,
+            );
 
-            describe("registerNotification", () => {
-                it("should create and save a notification", async () => {
-                    const dto: RegisterRequestDTO = {
-                        event_id: "1",
-                        send_at: new Date(),
-                        status: NotificationStatus.Pending,
-                    };
-                    const entity = new NotificationEntity(dto.event_id, dto.send_at, dto.status);
-                    const ormEntity = { ...entity, id: 1 };
+            jest.spyOn(repository, "findById").mockResolvedValue(entity);
 
-                    jest.spyOn(repository, "create").mockReturnValue(ormEntity as any);
-                    jest.spyOn(repository, "save").mockResolvedValue(ormEntity as any);
+            expect(await service.get(dto)).toEqual(entity);
+            expect(repository.findById).toHaveBeenCalledWith(dto.event_id);
+        });
+    });
 
-                    await service.register(dto);
+    describe("getFilteredList", () => {
+        it("알림 엔터티 목록을 반환", async () => {
+            const dto: OptionsDTO = {
+                start_time: new Date(),
+                end_time: new Date(),
+                status: NotificationStatus.Pending,
+            };
+            const entities = [new NotificationEntity("1", new Date(), NotificationStatus.Pending)];
 
-                    expect(repository.create).toHaveBeenCalledWith(entity);
-                    expect(repository.save).toHaveBeenCalledWith(ormEntity);
-                });
-            });
+            jest.spyOn(repository, "findByReservationTime").mockResolvedValue(entities);
 
-            describe("updateNotification", () => {
-                it("should update an existing notification", async () => {
-                    const paramDTO: ReadRequestDTO = { event_id: "1" };
-                    const bodyDTO: UpdateRequestDTO = {
-                        send_at: new Date(),
-                        status: NotificationStatus.Sent,
-                    };
-                    const existingEntity = new NotificationORMEntity();
-                    jest.spyOn(service, "get").mockResolvedValue(existingEntity);
-                    jest.spyOn(service, "register").mockResolvedValue(undefined);
+            expect(await service.getFilteredList(dto)).toEqual(entities);
+            expect(repository.findByReservationTime).toHaveBeenCalledWith(
+                dto.start_time,
+                dto.end_time,
+                dto.status,
+            );
+        });
+    });
 
-                    await service.update(paramDTO, bodyDTO);
+    describe("delete", () => {
+        it("ID로 알림 엔터티를 삭제", async () => {
+            const dto: ReadRequestDTO = { event_id: "1" };
 
-                    expect(service.get).toHaveBeenCalledWith(paramDTO);
-                    expect(service.register).toHaveBeenCalledWith({
-                        ...paramDTO,
-                        ...bodyDTO,
-                        ...existingEntity,
-                    });
-                });
+            jest.spyOn(repository, "deleteById").mockResolvedValue(true);
 
-                it("should throw an error if notification does not exist", async () => {
-                    const paramDTO: ReadRequestDTO = { event_id: "1" };
-                    const bodyDTO: UpdateRequestDTO = {
-                        send_at: new Date(),
-                        status: NotificationStatus.Sent,
-                    };
-                    jest.spyOn(service, "get").mockResolvedValue(null);
-
-                    await expect(service.update(paramDTO, bodyDTO)).rejects.toThrow(
-                        "Entity not found.",
-                    );
-                });
-            });
-
-            describe("getNotification", () => {
-                it("should return a notification by event_id", async () => {
-                    const dto: ReadRequestDTO = { event_id: "1" };
-                    const ormEntity = new NotificationORMEntity();
-                    jest.spyOn(repository, "findOne").mockResolvedValue(ormEntity);
-
-                    const result = await service.get(dto);
-
-                    expect(repository.findOne).toHaveBeenCalledWith({
-                        where: { event_id: dto.event_id },
-                    });
-                    expect(result).toEqual(ormEntity);
-                });
-            });
-
-            describe("getFilteredList", () => {
-                it("should return a list of notifications based on filters", async () => {
-                    const dto: OptionsDTO = {
-                        start_time: new Date(),
-                        end_time: new Date(),
-                        status: NotificationStatus.Pending,
-                    };
-                    const ormEntities = [new NotificationORMEntity()];
-                    jest.spyOn(repository, "createQueryBuilder").mockReturnValue({
-                        andWhere: jest.fn().mockReturnThis(),
-                        getMany: jest.fn().mockResolvedValue(ormEntities),
-                    } as any);
-
-                    const result = await service.getFilteredList(dto);
-
-                    expect(result).toEqual(ormEntities);
-                });
-            });
-
-            describe("deleteNotification", () => {
-                it("should delete a notification by event_id", async () => {
-                    const dto: ReadRequestDTO = { event_id: "1" };
-                    const deleteResult = new DeleteResult();
-                    jest.spyOn(repository, "delete").mockResolvedValue(deleteResult);
-
-                    const result = await service.delete(dto);
-
-                    expect(repository.delete).toHaveBeenCalledWith({ event_id: dto.event_id });
-                    expect(result).toEqual(deleteResult);
-                });
-            });
+            expect(await service.delete(dto)).toEqual(true);
+            expect(repository.deleteById).toHaveBeenCalledWith(dto.event_id);
         });
     });
 });
