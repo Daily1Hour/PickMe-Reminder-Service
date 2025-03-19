@@ -10,7 +10,7 @@
       "start:debug": "nest start --debug --watch",
       "start:prod": "node dist/notification/main",
       "start:worker": "nest start worker",
-      "generate-openapi": "ts-node -P notification/tsconfig.json --require tsconfig-paths/register notification/src/utility/downloadOpenAPI.ts"
+      "generate-openapi": "ts-node -P tsconfig.json --require tsconfig-paths/register src/utility/downloadOpenAPI.ts"
     },
     "dependencies": {
       "@nestjs/swagger": "^8.1.0",
