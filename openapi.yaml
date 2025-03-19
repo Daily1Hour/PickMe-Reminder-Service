@@ -198,6 +198,12 @@ paths:
       description: '이 API는 메시지 브로커를 통해 동작하며, HTTP 요청으로는 사용되지 않습니다.'
       operationId: NotificationsMessageController_updatePartial
       parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRequestDTO'
       responses:
         '200':
           description: ""
