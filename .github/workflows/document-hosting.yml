@@ -60,7 +60,7 @@ jobs:
 
       - name: Prepare Swagger UI for GitHub Pages
         run: |
-          cp .github/swagger-index.html dist/index.html # Swagger UI를 위한 HTML 파일을 복사
+          cp .github/document-index.html dist/index.html # Swagger UI를 위한 HTML 파일을 복사
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
