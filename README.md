@@ -6,12 +6,15 @@
 
 - [🛠️ 기술 스택](#️-기술-스택)
 - [💡 주요 기능](#-주요-기능)
-- [📄 API 명세서](#-API-명세서)
-- [📋 테스트 리포트](#-테스트-리포트)
-- [🔀 데이터 흐름 다이어그램](#-데이터-흐름-다이어그램)
-- [📦 배치 다이어그램](#-배치-다이어그램)
-- [🚀 실행 방법](#-실행-방법)
+- [📖 개발 문서](#-개발-문서)
+    - [📄 API 명세서](#-API-명세서)
+    - [📋 테스트 리포트](#-테스트-리포트)
+- [📊 다이어그램](#-다이어그램)
+    - [🔹 유즈케이스 다이어그램](#-유즈케이스-다이어그램)
+    - [🔀 데이터 흐름 다이어그램](#-데이터-흐름-다이어그램)
+    - [📦 배치 다이어그램](#-배치-다이어그램)
 - [📂 폴더 구조](#-폴더-구조)
+- [🚀 실행 방법](#-실행-방법)
 
 ## 🛠️ 기술 스택
 
@@ -42,10 +45,12 @@
         - Notification 서비스와 *TCP 통신*을 통해 알림 데이터를 조회
         - **OneSignal** 서비스를 통해 알림 메시지를 전송
 
-## 📄 API 명세서
+## 📖 개발 문서
+
+### 📄 API 명세서
 
 <a href="https://daily1hour.github.io/PickMe-Reminder-Service">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swagger/swagger-original-wordmark.svg" width='150px' >열기</img>
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swagger/swagger-original.svg" width='50px' >열기</img>
 </a>
 
 | Method | URI         | Summary   | Request Header                     | Query String                                              | Request Body                                             | Code                                                |
@@ -57,18 +62,28 @@
 | PATCH  | /{event_id} | 부분 수정 | Authorization:<br> Bearer \<token> |                                                           | event_id?: string <br> send_at?: date <br> status?: enum | 200: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
 | DELETE | /{event_id} | 삭제      | Authorization:<br> Bearer \<token> |                                                           |                                                          | 200: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
 
-## 📋 테스트 리포트
+### 📋 테스트 리포트
 
 <a href="https://daily1hour.github.io/PickMe-Reminder-Service/test-report">
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jest/jest-plain.svg" width='50px' >열기</img>
 </a>
 
-| Test Suites | Tests     | Snapshots | Time     |
-| ----------- | --------- | --------- | -------- |
-| 7 passed    | 26 passed | 0 total   | 31.842 s |
-| 7 total     | 26 total  |
+| Test Suites | Tests       | Snapshots | Time       |
+| ----------- | ----------- | --------- | ---------- |
+| _7 total_   | _26 total_  | _0 total_ |
+| _7 passed_  | _26 passed_ |           | _31.842 s_ |
 
-## 🔀 데이터 흐름 다이어그램
+## 📊 다이어그램
+
+### 🔹 유즈케이스 다이어그램
+
+![usecase](https://github.com/user-attachments/assets/d1527c03-5d4a-40d2-aa51-e4b31920c25e)
+
+### 📦 배치 다이어그램
+
+![batch](https://github.com/user-attachments/assets/8f36e425-cc3f-4d7a-9f5c-66e133bbfc81)
+
+### 🔀 데이터 흐름 다이어그램
 
 ```mermaid
 flowchart LR
@@ -101,38 +116,10 @@ flowchart LR
    Worker/Cron --> |HTTP| message@{ shape: bow-rect, label: "메시지" } --> OneSignal
 ```
 
-## 📦 배치 다이어그램
-
-![Microservice](https://github.com/user-attachments/assets/c9184abc-057e-45a5-9c37-0380283a6f5f)
-
-## 🚀 실행 방법
-
-### 도커환경
-
-```sh
-# build
-$ docker-compose up --build
-
-# run
-$ docker-compose -d
-```
-
-### 로컬환경
-
-```sh
-$ npm install
-
-# build
-$ npm run build
-
-# development
-$ npm run start:dev
-
-# production
-$ npm run start:prod
-```
-
 ## 📂 폴더 구조
+
+<details>
+<summary>열기</summary>
 
 > Monorepo + Microservice  
 > Clean Architecture
@@ -236,4 +223,33 @@ PickMe-Reminder-Service
 └─ test # 통합 테스트
    ├─ app.e2e-spec.ts
    └─ jest-e2e.json
+```
+
+</details>
+
+## 🚀 실행 방법
+
+### 도커환경
+
+```sh
+# build
+$ docker-compose up --build
+
+# run
+$ docker-compose -d
+```
+
+### 로컬환경
+
+```sh
+$ npm install
+
+# build
+$ npm run build
+
+# development
+$ npm run start:dev
+
+# production
+$ npm run start:prod
 ```
