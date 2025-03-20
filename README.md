@@ -141,8 +141,9 @@ $ npm run start:prod
 PickMe-Reminder-Service
 ├─ .eslintrc.js # eslint 린터 설정
 ├─ .github
-│  └─ workflows # 깃헙액션 워크플로어
-│     └─ auto-assign.yml
+│  ├─ workflows # 깃헙액션 워크플로어
+│  │  └─ document-hosting.yml # 스웨거 및 테스터 리포트 작성
+│  └─ document-index.html # 깃헙 페이지 진입점
 ├─ .gitignore
 ├─ .prettierrc # 포맷터
 ├─ notification # 알림 마이크로서비스
@@ -166,24 +167,29 @@ PickMe-Reminder-Service
 │  │  ├─ module.ts # 의존성 주입 모듈
 │  │  ├─ presentation # 프레임워크 계층
 │  │  │  ├─ controllers
-│  │  │  │  ├─ httpController.spec.ts
 │  │  │  │  ├─ httpController.ts # Http API
-│  │  │  │  └─ messageController.ts # Tcp API
+│  │  │  │  ├─ httpController.spec.ts
+│  │  │  │  ├─ messageController.ts # Tcp API
+│  │  │  │  └─ messageController.test.ts
 │  │  │  └─ dtos # 데이터 전송 객체
-│  │  │     ├─ CreateRequestDTO.ts
 │  │  │     ├─ index.ts
+│  │  │     ├─ CreateRequestDTO.ts
 │  │  │     ├─ ParametersDTO.ts
 │  │  │     ├─ ReadRequestDTO.ts
 │  │  │     └─ UpdateRequestDTO.ts
 │  │  └─ utility
 │  │     ├─ decorators # 커스텀 데코레이터
-│  │     │  ├─ AtLeastOneOption.ts # 옵션 하나 이상 유효성 검사
 │  │     │  ├─ index.ts
+│  │     │  ├─ AtLeastOneOption.ts # 옵션 하나 이상 유효성 검사
 │  │     │  ├─ IsTimeRange.ts # 시간 범위 유효성 검사
 │  │     │  ├─ PayloadEX.ts # Payload를 dto 변환하고 데코레이터 기반 유효성 검사
 │  │     │  └─ TrimSeconds.ts # 시간 데이터의 분초 삭제 변환
 │  │     ├─ downloadOpenAPI.ts # yaml 파일로 스웨거 문서 다운로드
 │  │     └─ generatorSwagger.ts # 스웨거 문서 생성
+│  ├─ .env
+│  ├─ global.d.ts # 환경변수 타입
+│  ├─ jest.config.js
+│  ├─ package.json # 워크스페이스 의존성 관리
 │  ├─ tsconfig.build.json
 │  └─ tsconfig.json # typescript 설정
 ├─ worker # 알림 워커 서비스
@@ -191,35 +197,42 @@ PickMe-Reminder-Service
 │  │  ├─ application
 │  │  │  ├─ dto.ts # 페이로드 DTO
 │  │  │  ├─ ports # 인터페이스
-│  │  │  │  ├─ client.ts # 알림 저장 서비스
 │  │  │  │  ├─ index.ts
+│  │  │  │  ├─ client.ts # 알림 저장 서비스
 │  │  │  │  ├─ receiver.ts # 메시지 수신
 │  │  │  │  └─ sender.ts # 메시지 발송
 │  │  │  └─ usecases
 │  │  │     ├─ cron.ts # 잡 스케줄러
-│  │  │     └─ service.ts # 알림 TCP 요청, 발송 처리, 완료 처리
+│  │  │     ├─ cron.test.ts
+│  │  │     ├─ service.ts # 알림 TCP 요청, 발송 처리, 완료 처리
+│  │  │     └─ service.test.ts
 │  │  ├─ infrastructure
 │  │  │  ├─ api # axios API 인터셉터
-│  │  │  │  ├─ calendarClient.ts
 │  │  │  │  ├─ index.ts
+│  │  │  │  ├─ calendarClient.ts
 │  │  │  │  └─ onesignalClient.ts
 │  │  │  ├─ clientImpl.ts # 마이크로서비스 호출 구현체
 │  │  │  ├─ receivers
-│  │  │  │  └─ calendarReceiver.ts # 캘린더 서비스 구현체
+│  │  │  │  ├─ calendarReceiver.ts # 캘린더 서비스 구현체
+│  │  │  │  └─ calendarReceiver.test.ts
 │  │  │  └─ senders
-│  │  │     └─ webSender.ts # 웹 메시지 발송 구현체
+│  │  │     ├─ webSender.ts # 웹 메시지 발송 구현체
+│  │  │     └─ webSender.test.ts
 │  │  ├─ main.ts # 서버 실행 진입점
 │  │  └─ module.ts # 의존성 주입 모듈
+│  ├─ .env
+│  ├─ global.d.ts
+│  ├─ jest.config.js
+│  ├─ package.json
 │  ├─ tsconfig.build.json
 │  └─ tsconfig.json
 ├─ nest-cli.json # nestjs 모듈 구조 설정
 ├─ docker-compose.yml # 도커컴포즈
 │  ├─ Dockerfile.notification # 알림 마이크로서비스 도커파일
 │  └─ Dockerfile.worker # 워커 마이크로서비스 도커파일
-├─ global.d.ts # 환경변수 타입
 ├─ package.json # 의존성 관리
 │  └─ package-lock.json
-├─ jest.config.js # jest 테스트툴 설정
+├─ jest.config.js # jest 테스트 설정
 └─ test # 통합 테스트
    ├─ app.e2e-spec.ts
    └─ jest-e2e.json
