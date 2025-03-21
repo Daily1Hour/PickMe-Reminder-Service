@@ -5,21 +5,19 @@ services:
     networks: # 지정 네트워크에 연결
       - reminder-service-network
     ports: # 외부에서 접근할 수 있도록 포트 할당
-      - "${DB_PORT}:8000"
+      - "${DB_PORT}:8000" # (호스트):(컨테이너)
 
   notification-microservice:
     build:
       context: . # 현재 디렉토리의 Dockerfile로 빌드
-      dockerfile: Dockerfile.notification
+      dockerfile: Dockerfile.notification # notification Dockerfile 사용
     container_name: notification-microservice
     networks:
       - reminder-service-network
+    env_file:
+      - notification/.env
+      - notification/.env.local
     environment:
-      - COGNITO_USER_POOL_ID=${COGNITO_USER_POOL_ID}
-      - COGNITO_CLIENT_ID=${COGNITO_CLIENT_ID}
-      - PORT=${PORT}
-      - MS_PORT=${MS_PORT}
-
       - DB_HOST=db-service
       - DB_PORT=8000
     ports:
@@ -33,6 +31,9 @@ services:
     container_name: worker-microservice
     networks:
       - reminder-service-network
+    env_file:
+      - worker/.env
+      - worker/.env.local
     environment:
       - MS_HOST=notification-microservice # notification-microservice 컨테이너의 할당 IP
       - MS_PORT=${MS_PORT}
