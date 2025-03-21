@@ -13,7 +13,7 @@ COPY worker/ worker/
 RUN npm install
 
 ## 애플리케이션 빌드
-RUN npm run build -workspace worker
+RUN npm run build:worker
 
 # 2. 실행 단계
 FROM node:18-alpine
@@ -27,7 +27,7 @@ COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
 
 ## 포트 설정
-EXPOSE 3005
+EXPOSE ${WORKER_PORT}
 
 ## 애플리케이션 실행
 CMD ["node", "dist/main.js"]

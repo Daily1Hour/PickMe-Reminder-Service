@@ -213,6 +213,7 @@ PickMe-Reminder-Service
 │  ├─ package.json
 │  ├─ tsconfig.build.json
 │  └─ tsconfig.json
+├─ .env # 공용 환경변수
 ├─ nest-cli.json # nestjs 모듈 구조 설정
 ├─ docker-compose.yml # 도커컴포즈
 │  ├─ Dockerfile.notification # 알림 마이크로서비스 도커파일
@@ -248,8 +249,5 @@ $ npm install
 $ npm run build
 
 # development
-$ npm run start:dev
-
-# production
-$ npm run start:prod
+$ npm run start
 ```

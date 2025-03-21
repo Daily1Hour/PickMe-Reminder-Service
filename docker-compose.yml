@@ -1,48 +1,51 @@
 services:
+  # Amazon DynamoDB 서비스
   db-service:
     image: amazon/dynamodb-local:latest
     container_name: db-service
-    networks: # 지정 네트워크에 연결
+    networks:
       - reminder-service-network
-    ports: # 외부에서 접근할 수 있도록 포트 할당
-      - "${DB_PORT}:8000" # (호스트):(컨테이너)
+    ports: 
+      - "${DB_PORT}:8000"
 
+  # 마이크로서비스 컨테이너 1
   notification-microservice:
     build:
       context: . # 현재 디렉토리의 Dockerfile로 빌드
       dockerfile: Dockerfile.notification # notification Dockerfile 사용
     container_name: notification-microservice
-    networks:
+    networks: # 지정 네트워크에 연결
       - reminder-service-network
     env_file:
-      - notification/.env
-      - notification/.env.local
+      - .env # 공용 환경 변수
+      - notification/.env # 마이크로서비스 환경 변수
+      - notification/.env.local # 시크릿 환경 변수
     environment:
-      - DB_HOST=db-service
-      - DB_PORT=8000
-    ports:
-      - "${PORT}:${PORT}"
+      - DB_HOST=db-service # db-service 컨테이너의 서비스 이름
+    ports: # 외부에서 접근할 수 있도록 포트 할당
+      - "${PORT}:${PORT}" # (호스트):(컨테이너)
       - "${MS_PORT}:${MS_PORT}"
 
+  # 마이크로서비스 컨테이너 2
   worker-microservice:
     build:
       context: .
-      dockerfile: Dockerfile.worker # worker Dockerfile 사용
+      dockerfile: Dockerfile.worker
     container_name: worker-microservice
     networks:
       - reminder-service-network
     env_file:
+      - .env
       - worker/.env
       - worker/.env.local
     environment:
-      - MS_HOST=notification-microservice # notification-microservice 컨테이너의 할당 IP
-      - MS_PORT=${MS_PORT}
-      - WORKER_PORT=${WORKER_PORT}
+      - MS_HOST=notification-microservice
     depends_on:
       - notification-microservice
     ports:
       - "${WORKER_PORT}:${WORKER_PORT}"
 
+# 네트워크 정의
 networks:
   reminder-service-network:
-    driver: bridge
+    driver: bridge # 브릿지 모드 사용
