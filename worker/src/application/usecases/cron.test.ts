@@ -1,4 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
+import { SchedulerRegistry } from "@nestjs/schedule";
+import { CronJob } from "cron";
 
 import { WorkerCronService } from "./cron";
 import { WorkerService } from "./service";
@@ -6,6 +8,7 @@ import { WorkerService } from "./service";
 describe("WorkerCronService", () => {
     let workerCronService: WorkerCronService;
     let workerService: WorkerService;
+    let schedulerRegistry: SchedulerRegistry;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -13,8 +16,12 @@ describe("WorkerCronService", () => {
                 WorkerCronService,
                 {
                     provide: WorkerService,
+                    useValue: { start: jest.fn() },
+                },
+                {
+                    provide: SchedulerRegistry,
                     useValue: {
-                        start: jest.fn(),
+                        addCronJob: jest.fn(),
                     },
                 },
             ],
@@ -22,20 +29,40 @@ describe("WorkerCronService", () => {
 
         workerCronService = module.get<WorkerCronService>(WorkerCronService);
         workerService = module.get<WorkerService>(WorkerService);
+        schedulerRegistry = module.get<SchedulerRegistry>(SchedulerRegistry);
     });
 
     it("서비스 정의", () => {
         expect(workerCronService).toBeDefined();
     });
 
-    it("handleClone으로 WorkerService 수행", async () => {
-        const consoleSpy = jest.spyOn(console, "log");
+    it("WorkerService 수행", async () => {
+        const startSpy = jest.spyOn(workerService, "start");
 
         await workerCronService.handleCron();
 
-        const commentArg = consoleSpy.mock.calls[0][0];
-        const timestampArg = consoleSpy.mock.calls[0][1];
-        expect(commentArg).toContain("잡 수행 시간:");
-        expect(timestampArg).toBeInstanceOf(Date);
+        expect(startSpy).toHaveBeenCalled();
+    });
+
+    describe("크론 잡 스케줄", () => {
+        it("기본 스케줄", () => {
+            const addCronJobSpy = jest.spyOn(schedulerRegistry, "addCronJob");
+
+            delete process.env.CRON_SCHEDULE; // 환경 변수를 삭제
+            workerCronService.onModuleInit();
+
+            expect(addCronJobSpy).toHaveBeenCalledWith("workerCronJob", expect.any(CronJob));
+        });
+
+        it("크론 작업을 생성하고 시작", () => {
+            const addCronJobSpy = jest.spyOn(schedulerRegistry, "addCronJob");
+            const cronJobSpy = jest.spyOn(CronJob.prototype, "start");
+
+            process.env.CRON_SCHEDULE = "EVERY_MINUTE"; // 환경 변수를 모킹
+            workerCronService.onModuleInit();
+
+            expect(addCronJobSpy).toHaveBeenCalledWith("workerCronJob", expect.any(CronJob));
+            expect(cronJobSpy).toHaveBeenCalled();
+        });
     });
 });
