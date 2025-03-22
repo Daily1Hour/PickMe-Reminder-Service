@@ -6,12 +6,11 @@ WORKDIR /app
 
 ## 패키지 파일 복사 및 의존성 설치
 COPY package*.json ./
-COPY global.d.ts ./
 COPY nest-cli.json ./
-RUN npm install
-
-## 소스 코드 복사
 COPY worker/ worker/
+
+## 의존성 설치
+RUN npm install
 
 ## 애플리케이션 빌드
 RUN npm run build:worker
@@ -28,7 +27,7 @@ COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
 
 ## 포트 설정
-EXPOSE 3005
+EXPOSE ${WORKER_PORT}
 
 ## 애플리케이션 실행
 CMD ["node", "dist/main.js"]
