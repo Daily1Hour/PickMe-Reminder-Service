@@ -2,6 +2,7 @@ declare global {
     namespace NodeJS {
         interface ProcessEnv {
             CRON_SCHEDULE: string;
+            NOTIFICATION_READ_RANGE: string;
 
             CALENDAR_API_URL: string;
             ONESIGNAL_APP_ID: string;

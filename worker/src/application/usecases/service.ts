@@ -3,6 +3,9 @@ import { Inject, Injectable } from "@nestjs/common";
 import { IWorkerClient, INotificationSender, IEventReceiver } from "../ports";
 import { EventDetail, NotificationStatus } from "../dto";
 
+// 알림 조회 범위
+const NOTIFICATION_READ_RANGE = Number(process.env.READ_RANGE) || 60 * 60 * 1000; // 1시간
+
 @Injectable()
 export class WorkerService {
     constructor(
@@ -13,7 +16,7 @@ export class WorkerService {
 
     async start() {
         const start_time = new Date();
-        const end_time = new Date(start_time.getTime() + 60 * 60 * 1000); // 1시간 후
+        const end_time = new Date(start_time.getTime() + NOTIFICATION_READ_RANGE);
 
         // 발송할 알림들
         const notifications = await this.client.readByOptions({
