@@ -5,6 +5,7 @@ import NotificationService from "./application/service";
 
 import NotificationHttpController from "presentation/controllers/httpController";
 import NotificationsMessageController from "presentation/controllers/messageController";
+import HealthCheckController from "presentation/controllers/healthCheckController";
 
 import DynamooseProvider from "infrastructure/dynamo/provider";
 import DynamoRepository from "infrastructure/dynamo/repository";
@@ -20,7 +21,11 @@ import DynamooseModel from "infrastructure/dynamo/model";
         },
         DynamooseModel,
     ],
-    controllers: [NotificationHttpController, NotificationsMessageController],
+    controllers: [
+        NotificationHttpController,
+        NotificationsMessageController,
+        HealthCheckController,
+    ],
     imports: [
         // 환경 변수 글로벌 설정
         ConfigModule.forRoot({
