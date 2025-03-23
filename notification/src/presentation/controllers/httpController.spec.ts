@@ -41,7 +41,7 @@ describe("NotificationController", () => {
 
         jest.spyOn(service, "register").mockResolvedValue(response);
 
-        return request(app.getHttpServer()).post("/").send(dto).expect(201);
+        return request(app.getHttpServer()).post("/reminder").send(dto).expect(201);
     });
 
     describe("NotificationController", () => {
@@ -80,7 +80,7 @@ describe("NotificationController", () => {
 
             jest.spyOn(service, "register").mockResolvedValue(response);
 
-            return request(app.getHttpServer()).post("/").send(dto).expect(201);
+            return request(app.getHttpServer()).post("/reminder").send(dto).expect(201);
         });
 
         it("/GET read", async () => {
@@ -88,7 +88,7 @@ describe("NotificationController", () => {
 
             jest.spyOn(service, "get").mockResolvedValue(response);
 
-            return request(app.getHttpServer()).get("/1").expect(200);
+            return request(app.getHttpServer()).get("/reminder/1").expect(200);
         });
 
         it("/GET readByOptions", async () => {
@@ -97,7 +97,7 @@ describe("NotificationController", () => {
 
             jest.spyOn(service, "getFilteredList").mockResolvedValue(response);
 
-            return request(app.getHttpServer()).get("/").query(query).expect(200);
+            return request(app.getHttpServer()).get("/reminder").query(query).expect(200);
         });
 
         it("/PUT update", async () => {
@@ -110,7 +110,7 @@ describe("NotificationController", () => {
 
             jest.spyOn(service, "register").mockResolvedValue(response);
 
-            return request(app.getHttpServer()).put("/1").send(bodyDTO).expect(200);
+            return request(app.getHttpServer()).put("/reminder/1").send(bodyDTO).expect(200);
         });
 
         it("/PATCH updatePartial", async () => {
@@ -122,7 +122,7 @@ describe("NotificationController", () => {
 
             jest.spyOn(service, "update").mockResolvedValue(response);
 
-            return request(app.getHttpServer()).patch("/1").send(bodyDTO).expect(200);
+            return request(app.getHttpServer()).patch("/reminder/1").send(bodyDTO).expect(200);
         });
 
         it("/DELETE delete", async () => {
@@ -130,7 +130,7 @@ describe("NotificationController", () => {
 
             jest.spyOn(service, "delete").mockResolvedValue(response);
 
-            return request(app.getHttpServer()).delete("/1").expect(200);
+            return request(app.getHttpServer()).delete("/reminder/1").expect(200);
         });
 
         afterAll(async () => {

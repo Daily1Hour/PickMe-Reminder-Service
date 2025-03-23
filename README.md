@@ -53,14 +53,15 @@
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swagger/swagger-original.svg" width='50px' >열기</img>
 </a>
 
-| Method | URI         | Summary   | Request Header                     | Query String                                              | Request Body                                             | Code                                                |
-| ------ | ----------- | --------- | ---------------------------------- | --------------------------------------------------------- | -------------------------------------------------------- | --------------------------------------------------- |
-| POST   | /           | 등록      | Authorization:<br> Bearer \<token> |                                                           | event_id: string <br> send_at: date <br> status: enum    | 201: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
-| GET    | /           | 옵션 조회 | Authorization:<br> Bearer \<token> | start_date?: date <br> end_date?: date <br> status?: enum |                                                          | 200: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
-| GET    | /{event_id} | 조회      | Authorization:<br> Bearer \<token> |                                                           |                                                          | 200: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
-| PUT    | /{event_id} | 수정      | Authorization:<br> Bearer \<token> |                                                           | event_id: string <br> send_at: date <br> status: enum    | 200: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
-| PATCH  | /{event_id} | 부분 수정 | Authorization:<br> Bearer \<token> |                                                           | event_id?: string <br> send_at?: date <br> status?: enum | 200: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
-| DELETE | /{event_id} | 삭제      | Authorization:<br> Bearer \<token> |                                                           |                                                          | 200: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
+| Method | URI                  | Summary   | Request Header                     | Query String                                              | Request Body                                             | Code                                                |
+| ------ | -------------------- | --------- | ---------------------------------- | --------------------------------------------------------- | -------------------------------------------------------- | --------------------------------------------------- |
+| POST   | /reminder/           | 등록      | Authorization:<br> Bearer \<token> |                                                           | event_id: string <br> send_at: date <br> status: enum    | 201: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
+| GET    | /reminder/           | 옵션 조회 | Authorization:<br> Bearer \<token> | start_date?: date <br> end_date?: date <br> status?: enum |                                                          | 200: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
+| GET    | /reminder/{event_id} | 조회      | Authorization:<br> Bearer \<token> |                                                           |                                                          | 200: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
+| PUT    | /reminder/{event_id} | 수정      | Authorization:<br> Bearer \<token> |                                                           | event_id: string <br> send_at: date <br> status: enum    | 200: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
+| PATCH  | /reminder/{event_id} | 부분 수정 | Authorization:<br> Bearer \<token> |                                                           | event_id?: string <br> send_at?: date <br> status?: enum | 200: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
+| DELETE | /reminder/{event_id} | 삭제      | Authorization:<br> Bearer \<token> |                                                           |                                                          | 200: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
+| GET    | /                    | 헬스체크  |                                    |                                                           |                                                          | 200: 성공                                           |
 
 ### 📋 테스트 리포트
 
@@ -68,10 +69,10 @@
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jest/jest-plain.svg" width='50px' >열기</img>
 </a>
 
-| Test Suites | Tests       | Snapshots | Time       |
-| ----------- | ----------- | --------- | ---------- |
-| _7 total_   | _26 total_  | _0 total_ |
-| _7 passed_  | _26 passed_ |           | _31.842 s_ |
+| Test Suites | Tests       | Snapshots | Time      |
+| ----------- | ----------- | --------- | --------- |
+| _7 total_   | _28 total_  | _0 total_ |
+| _7 passed_  | _28 passed_ |           | _14.94 s_ |
 
 ## 📊 다이어그램
 
@@ -154,6 +155,8 @@ PickMe-Reminder-Service
 │  │  ├─ module.ts # 의존성 주입 모듈
 │  │  ├─ presentation # 프레임워크 계층
 │  │  │  ├─ controllers
+│  │  │  │  ├─ healthCheckController.ts # 헬스체크
+│  │  │  │  ├─ healthCheckController.spec.ts
 │  │  │  │  ├─ httpController.ts # Http API
 │  │  │  │  ├─ httpController.spec.ts
 │  │  │  │  ├─ messageController.ts # Tcp API
@@ -237,7 +240,7 @@ PickMe-Reminder-Service
 $ docker-compose up --build
 
 # run
-$ docker-compose -d
+$ docker-compose up -d
 ```
 
 ### 로컬환경

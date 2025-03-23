@@ -15,6 +15,11 @@ export class JwtInterceptor implements NestInterceptor {
         const request = context.switchToHttp().getRequest(); // request 객체 가져오기
         const token = request.headers["authorization"]?.split(" ")[1]; // 'Bearer <token>'
 
+        const controller = context.getClass();
+        if (controller.name === "HealthCheckController") {
+            return next.handle(); // 헬스체크 경로에서는 인터셉터를 적용하지 않음
+        }
+
         if (!token) {
             throw new UnauthorizedException("JWT token is missing");
         }
