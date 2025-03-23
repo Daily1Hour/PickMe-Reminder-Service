@@ -12,7 +12,7 @@ import NotificationService from "application/service";
 
 import { CreateRequestDTO, ReadRequestDTO, UpdateRequestDTO, ParametersDTO } from "../dtos";
 
-@Controller("/")
+@Controller("/reminder/")
 @ApiTags("HTTP API")
 @ApiBearerAuth()
 @ApiResponse({ status: 401, description: "권한 없음" })

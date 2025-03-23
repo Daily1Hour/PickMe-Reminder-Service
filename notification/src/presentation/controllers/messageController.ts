@@ -7,7 +7,7 @@ import NotificationService from "application/service";
 import { ParametersDTO, UpdateRequestDTO } from "../dtos";
 import { PayloadEX } from "utility/decorators";
 
-@Controller("message")
+@Controller("/reminder/message/")
 @ApiTags("TCP API")
 export default class NotificationsMessageController {
     constructor(private readonly service: NotificationService) {}
