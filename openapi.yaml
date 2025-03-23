@@ -1,6 +1,6 @@
 openapi: 3.0.0
 paths:
-  /:
+  /reminder:
     post:
       operationId: NotificationHttpController_create
       parameters: []
@@ -69,7 +69,7 @@ paths:
       summary: '알림 옵션 조회'
       tags:
         - 'HTTP API'
-  '/{event_id}':
+  '/reminder/{event_id}':
     get:
       operationId: NotificationHttpController_read
       parameters:
@@ -177,7 +177,7 @@ paths:
       summary: '알림 삭제'
       tags:
         - 'HTTP API'
-  /message/docs:
+  /reminder/message/docs:
     get:
       description: '이 API는 메시지 브로커를 통해 동작하며, HTTP 요청으로는 사용되지 않습니다.'
       operationId: NotificationsMessageController_readByOptions
@@ -210,6 +210,16 @@ paths:
       summary: '알림 부분 수정'
       tags:
         - 'TCP API'
+  /:
+    get:
+      operationId: HealthCheckController_healthCheck
+      parameters: []
+      responses:
+        '200':
+          description: '성공적으로 조회'
+      summary: '헬스 체크'
+      tags:
+        - 'Health Check'
 info:
   title: '알림 API'
   description: 'API 명세서'
