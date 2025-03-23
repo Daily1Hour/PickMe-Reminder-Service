@@ -18,6 +18,7 @@ services:
       - reminder-service-network
     env_file:
       - .env # 공용 환경 변수
+      - .env.local # 공용 시크릿 환경 변수
       - notification/.env # 마이크로서비스 환경 변수
       - notification/.env.local # 시크릿 환경 변수
     environment:
@@ -36,6 +37,7 @@ services:
       - reminder-service-network
     env_file:
       - .env
+      - .env.local
       - worker/.env
       - worker/.env.local
     environment:
