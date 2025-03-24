@@ -15,6 +15,12 @@ export class WorkerClientImpl implements IWorkerClient {
             host: process.env.MS_HOST || "localhost", // Notification 서비스의 호스트
             port: process.env.MS_PORT || 3001, // Notification 서비스의 포트
         });
+
+        // 연결 에러 처리
+        this.client.handleError = (error) => {
+            console.error("Connection error", error);
+            this.isConnected = false;
+        };
     }
 
     async onModuleInit() {
@@ -47,7 +53,7 @@ export class WorkerClientImpl implements IWorkerClient {
         }
 
         try {
-            console.log("Trying to connect...");
+            console.log(`Trying to connect... ${this.client["host"]}:${this.client["port"]}`);
             await this.client.connect();
             console.log("Connected successfully!");
             this.isConnected = true;
