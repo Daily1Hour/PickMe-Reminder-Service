@@ -10,8 +10,6 @@ declare global {
 
             MS_HOST: string;
             MS_PORT: number;
-
-            WORKER_PORT: number;
         }
     }
 }
