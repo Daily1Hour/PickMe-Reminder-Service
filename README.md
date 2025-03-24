@@ -69,10 +69,10 @@
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jest/jest-plain.svg" width='50px' >열기</img>
 </a>
 
-| Test Suites | Tests       | Snapshots | Time      |
-| ----------- | ----------- | --------- | --------- |
-| _7 total_   | _28 total_  | _0 total_ |
-| _7 passed_  | _28 passed_ |           | _14.94 s_ |
+| Test Suites | Tests       | Snapshots | Time       |
+| ----------- | ----------- | --------- | ---------- |
+| _8 total_   | _32 total_  | _0 total_ |
+| _8 passed_  | _32 passed_ |           | _16.675 s_ |
 
 ## 📊 다이어그램
 
@@ -201,13 +201,14 @@ PickMe-Reminder-Service
 │  │  │  │  ├─ index.ts
 │  │  │  │  ├─ calendarClient.ts
 │  │  │  │  └─ onesignalClient.ts
-│  │  │  ├─ clientImpl.ts # 마이크로서비스 호출 구현체
 │  │  │  ├─ receivers
 │  │  │  │  ├─ calendarReceiver.ts # 캘린더 서비스 구현체
 │  │  │  │  └─ calendarReceiver.test.ts
-│  │  │  └─ senders
-│  │  │     ├─ webSender.ts # 웹 메시지 발송 구현체
-│  │  │     └─ webSender.test.ts
+│  │  │  ├─ senders
+│  │  │  │  ├─ webSender.ts # 웹 메시지 발송 구현체
+│  │  │  │  └─ webSender.test.ts
+│  │  │  ├─ clientImpl.ts # 마이크로서비스 호출 구현체
+│  │  │  └─ clientImpl.test.ts
 │  │  ├─ main.ts # 서버 실행 진입점
 │  │  └─ module.ts # 의존성 주입 모듈
 │  ├─ .env
@@ -237,7 +238,7 @@ PickMe-Reminder-Service
 
 ```sh
 # build
-$ docker-compose up --build
+$ docker-compose build
 
 # run
 $ docker-compose up -d

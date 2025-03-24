@@ -18,6 +18,9 @@ export class WorkerService {
         const start_time = new Date();
         const end_time = new Date(start_time.getTime() + NOTIFICATION_READ_RANGE);
 
+        // 마이크로서비스 연결 확인
+        await this.client.ensureConnected();
+
         // 발송할 알림들
         const notifications = await this.client.readByOptions({
             start_time,

@@ -26,8 +26,5 @@ COPY --from=builder /app/dist/worker/ ./dist
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
 
-## 포트 설정
-EXPOSE ${WORKER_PORT}
-
 ## 애플리케이션 실행
 CMD ["node", "dist/main.js"]

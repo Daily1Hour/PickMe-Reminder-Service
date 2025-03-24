@@ -44,8 +44,6 @@ services:
       - MS_HOST=notification-microservice
     depends_on:
       - notification-microservice
-    ports:
-      - "${WORKER_PORT}:${WORKER_PORT}"
 
 # 네트워크 정의
 networks:
