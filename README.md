@@ -81,22 +81,19 @@
 
 ![usecase](https://github.com/user-attachments/assets/d1527c03-5d4a-40d2-aa51-e4b31920c25e)
 
-### 📦 배치 다이어그램
-
-![deployment](https://github.com/user-attachments/assets/8f36e425-cc3f-4d7a-9f5c-66e133bbfc81)
-
-1. **NestJS 프레임워크**를 사용해 백엔드 서비스 구축
-2. NestJS의 *MicroService 모듈*을 사용해 두 개의 마이크로서비스로 구현
-3. **Notification 서비스**
-    - _REST API_ 방식으로 외부 요청을 처리
-    - **DynamoDB**를 사용해 데이터베이스 관리
-4. **Worker 서비스**
-    - *NestJS Schedule 라이브러리*를 사용해 _Cron Job_ 설정으로 주기 작업 처리
-    - 마이크로서비스 간 *TCP 연결*을 통해 Notification 서비스에서 데이터 읽기
-    - REST API로 외부 서비스 (Calendar 서비스)에서 데이터 요청
-    - 데이터 통합하고 **OneSignal**를 통해 알림을 전송
-5. 각 마이크로 서비스는 **Docker Image** 생성하여 컨테이너화
-6. **Docker Compose**로 마이크로서비스와 관련 서비스(DB)를 관리하고 배포
+1. _사용자 (Actor)_
+    - 웹사이트 사용자: 이벤트를 등록하고 알림을 받는 사용자
+    - 알림 워커: 정기적으로 메시지를 처리하고 전송하는 시스템
+2. _유즈케이스 (Use Case)_
+    - 알림 등록: 사용자가 새로운 이벤트 알림을 등록하는 기능
+    - 알림 삭제: 사용자가 기존에 등록된 알림을 삭제하는 기능
+    - 알림 확인: 사용자가 등록된 알림 목록을 확인하는 기능
+    - 메시지 상태 확인:알림 워커가 이벤트를 읽는 기능
+    - 메시지 전송: 알림 워커가 메시지를 사용자에게 전송하는 기능
+3. _상호작용 (Interaction)_
+    - 웹사이트 사용자 ↔ 알림 서비스: 웹사이트 사용자가 이벤트 정보를 입력하여 알림 등록을 요청
+    - 알림 워커 ↔ 알림 서비스: 알림 워커가 알림 서비스에 등록된 이벤트 정보를 확인
+    - 알림 워커 ↔ OneSignal: 알림 워커가 OneSignal을 통해 알림 메시지를 사용자에게 전송
 
 ### 🔀 데이터 흐름 다이어그램
 
@@ -130,6 +127,29 @@ flowchart LR
    Calendar --> data --> Worker/Cron
    Worker/Cron --> |HTTP| message@{ shape: bow-rect, label: "메시지" } --> OneSignal
 ```
+
+1. 웹사이트에서 *이벤트 정보*를 Notification 서비스 등록 서버에 REST 방식으로 전송
+2. Notification 서비스는 데이터를 DynamoDB로 관리
+3. Worker 서비스의 스케줄러가 정기적으로 등록 서버에서 TCP 연결로 데이터 읽음
+4. 데이터가 존재하면 외부 Calendar 서비스에서 *상세 정보*를 가져옴
+5. 데이터를 통합하여 *메시지*로 만들어 OneSignal로 전송
+
+### 📦 배치 다이어그램
+
+![deployment](https://github.com/user-attachments/assets/8f36e425-cc3f-4d7a-9f5c-66e133bbfc81)
+
+1. **NestJS 프레임워크**를 사용해 백엔드 서비스 구축
+2. NestJS의 *MicroService 모듈*을 사용해 두 개의 마이크로서비스로 구현
+3. **Notification 서비스**
+    - _REST API_ 방식으로 외부 요청을 처리
+    - **DynamoDB**를 사용해 데이터베이스 관리
+4. **Worker 서비스**
+    - *NestJS Schedule 라이브러리*를 사용해 _Cron Job_ 설정으로 주기 작업 처리
+    - 마이크로서비스 간 *TCP 연결*을 통해 Notification 서비스에서 데이터 읽기
+    - REST API로 외부 서비스 (Calendar 서비스)에서 데이터 요청
+    - 데이터 통합하고 **OneSignal**를 통해 알림을 전송
+5. 각 마이크로 서비스는 **Docker Image** 생성하여 컨테이너화
+6. **Docker Compose**로 마이크로서비스와 관련 서비스(DB)를 관리하고 배포
 
 ### 🗺️ AWS 아키텍처 다이어그램
 
