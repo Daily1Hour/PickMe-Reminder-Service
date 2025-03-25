@@ -83,7 +83,20 @@
 
 ### 📦 배치 다이어그램
 
-![batch](https://github.com/user-attachments/assets/8f36e425-cc3f-4d7a-9f5c-66e133bbfc81)
+![deployment](https://github.com/user-attachments/assets/8f36e425-cc3f-4d7a-9f5c-66e133bbfc81)
+
+1. **NestJS 프레임워크**를 사용해 백엔드 서비스 구축
+2. NestJS의 *MicroService 모듈*을 사용해 두 개의 마이크로서비스로 구현
+3. **Notification 서비스**
+    - _REST API_ 방식으로 외부 요청을 처리
+    - **DynamoDB**를 사용해 데이터베이스 관리
+4. **Worker 서비스**
+    - *NestJS Schedule 라이브러리*를 사용해 _Cron Job_ 설정으로 주기 작업 처리
+    - 마이크로서비스 간 *TCP 연결*을 통해 Notification 서비스에서 데이터 읽기
+    - REST API로 외부 서비스 (Calendar 서비스)에서 데이터 요청
+    - 데이터 통합하고 **OneSignal**를 통해 알림을 전송
+5. 각 마이크로 서비스는 **Docker Image** 생성하여 컨테이너화
+6. **Docker Compose**로 마이크로서비스와 관련 서비스(DB)를 관리하고 배포
 
 ### 🔀 데이터 흐름 다이어그램
 
@@ -122,14 +135,14 @@ flowchart LR
 
 ![aws-architecture](https://github.com/user-attachments/assets/92c1a636-5431-45d3-82ba-ce8c94d384fa)
 
-1. ECR(Elastic Container Registery)에 Docker 이미지 업로드
-2. ECS(Elastic Container Service) Cluster 생성
-    - 두 서비스 간의 연결을 위해 브릿지 모드 설정
-3. ECS의 용량 공급자로 EC2 인스턴스 생성 (Auto Scaling 적용)
-4. ECR 이미지를 기반으로 Task Definition 생성
-5. Task Definition을 바탕으로 ECS 서비스 생성
-6. ECS 서비스에서 태스크 실행 (Auto Scaling 적용)
-7. ALB(Application Load Balencer) 연결을 통해 외부 트래픽 라우팅
+1. **ECR(Elastic Container Registery)** 에 Docker 이미지 업로드
+2. **ECS(Elastic Container Service) Cluster** 생성
+    - 두 서비스 간의 연결을 위해 **브릿지 모드** 설정
+3. ECS의 *용량 공급자*로 **EC2 인스턴스** 생성 (_Auto Scaling_ 적용)
+4. *ECR 이미지*를 기반으로 _Task Definition_ 생성
+5. **Task Definition**을 바탕으로 _ECS 서비스_ 생성
+6. **ECS 서비스**에서 태스크 실행 (**Auto Scaling** 적용)
+7. **ALB(Application Load Balencer)** 연결을 통해 외부 트래픽 라우팅
 
 ## 📂 폴더 구조
 
