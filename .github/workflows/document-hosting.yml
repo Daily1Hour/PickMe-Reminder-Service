@@ -29,6 +29,9 @@ jobs:
       - name: Run generate
         run: npm run test # 테스트 리포트 생성 
 
+      - name: Documentation
+        run: npm run docs # 문서 빌드
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:

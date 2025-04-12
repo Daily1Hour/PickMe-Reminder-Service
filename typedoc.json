@@ -1,0 +1,10 @@
+{
+    "entryPoints": ["notification/src", "worker/src"],
+    "entryPointStrategy": "expand",
+    "tsconfig": "tsconfig.json",
+    "out": "dist/docs",
+    "highlightLanguages": ["ts", "js", "json", "python", "mermaid", "sh"],
+    "validation": {
+        "notExported": true
+    }
+}

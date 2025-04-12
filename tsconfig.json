@@ -1,0 +1,13 @@
+{
+    "files": [],
+    "include": ["../notification/src/**/*.ts", "../worker/src/**/*.ts"],
+    "exclude": ["node_modules", "dist"],
+    "references": [
+        {
+            "path": "notification"
+        },
+        {
+            "path": "worker"
+        }
+    ]
+}
