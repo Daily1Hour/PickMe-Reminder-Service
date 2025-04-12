@@ -8,6 +8,7 @@
 - [💡 주요 기능](#-주요-기능)
 - [📖 개발 문서](#-개발-문서)
     - [📄 API 명세서](#-API-명세서)
+    - [📘 타입 문서](#-타입-문서)
     - [📋 테스트 리포트](#-테스트-리포트)
 - [📊 다이어그램](#-다이어그램)
     - [🔹 유즈케이스 다이어그램](#-유즈케이스-다이어그램)
@@ -63,6 +64,15 @@
 | PATCH  | /reminder/{event_id} | 부분 수정 | Authorization:<br> Bearer \<token> |                                                           | event_id?: string <br> send_at?: date <br> status?: enum | 200: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
 | DELETE | /reminder/{event_id} | 삭제      | Authorization:<br> Bearer \<token> |                                                           |                                                          | 200: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
 | GET    | /                    | 헬스체크  |                                    |                                                           |                                                          | 200: 성공                                           |
+
+### 📘 타입 문서
+
+> 프로젝트에서 사용되는 타입 정의를 문서화한 자료입니다.  
+> 이 타입 문서는 매 릴리즈 업데이트 시 자동으로 최신 상태로 배포됩니다.
+
+<a href="https://daily1hour.github.io/PickMe-Reminder-Service/docs">
+<img src="https://github.com/user-attachments/assets/dee55d3d-0690-4c19-8c12-130338565d3a" width='50px' >타입 문서 바로가기</img>
+</a>
 
 ### 📋 테스트 리포트
 
