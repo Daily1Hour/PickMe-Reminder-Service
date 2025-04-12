@@ -2,6 +2,15 @@ import { createParamDecorator, ExecutionContext, BadRequestException } from "@ne
 import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 
+/**
+ * `PayloadEX` 데코레이터는 RPC 컨텍스트에서 전달된 메시지의 payload를 특정 DTO 클래스로 변환하고,
+ * 해당 DTO 인스턴스에 대해 유효성 검사를 수행합니다.
+ *
+ * @param DTOClass - 변환 및 유효성 검사에 사용할 DTO 클래스
+ * @returns 변환되고 유효성이 검증된 DTO 인스턴스
+ *
+ * @throws {BadRequestException} 유효성 검사에 실패한 경우 예외를 발생시킵니다.
+ */
 export function PayloadEX(DTOClass: any) {
     return createParamDecorator(async (_data: unknown, ctx: ExecutionContext) => {
         // 메시지의 payload 가져오기

@@ -6,6 +6,11 @@ import { NestFactory } from "@nestjs/core";
 import { NotificationModule } from "../module";
 import generatorSwagger from "./generatorSwagger";
 
+/**
+ * OpenAPI 명세서를 생성하고 YAML 파일로 저장하는 함수입니다.
+ *
+ * @throws 디렉토리 생성 또는 파일 쓰기 중 오류가 발생할 경우 에러를 출력하고 프로세스를 종료합니다.
+ */
 async function openapi() {
     const app = await NestFactory.create(NotificationModule);
 
