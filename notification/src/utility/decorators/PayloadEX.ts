@@ -11,8 +11,8 @@ import { validate } from "class-validator";
  *
  * @throws {BadRequestException} 유효성 검사에 실패한 경우 예외를 발생시킵니다.
  */
-export function PayloadEX(DTOClass: any) {
-    return createParamDecorator(async (_data: unknown, ctx: ExecutionContext) => {
+export const PayloadEXFactory =
+    (DTOClass: any) => async (_data: unknown, ctx: ExecutionContext) => {
         // 메시지의 payload 가져오기
         const payload = ctx.switchToRpc().getData();
 
@@ -28,5 +28,8 @@ export function PayloadEX(DTOClass: any) {
         }
 
         return dtoInstance;
-    })();
+    };
+
+export function PayloadEX(DTOClass: any) {
+    return createParamDecorator(PayloadEXFactory(DTOClass))();
 }
