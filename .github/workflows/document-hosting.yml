@@ -1,6 +1,7 @@
-name: Documentation Hosting
+name: docs ci/cd
 
 on:
+  workflow_dispatch: # 수동으로 실행 가능
   push:
     tags: # 태그가 푸시될 때만 실행
       - "v*.*.*"
@@ -26,8 +27,13 @@ jobs:
       - name: Install dependencies
         run: npm ci # 의존성 설치
 
-      - name: Run generate
+      - name: Make test report
         run: npm run test # 테스트 리포트 생성 
+
+      - name: Upload coverage reports to Codecov # Codecov에 커버리지 리포트 업로드
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -49,6 +55,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci # 의존성 설치
+
+      - name: Documentation
+        run: npm run docs # 타입 문서 생성
 
       - name: Run generate openapi specification
         run: npm run generate-openapi # OpenAPI 명세서를 생성

@@ -1,23 +1,41 @@
 module.exports = {
-    projects: ["<rootDir>/notification", "<rootDir>/worker"],
-
-    rootDir: ".", // 루트 경로 지정
-    moduleFileExtensions: ["js", "json", "ts"], // jest가 해석할 파일 확장자 지정
-    testRegex: ".*\\.(spec|test)\\.ts$", // 테스트 파일 이름 지정
-    collectCoverageFrom: ["**/*.(t|j)s"], // 테스트 커버리지 측정 대상 파일 지정
-    coverageDirectory: "../coverage", // 커버리지 보고서
+    // 기본 설정
+    preset: "ts-jest",
     testEnvironment: "node",
+    rootDir: ".", // 루트 경로 지정
+    moduleFileExtensions: ["js", "ts", "json"],
 
-    // html 리포터 설정
+    projects: [
+        // 워크스페이스
+        "<rootDir>/notification",
+        "<rootDir>/worker",
+        // 루트 e2e
+        "<rootDir>/test"
+    ],
+
+    // 커버리지 수집 설정
+    collectCoverage: true,
+    collectCoverageFrom: [
+        "**/*.{ts,js}",
+        "!**/node_modules/**",
+        "!**/dist/**",
+        "!**/*.config.{ts,js}",
+        "!**/*.d.ts",
+    ],
+    coverageDirectory: "dist/coverage",
+    coverageReporters: ["html", "lcov", "text-summary"],
+
+    // 리포터 설정 (기본 + HTML 리포트)
     reporters: [
         "default",
         [
             "jest-html-reporters",
             {
+                pageTitle: "Reminder Test Report",
                 publicPath: "./dist",
                 filename: "test-report.html",
-                includeFailureMsg: true, // 실패한 테스트 케이스의 실패 메시지
-                expand: true, // 테스트 케이스의 세부 정보
+                includeFailureMsg: true, // 실패 메시지 포함
+                expand: true, // 모든 테스트 결과 확장
             },
         ],
     ],

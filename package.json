@@ -17,6 +17,7 @@
     "start": "concurrently \"npm run start:notification\" \"npm run start:worker\"",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "docs": "typedoc",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -57,6 +58,7 @@
     "ts-loader": "^9.4.3",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
+    "typedoc": "^0.28.2",
     "typescript": "^5.1.3"
   }
 }

@@ -2,6 +2,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "node",
+    "composite": true,
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -19,7 +20,7 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
   },
-  "include": ["src/**/*.ts", "global.d.ts"],
+  "include": ["src/**/*.ts", "test/**/*.ts", "global.d.ts"],
   "ts-node": {
     "files": true
   }

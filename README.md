@@ -2,31 +2,33 @@
 
 > API를 통해 알림 시간을 관리하고, 스케쥴러가 매시간 알림을 발송하는 서비스
 
+[![GitHub release](https://img.shields.io/github/v/release/Daily1Hour/PickMe-Reminder-Service)](https://github.com/Daily1Hour/PickMe-Reminder-Service/releases) [![API Docs](https://img.shields.io/badge/docs-OpenAPI-blue?logo=swagger)](https://daily1hour.github.io/PickMe-Reminder-Service/) [![cicd](https://github.com/Daily1Hour/PickMe-Reminder-Service/actions/workflows/document-hosting.yml/badge.svg)](https://github.com/Daily1Hour/PickMe-Reminder-Service/actions/workflows/document-hosting.yml) [![codecov](https://codecov.io/gh/Daily1Hour/PickMe-Reminder-Service/branch/main/graph/badge.svg)](https://codecov.io/gh/Daily1Hour/PickMe-Reminder-Service)
+
 ## 🚩 목차
 
 - [🛠️ 기술 스택](#️-기술-스택)
 - [💡 주요 기능](#-주요-기능)
 - [📖 개발 문서](#-개발-문서)
-    - [📄 API 명세서](#-API-명세서)
-    - [📋 테스트 리포트](#-테스트-리포트)
-- [📊 다이어그램](#-다이어그램)
+    - [📄 API 명세서](#-api-명세서)
+    - [📘 타입 문서](#-타입-문서)
+    - [🧪 테스트 리포트](#-테스트-리포트)
+- [📐 다이어그램](#-다이어그램)
     - [🔹 유즈케이스 다이어그램](#-유즈케이스-다이어그램)
     - [🔀 데이터 흐름 다이어그램](#-데이터-흐름-다이어그램)
     - [📦 배치 다이어그램](#-배치-다이어그램)
     - [🗺️ AWS 아키텍처 다이어그램](#️-aws-아키텍처-다이어그램)
+    - [🚚 CI/CD 파이프라인](#-cicd-파이프라인)
 - [📂 폴더 구조](#-폴더-구조)
 - [🚀 실행 방법](#-실행-방법)
 
 ## 🛠️ 기술 스택
 
-[![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=flat&logo=nestjs&logoColor=white)](https://nestjs.com/)
-[![OneSignal](https://img.shields.io/badge/OneSignal-E54B4D.svg?logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTQ5LjcwMiAwQzY2Ljk0NC4xNjEtLjQ2OCA2OC4xMS4wMDIgMTUwLjg2N2MuNDE0IDc3LjI5MiA1OS4zNTYgMTQwLjc0NiAxMzQuNzU4IDE0OC4zNTVhMS43MjcgMS43MjcgMCAwIDAgMS44OTYtMS43MjRWMTQ5Ljk5OWgtMTEuNjJhMS43MjUgMS43MjUgMCAwIDEtMS43MjQtMS43MjR2LTIzLjI1M2ExLjcyIDEuNzIgMCAwIDEgMS43MjQtMS43MjRoMzYuNTg2YTEuNzI1IDEuNzI1IDAgMCAxIDEuNzI0IDEuNzI0djE3Mi40NzZhMS43MTggMS43MTggMCAwIDAgLjU2MiAxLjI4MiAxLjczOCAxLjczOCAwIDAgMCAxLjMyOS40NDJDMjQwLjkyIDI5MS41ODQgMzAwIDIyNy42OTQgMzAwIDE0OS45OTkgMzAwIDY3LjA1NyAyMzIuNjc5LS4xNjEgMTQ5LjcwMiAwem00Mi42NjcgMjY1LjgwM2ExLjcyNCAxLjcyNCAwIDAgMS0yLjI5OS0xLjYyN3YtMjQuNjJhMi41OSAyLjU5IDAgMCAxIDEuNDgzLTIuMzM0IDk2LjcyNyA5Ni43MjcgMCAwIDAgNTUuMDU3LTg3LjIyM2MwLTUzLjc3NS00NC4xNjEtOTcuNDI0LTk4LjExNS05Ni41OTctNTEuMzIxLjc4Mi05My40MTggNDIuMTU1LTk1LjA1NiA5My40NTNhOTYuNzA5IDk2LjcwOSAwIDAgMCA1NS4wMjIgOTAuMzY3IDIuNTkgMi41OSAwIDAgMSAxLjQ4OSAyLjMzNHYyNC42MjZhMS43MjMgMS43MjMgMCAwIDEtMi4yOTkgMS42MjZDNjAuMTI4IDI0OC4zNzcgMjYuMjE1IDIwMi40NyAyNi43MDMgMTQ4Ljg1IDI3LjMwNyA4MS44NjcgODIuMDI1IDI3LjIxOCAxNDkuMDMgMjYuNzAxIDIxNy40NiAyNi4xNzIgMjczLjI5OSA4MS42OSAyNzMuMjk5IDE1MGMwIDUzLjEyLTMzLjc2NCA5OC40OTktODAuOTMgMTE1LjgwNHoiIGZpbGw9IiNGRkYiLz48L3N2Zz4=&style=flat&logoColor)](https://onesignal.com/)
-[![Amazon DynamoDB](https://img.shields.io/badge/DynamoDB-4053D6?style=flat&logo=amazondynamodb&logoColor=white)](https://aws.amazon.com/ko/dynamodb/)  
-[![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=Docker&logoColor=white)](https://www.docker.com/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)  
-[![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=flat&logo=swagger&logoColor=black)](https://swagger.io/)
-[![Jest](https://img.shields.io/badge/Jest-C21325?style=flat&logo=jest&logoColor=white)](https://jestjs.io/)
-[![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=flat&logo=eslint&logoColor=white)](https://eslint.org/)
+[![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=flat&logo=nestjs&logoColor=white)](https://nestjs.com/) [![NodeJS](https://img.shields.io/badge/Node.js-6DA55F?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/ko)  
+[![DynamoDB](https://img.shields.io/badge/DynamoDB-4053D6?style=flat&logo=amazondynamodb&logoColor=white)](https://aws.amazon.com/ko/dynamodb/) [![OneSignal](https://img.shields.io/badge/OneSignal-E54B4D.svg?logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTQ5LjcwMiAwQzY2Ljk0NC4xNjEtLjQ2OCA2OC4xMS4wMDIgMTUwLjg2N2MuNDE0IDc3LjI5MiA1OS4zNTYgMTQwLjc0NiAxMzQuNzU4IDE0OC4zNTVhMS43MjcgMS43MjcgMCAwIDAgMS44OTYtMS43MjRWMTQ5Ljk5OWgtMTEuNjJhMS43MjUgMS43MjUgMCAwIDEtMS43MjQtMS43MjR2LTIzLjI1M2ExLjcyIDEuNzIgMCAwIDEgMS43MjQtMS43MjRoMzYuNTg2YTEuNzI1IDEuNzI1IDAgMCAxIDEuNzI0IDEuNzI0djE3Mi40NzZhMS43MTggMS43MTggMCAwIDAgLjU2MiAxLjI4MiAxLjczOCAxLjczOCAwIDAgMCAxLjMyOS40NDJDMjQwLjkyIDI5MS41ODQgMzAwIDIyNy42OTQgMzAwIDE0OS45OTkgMzAwIDY3LjA1NyAyMzIuNjc5LS4xNjEgMTQ5LjcwMiAwem00Mi42NjcgMjY1LjgwM2ExLjcyNCAxLjcyNCAwIDAgMS0yLjI5OS0xLjYyN3YtMjQuNjJhMi41OSAyLjU5IDAgMCAxIDEuNDgzLTIuMzM0IDk2LjcyNyA5Ni43MjcgMCAwIDAgNTUuMDU3LTg3LjIyM2MwLTUzLjc3NS00NC4xNjEtOTcuNDI0LTk4LjExNS05Ni41OTctNTEuMzIxLjc4Mi05My40MTggNDIuMTU1LTk1LjA1NiA5My40NTNhOTYuNzA5IDk2LjcwOSAwIDAgMCA1NS4wMjIgOTAuMzY3IDIuNTkgMi41OSAwIDAgMSAxLjQ4OSAyLjMzNHYyNC42MjZhMS43MjMgMS43MjMgMCAwIDEtMi4yOTkgMS42MjZDNjAuMTI4IDI0OC4zNzcgMjYuMjE1IDIwMi40NyAyNi43MDMgMTQ4Ljg1IDI3LjMwNyA4MS44NjcgODIuMDI1IDI3LjIxOCAxNDkuMDMgMjYuNzAxIDIxNy40NiAyNi4xNzIgMjczLjI5OSA4MS42OSAyNzMuMjk5IDE1MGMwIDUzLjEyLTMzLjc2NCA5OC40OTktODAuOTMgMTE1LjgwNHoiIGZpbGw9IiNGRkYiLz48L3N2Zz4=&style=flat&logoColor)](https://onesignal.com/) [![OneSignal](https://img.shields.io/badge/Cron-00baa9.svg?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbDpzcGFjZT0icHJlc2VydmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW1pdGVybGltaXQ9IjIiIGNsaXAtcnVsZT0iZXZlbm9kZCIgdmlld0JveD0iMCAwIDM5NyA1MzQiPgogIDxwYXRoIGZpbGw9Im5vbmUiIGQ9Ik0zLTNoMzk2djUyN0gzeiIvPgogIDxwYXRoIGZpbGw9IndoaXRlIiBkPSJtMTk3IDEzMSAxNDggODZ2MTcxbC0xNDggODYtMTQ4LTg2VjIxN2wxNDgtODZaTTg2IDI5NmwxNS00NmMzNSAxMiA2MCAyMiA3NiAzMWwtNy04MWg0OGMtMSAyMS0zIDQ4LTggODEgMjMtMTEgNDktMjIgNzgtMzFsMTUgNDZjLTI4IDktNTUgMTUtODIgMTggMTMgMTIgMzIgMzMgNTYgNjJsLTM5IDI4Yy0xMy0xNy0yNy00MS00NS03MC0xNiAzMC0zMCA1NC00MiA3MGwtMzktMjhjMjUtMzEgNDQtNTIgNTQtNjItMjgtNS01NC0xMS04MC0xOFptMTI0LTE4NmMxMy0yNCA1OC0yNSA5OS0xczYzIDYyIDQ5IDg2bC0xNDgtODVabS0yNiAwYy0xNC0yNC01OC0yNS05OS0xcy02MyA2Mi00OSA4NmwxNDgtODVaIi8+CiAgPHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0zMDEgODljMC0zMi00NS01OC0xMDEtNThTOTkgNTcgOTkgODljMTItMjAgNTMtMzYgMTAxLTM2czg5IDE2IDEwMSAzNlptLTE5IDM0NS0yNSAxNSAzNSA0NiAxMi03LTIyLTU0Wm0tMTY5IDAgMjQgMTUtMzUgNDYtMTItNyAyMy01NFoiLz4KPC9zdmc+Cg==&style=flat&logoColor)](https://github.com/kelektiv/node-cron) [![Axios](https://img.shields.io/badge/Axios-5A29E4?style=flat&logo=axios&logoColor=white)](https://axios-http.com/kr/docs/intro)  
+[![Docker Compose](https://img.shields.io/badge/Docker_Compose-2AB4FF.svg?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MjMgNjY1Ij4KICA8cGF0aCBmaWxsPSIjZmNmY2ZjIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik00MTggMWMtNiAxLTkgMy0xMyA4LTQgMy00IDMtMTAgMS0xMi02LTYwIDAtNjYgOC01IDYtMTEgNDQtOCA1MGwyMyAxN2M3IDQgNyA2IDIgNy0yMyAzLTM3IDI5LTI5IDUyIDMgOSAzIDktMTAgNi0xOS01LTI0LTYtNDUtNS00NyAwLTg2IDE4LTEwOSA1MGExMzUgMTM1IDAgMCAwLTI0IDY0Yy0zIDI4IDIgNDggMTcgNzJsMjIgMjdjNDAgNDQgNDEgNjYgMyA5MS00NSAzMC0xMDQgMTktMTA2LTIwLTEtMTYgNC0yOSAxNy01MiAxMy0yNCAxNC0zMyAzLTUybDEzLThjMjQtMTIgMjItOSAyMy0zNCAwLTIyIDItMjAtMjMtMzAtMTgtNi0yMC02LTQwLTEtMjggOS00MCAxNC00MSAxOCAwIDItMSAzLTIgMy03IDAtMTQgMTItMTUgMjUtMSAyMSA2IDI5IDMwIDM2IDMwIDkgMzUgMjQgMTkgNDktMzYgNTMtMzIgMTAyIDExIDEyMSAzNSAxNiA3NCAxMyAxMTktOWwxMS01IDMgMzJjMCAzNC00MCAzOC04OSA4bC0xNi0xMGMtNTEtMjktMTAyIDI0LTY2IDcwIDE1IDIwIDQyIDIxIDQ2IDIgMi04IDAtMTEtMTAtMTktMTYtMTItMTctMjQtMi0yNyA1LTEgMjYgOCAyOCAxMmwzNCAyOSAyMCAxMiAyMCA4YzM2IDEzIDgyLTE1IDgyLTUwIDAtMTAgMC0xMCA2LTUgMTAgMTAgMTggMTYgMjMgMTkgNiAzIDYgNCAxIDctNSAyLTUgMi01IDctMSA4IDEgMjkgNCAzMyA0IDcgNjMgNDYgNjkgNDYgMyAwIDQ4LTI1IDUxLTI5IDItMSAzLTM0IDEtMzZsLTE2LTljLTE2LTgtMTYtOC05LTEwIDE5LTcgMzctMjcgNDMtNDdsNS0xYTE2NSAxNjUgMCAwIDAgNjAtMTNjOSAwIDM0LTIyIDQwLTM0bDQtOGM0LTcgNi0yNiA2LTU2IDAtMjkgMS0yNy0xMC0yOS02LTItOC0zLTEzLTgtMzAtMjktNzktMjMtOTYgMTAtMyA3LTMgNy04IDlzLTYgNS01IDE3djE1YzEgMTQgNCAxNiAzNCAyOGwxMiA2YzcgMyA3IDMgMzAtNyA4LTMgOS0zIDkgMS02IDIyLTY0IDQyLTczIDI0YTg3IDg3IDAgMCAwLTYzLTQyYy04IDAtOCAwIDYtMTFhNzM2IDczNiAwIDAgMCA4NS04OWwzLTVjMTktMzEgMjEtNzMgMy0xMDctNy0xNS0yMy0zNS0zNi00OC0zOS0zNi00Ni00Ny0zOC02MiA0LTggMTUtMTcgMjAtMTVhNDUyIDQ1MiAwIDAgMCA1NS0xMmMxMS00IDEzLTUgMTQtMTAgMC00IDItNyA5LTE0IDI0LTI2LTgtODAtNDMtNzFNMjI4IDMzNGMxIDEgMCAxLTEgMS0yMCAwLTI4IDMyLTEyIDQyIDE3IDkgMzctMyAzNy0yMiAwLTctNy0xNy0xMS0xN3YtMWMzLTIgMC0zLTctNGwtNiAxbTU0IDgtNCAxYy0yMiAzLTI1IDM5LTMgNDQgMjQgNSA0MS0yMSAyNS0zOGwtNS0zdi0zYy0xLTItMTQtMy0xMy0xbS00OSAxMjBjLTYgNy05IDE0LTkgMjQgMCA4IDEgMTIgMyA2IDItMTIgOC0yOCAxMy0zM3YtM2MtMSAwLTQgMi03IDZtOTcgNGMwIDIgMjMgMTcgMjcgMTcgMiAwIDEtMy00LTctOS03LTIzLTEzLTIzLTEwbS01NCA2Yy0yMSA1MSAyOSA5NiA3MyA2NyA4LTYgOC03LTEtOC0zOS0zLTYzLTIzLTY2LTU0LTItMTItMy0xMy02LTUiLz4KPC9zdmc+Cg==&style=flat&logoColor=black)](https://docs.docker.com/compose/) [![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=Docker&logoColor=white)](https://www.docker.com/)  
+[![Jest](https://img.shields.io/badge/Jest-C21325?style=flat&logo=jest&logoColor=white)](https://jestjs.io/) [![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=flat&logo=eslint&logoColor=white)](https://eslint.org/) [![Prettier](https://img.shields.io/badge/Prettier-F7B93E?style=flat&logo=prettier&logoColor=black)](https://prettier.io/) [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)  
+[![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=flat&logo=swagger&logoColor=black)](https://swagger.io/) [![Codecov](https://img.shields.io/badge/Codecov-F01F7A?style=flat&logo=codecov&logoColor=white)](https://about.codecov.io/) [![TypeDoc](https://img.shields.io/badge/TypeDoc-3178c6.svg?logo=data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IS0tIFVwbG9hZGVkIHRvOiBTVkcgUmVwbywgd3d3LnN2Z3JlcG8uY29tLCBHZW5lcmF0b3I6IFNWRyBSZXBvIE1peGVyIFRvb2xzIC0tPgo8c3ZnIHdpZHRoPSI4MDBweCIgaGVpZ2h0PSI4MDBweCIgdmlld0JveD0iMCAwIDMyIDMyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjx0aXRsZT5maWxlX3R5cGVfdHlwZWRvYzwvdGl0bGU+PHBvbHlnb24gcG9pbnRzPSIzIDIzIDMgOSAxNiAyIDE2IDMwIDMgMjMiIHN0eWxlPSJmaWxsOiNiNDRjZmUiLz48cG9seWdvbiBwb2ludHM9IjMgOSAxNiAxNiAyOSA5IDE2IDIgMyA5IiBzdHlsZT0iZmlsbDojOTYwMWZlIi8+PHBvbHlnb24gcG9pbnRzPSIzIDIzIDE2IDE2IDE2IDMwIDMgMjMiIHN0eWxlPSJmaWxsOiM5OWNiZmUiLz48cG9seWdvbiBwb2ludHM9IjI5IDkgMTYgMTYgMTYgMzAgMjkgMjMgMjkgOSIgc3R5bGU9ImZpbGw6IzBjMzY0ZiIvPjwvc3ZnPg==&style=flat&logoColor=black)](https://typedoc.org/)  
+[![Github Actions](https://img.shields.io/badge/Github_Actions-2088FF?style=flat&logo=githubactions&logoColor=white)](https://github.com/features/actions)
 
 ## 💡 주요 기능
 
@@ -50,32 +52,34 @@
 
 ### 📄 API 명세서
 
-<a href="https://daily1hour.github.io/PickMe-Reminder-Service">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swagger/swagger-original.svg" width='50px' >열기</img>
-</a>
+> 프로젝트에서 사용되는 API 명세서입니다.  
+> 이 명세서는 매 릴리즈 업데이트 시 자동으로 최신 상태로 배포됩니다.
 
-| Method | URI                  | Summary   | Request Header                     | Query String                                              | Request Body                                             | Code                                                |
-| ------ | -------------------- | --------- | ---------------------------------- | --------------------------------------------------------- | -------------------------------------------------------- | --------------------------------------------------- |
-| POST   | /reminder/           | 등록      | Authorization:<br> Bearer \<token> |                                                           | event_id: string <br> send_at: date <br> status: enum    | 201: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
-| GET    | /reminder/           | 옵션 조회 | Authorization:<br> Bearer \<token> | start_date?: date <br> end_date?: date <br> status?: enum |                                                          | 200: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
-| GET    | /reminder/{event_id} | 조회      | Authorization:<br> Bearer \<token> |                                                           |                                                          | 200: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
-| PUT    | /reminder/{event_id} | 수정      | Authorization:<br> Bearer \<token> |                                                           | event_id: string <br> send_at: date <br> status: enum    | 200: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
-| PATCH  | /reminder/{event_id} | 부분 수정 | Authorization:<br> Bearer \<token> |                                                           | event_id?: string <br> send_at?: date <br> status?: enum | 200: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
-| DELETE | /reminder/{event_id} | 삭제      | Authorization:<br> Bearer \<token> |                                                           |                                                          | 200: 성공 <br> 400: 입력값 오류 <br> 401: 권한 없음 |
-| GET    | /                    | 헬스체크  |                                    |                                                           |                                                          | 200: 성공                                           |
+| [![Swagger](https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swagger/swagger-original.svg)](https://daily1hour.github.io/PickMe-Reminder-Service/test/report) |
+| --- |
+| &nbsp;&nbsp;&nbsp;[API 명세서 바로가기](https://daily1hour.github.io/PickMe-Reminder-Service/test/report)&nbsp;&nbsp;&nbsp; |
 
-### 📋 테스트 리포트
+### 📘 타입 문서
 
-<a href="https://daily1hour.github.io/PickMe-Reminder-Service/test-report">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jest/jest-plain.svg" width='50px' >열기</img>
-</a>
+> 프로젝트에서 사용되는 타입 정의를 문서화한 자료입니다.  
+> 이 타입 문서는 매 릴리즈 업데이트 시 자동으로 최신 상태로 배포됩니다.
 
-| Test Suites | Tests       | Snapshots | Time       |
-| ----------- | ----------- | --------- | ---------- |
-| _8 total_   | _32 total_  | _0 total_ |
-| _8 passed_  | _32 passed_ |           | _16.675 s_ |
+| [![TypeDoc](https://github.com/user-attachments/assets/8828fd5d-9f40-44ee-bc7c-0325d52b0804)](https://daily1hour.github.io/PickMe-Reminder-Service/docs) |
+| --- |
+| &nbsp;&nbsp;&nbsp;[ 타입 문서 바로가기](https://daily1hour.github.io/PickMe-Reminder-Service/docs)&nbsp;&nbsp;&nbsp; |
 
-## 📊 다이어그램
+### 🧪 테스트 리포트
+
+> 테스트 통과 여부와 커버리지 현황은 시각적으로 제공되며, 매 릴리즈 시 자동으로 최신 상태로 반영됩니다.  
+> 커버리지는 Codecov를 통해 분석됩니다. [![codecov](https://codecov.io/gh/Daily1Hour/PickMe-Reminder-Service/branch/main/graph/badge.svg)](https://codecov.io/gh/Daily1Hour/PickMe-Reminder-Service)
+
+| [![Jest](https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jest/jest-plain.svg)](https://daily1hour.github.io/PickMe-Reminder-Service/test-report) | [![Codecov](https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/codecov/codecov-plain.svg)](https://codecov.io/gh/Daily1Hour/PickMe-Reminder-Service) |
+| --- | --- |
+| [테스트 리포트 바로가기](https://daily1hour.github.io/PickMe-Reminder-Service/test-report) | [커버리지 대시보드 바로가기](https://codecov.io/gh/Daily1Hour/PickMe-Reminder-Service) |
+
+<br/>
+
+## 📐 다이어그램
 
 ### 🔹 유즈케이스 다이어그램
 
@@ -164,6 +168,38 @@ flowchart LR
 6. **ECS 서비스**에서 태스크 실행 (**Auto Scaling** 적용)
 7. **ALB(Application Load Balencer)** 연결을 통해 외부 트래픽 라우팅
 
+### 🚚 CI/CD 파이프라인
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="https://github.com/Daily1Hour/PickMe-Reminder-Service/actions" title="GitHub Actions"> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/githubactions/githubactions-original.svg" alt="GitHubActions" height="45" /> GitHub Actions 바로가기 </a>
+
+```mermaid
+graph LR
+    Tag[태그 푸시] ---> test-report & openapi
+
+    subgraph test-report
+        direction LR
+        Test/Coverage[커버리지 측정] --> |🟢 통과|Test/Codecov[Codecov 퍼블리싱]
+        Test/Execution[테스트 수행] --> |🟢 통과|Test/Report[리포트 생성]
+    end
+
+    subgraph openapi
+        direction LR
+        Docs[타입 문서화]
+        OpenAPI/Define[명세서 생성] --> OpenAPI/Validate[검증] --> |🟢 통과|OpenAPI/Publish[API 문서 생성]
+    end
+
+    Test/Report & Docs & OpenAPI/Publish -.-> |📦 아티팩트|Artifact/Download
+
+    subgraph deploy-document
+        direction LR
+        Artifact/Download[다운로드] --> Release[릴리즈 배포]
+        Artifact/Download --> DeployGH[gh-pages 배포] --> |자동 워크플로 실행|pages-build-deployment[GitHub Pages 배포 완료]
+    end
+
+    click Test/Execution,Docs,OpenAPI/Define,DeployGH "https://github.com/Daily1Hour/PickMe-Reminder-Service/actions/workflows/document-hosting.yml"
+    click pages-build-deployment "https://github.com/Daily1Hour/PickMe-Reminder-Service/actions/workflows/pages/pages-build-deployment"
+```
+
 ## 📂 폴더 구조
 
 <details>
@@ -172,42 +208,45 @@ flowchart LR
 > Monorepo + Microservice  
 > Clean Architecture
 
-```python
+```bash
 PickMe-Reminder-Service
-├─ .eslintrc.js # eslint 린터 설정
 ├─ .github
 │  ├─ workflows # 깃헙액션 워크플로어
 │  │  └─ document-hosting.yml # 스웨거 및 테스터 리포트 작성
 │  └─ document-index.html # 깃헙 페이지 진입점
 ├─ .gitignore
-├─ .prettierrc # 포맷터
 ├─ notification # 알림 마이크로서비스
 │  ├─ src
+│  │  ├─ main.ts # 서버 실행 진입점
+│  │  │  └─ main.test.ts
+│  │  ├─ module.ts # 의존성 주입 모듈
 │  │  ├─ application # 유즈케이스 계층
 │  │  │  ├─ dto.ts
-│  │  │  ├─ service.spec.ts
 │  │  │  └─ service.ts # 유즈케이스
+│  │  │     └─ service.spec.ts
 │  │  ├─ domain # 도메인 계층
 │  │  │  ├─ entity.ts # 엔티티 객체
 │  │  │  └─ repository.ts # 레포지토리 인터페이스
 │  │  ├─ infrastructure # 인프라스트럭쳐 계층
 │  │  │  ├─ auth
 │  │  │  │  ├─ jwtInterceptor.ts # JWT 토큰 인터셉터
+│  │  │  │  │  └─ jwtInterceptor.test.ts
 │  │  │  │  └─ verifier.ts # Cognito로 토큰 인증
 │  │  │  └─ dynamo # DynamoDB
 │  │  │     ├─ model.ts # 스키마
+│  │  │     │  └─ model.test.ts
 │  │  │     ├─ provider.ts # 프로바이더 의존성
+│  │  │     │  └─ provider.test.ts
 │  │  │     └─ repository.ts # 레포지토리 구현체
-│  │  ├─ main.ts # 서버 실행 진입점
-│  │  ├─ module.ts # 의존성 주입 모듈
+│  │  │        └─ repository.test.ts
 │  │  ├─ presentation # 프레임워크 계층
 │  │  │  ├─ controllers
 │  │  │  │  ├─ healthCheckController.ts # 헬스체크
-│  │  │  │  ├─ healthCheckController.spec.ts
+│  │  │  │  │  └─ healthCheckController.spec.ts
 │  │  │  │  ├─ httpController.ts # Http API
-│  │  │  │  ├─ httpController.spec.ts
-│  │  │  │  ├─ messageController.ts # Tcp API
-│  │  │  │  └─ messageController.test.ts
+│  │  │  │  │  └─ httpController.spec.ts
+│  │  │  │  └─ messageController.ts # TCP API
+│  │  │  │     └─ messageController.test.ts
 │  │  │  └─ dtos # 데이터 전송 객체
 │  │  │     ├─ index.ts
 │  │  │     ├─ CreateRequestDTO.ts
@@ -218,19 +257,29 @@ PickMe-Reminder-Service
 │  │     ├─ decorators # 커스텀 데코레이터
 │  │     │  ├─ index.ts
 │  │     │  ├─ AtLeastOneOption.ts # 옵션 하나 이상 유효성 검사
+│  │     │  │  └─ AtLeastOneOption.test.ts
 │  │     │  ├─ IsTimeRange.ts # 시간 범위 유효성 검사
-│  │     │  ├─ PayloadEX.ts # Payload를 dto 변환하고 데코레이터 기반 유효성 검사
+│  │     │  │  └─ IsTimeRange.test.ts
+│  │     │  ├─ PayloadEX.test.ts
+│  │     │  │  └─ PayloadEX.ts # Payload를 dto 변환하고 데코레이터 기반 유효성 검사
 │  │     │  └─ TrimSeconds.ts # 시간 데이터의 분초 삭제 변환
+│  │     │     └─ TrimSeconds.test.ts
 │  │     ├─ downloadOpenAPI.ts # yaml 파일로 스웨거 문서 다운로드
+│  │     │  └─ downloadOpenAPI.test.ts
 │  │     └─ generatorSwagger.ts # 스웨거 문서 생성
-│  ├─ .env
-│  ├─ global.d.ts # 환경변수 타입
-│  ├─ jest.config.js
+│  │        └─ generatorSwagger.test.ts
+│  ├─ test
+│  │  └─ app.e2e-spec.ts # end to end 테스트
+│  ├─ .env # 환경변수
 │  ├─ package.json # 워크스페이스 의존성 관리
-│  ├─ tsconfig.build.json
+│  │  └─ jest.config.js # jest 테스트 설정
 │  └─ tsconfig.json # typescript 설정
+│     ├─ tsconfig.build.json
+│     └─ global.d.ts # 환경변수 타입
 ├─ worker # 알림 워커 서비스
 │  ├─ src
+│  │  ├─ main.ts # 서버 실행 진입점
+│  │  ├─ module.ts # 의존성 주입 모듈
 │  │  ├─ application
 │  │  │  ├─ dto.ts # 페이로드 DTO
 │  │  │  ├─ ports # 인터페이스
@@ -240,41 +289,47 @@ PickMe-Reminder-Service
 │  │  │  │  └─ sender.ts # 메시지 발송
 │  │  │  └─ usecases
 │  │  │     ├─ cron.ts # 잡 스케줄러
-│  │  │     ├─ cron.test.ts
-│  │  │     ├─ service.ts # 알림 TCP 요청, 발송 처리, 완료 처리
-│  │  │     └─ service.test.ts
-│  │  ├─ infrastructure
-│  │  │  ├─ api # axios API 인터셉터
-│  │  │  │  ├─ index.ts
-│  │  │  │  ├─ calendarClient.ts
-│  │  │  │  └─ onesignalClient.ts
-│  │  │  ├─ receivers
-│  │  │  │  ├─ calendarReceiver.ts # 캘린더 서비스 구현체
-│  │  │  │  └─ calendarReceiver.test.ts
-│  │  │  ├─ senders
-│  │  │  │  ├─ webSender.ts # 웹 메시지 발송 구현체
-│  │  │  │  └─ webSender.test.ts
-│  │  │  ├─ clientImpl.ts # 마이크로서비스 호출 구현체
-│  │  │  └─ clientImpl.test.ts
-│  │  ├─ main.ts # 서버 실행 진입점
-│  │  └─ module.ts # 의존성 주입 모듈
-│  ├─ .env
-│  ├─ global.d.ts
-│  ├─ jest.config.js
-│  ├─ package.json
-│  ├─ tsconfig.build.json
-│  └─ tsconfig.json
+│  │  │     │  └─ cron.test.ts
+│  │  │     └─ service.ts # 알림 TCP 요청, 발송 처리, 완료 처리
+│  │  │        └─ service.test.ts
+│  │  └─ infrastructure
+│  │     ├─ api # axios API 인터셉터
+│  │     │  ├─ index.ts
+│  │     │  ├─ calendarClient.ts
+│  │     │  │  └─ calendarClient.test.ts
+│  │     │  └─ onesignalClient.ts
+│  │     │     └─ onesignalClient.test.ts
+│  │     ├─ receivers
+│  │     │  └─ calendarReceiver.ts # 캘린더 서비스 구현체
+│  │     │     └─ calendarReceiver.test.ts
+│  │     ├─ senders
+│  │     │  └─ webSender.ts # 웹 메시지 발송 구현체
+│  │     │     └─ webSender.test.ts
+│  │     └─ clientImpl.ts # 마이크로서비스 호출 구현체
+│  │        └─ clientImpl.test.ts
+│  ├─ test
+│  │  └─ app.e2e-spec.ts # end to end 테스트
+│  ├─ .env # 환경변수
+│  ├─ package.json # 워크스페이스 의존성 관리
+│  │  └─ jest.config.js # jest 테스트 설정
+│  └─ tsconfig.json # typescript 설정
+│     ├─ tsconfig.build.json
+│     └─ global.d.ts # 환경변수 타입
+├─ test # 통합 테스트
+│  └─ jest.config.js
 ├─ .env # 공용 환경변수
-├─ nest-cli.json # nestjs 모듈 구조 설정
 ├─ docker-compose.yml # 도커컴포즈
 │  ├─ Dockerfile.notification # 알림 마이크로서비스 도커파일
 │  └─ Dockerfile.worker # 워커 마이크로서비스 도커파일
 ├─ package.json # 의존성 관리
-│  └─ package-lock.json
-├─ jest.config.js # jest 테스트 설정
-└─ test # 통합 테스트
-   ├─ app.e2e-spec.ts
-   └─ jest-e2e.json
+│  ├─ package-lock.json
+│  ├─ .eslintrc.js # eslint 린터 설정
+│  ├─ .eslintignore # eslint 무시 설정
+│  ├─ .prettierrc # 포맷터 설정
+│  ├─ jest.config.js # jest 테스트 설정
+│  └─ nest-cli.json # nestjs 모듈 구조 설정
+└─ tsconfig.json # typescript 설정
+   └─ typedoc.json # 문서 설정
 ```
 
 </details>
