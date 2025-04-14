@@ -58,4 +58,7 @@ export async function bootstrap(): Promise<void> {
 
     await app.startAllMicroservices();
 }
-bootstrap();
+
+if (require.main === module) {
+    bootstrap();
+}
