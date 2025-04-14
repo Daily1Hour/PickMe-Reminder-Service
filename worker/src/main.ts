@@ -10,9 +10,12 @@ import { WorkerModule } from "./module";
  *
  * @returns {Promise<void>} 애플리케이션 초기화 및 실행 완료 후 반환
  */
-async function bootstrap(): Promise<void> {
+export async function bootstrap(): Promise<void> {
     const app = await NestFactory.create(WorkerModule);
 
     await app.init();
 }
-bootstrap();
+
+if (require.main === module) {
+    bootstrap();
+}
