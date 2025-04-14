@@ -2,14 +2,17 @@
 
 > API를 통해 알림 시간을 관리하고, 스케쥴러가 매시간 알림을 발송하는 서비스
 
+[![docs ci/cd](https://github.com/Daily1Hour/PickMe-Reminder-Service/actions/workflows/document-hosting.yml/badge.svg)](https://github.com/Daily1Hour/PickMe-Reminder-Service/actions/workflows/document-hosting.yml)
+[![codecov](https://codecov.io/gh/Daily1Hour/PickMe-Reminder-Service/branch/main/graph/badge.svg)](https://codecov.io/gh/Daily1Hour/PickMe-Reminder-Service)
+
 ## 🚩 목차
 
 - [🛠️ 기술 스택](#️-기술-스택)
 - [💡 주요 기능](#-주요-기능)
 - [📖 개발 문서](#-개발-문서)
-    - [📄 API 명세서](#-API-명세서)
+    - [📄 API 명세서](#-api-명세서)
     - [📘 타입 문서](#-타입-문서)
-    - [📋 테스트 리포트](#-테스트-리포트)
+    - [🧪 테스트 리포트](#-테스트-리포트)
 - [📊 다이어그램](#-다이어그램)
     - [🔹 유즈케이스 다이어그램](#-유즈케이스-다이어그램)
     - [🔀 데이터 흐름 다이어그램](#-데이터-흐름-다이어그램)
@@ -26,6 +29,7 @@
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=Docker&logoColor=white)](https://www.docker.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)  
 [![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=flat&logo=swagger&logoColor=black)](https://swagger.io/)
+[![Codecov](https://img.shields.io/badge/Codecov-F01F7A?style=flat&logo=codecov&logoColor=white)](https://about.codecov.io/)
 [![Jest](https://img.shields.io/badge/Jest-C21325?style=flat&logo=jest&logoColor=white)](https://jestjs.io/)
 [![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=flat&logo=eslint&logoColor=white)](https://eslint.org/)
 
@@ -74,16 +78,19 @@
 <img src="https://github.com/user-attachments/assets/dee55d3d-0690-4c19-8c12-130338565d3a" width='50px' >타입 문서 바로가기</img>
 </a>
 
-### 📋 테스트 리포트
+### 🧪 테스트 리포트
+
+> 테스트 통과 여부와 커버리지 현황은 시각적으로 제공되며, 매 릴리즈 시 자동으로 최신 상태로 반영됩니다.  
+> 커버리지는 Codecov를 통해 측정됩니다.
 
 <a href="https://daily1hour.github.io/PickMe-Reminder-Service/test-report">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jest/jest-plain.svg" width='50px' >열기</img>
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jest/jest-plain.svg" width='50px' >테스트 리포트 열기</img>
+</a>
+<a href="https://codecov.io/gh/Daily1Hour/PickMe-Reminder-Service">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/codecov/codecov-plain.svg" width='50px' >커버리지 열기</img>
 </a>
 
-| Test Suites | Tests       | Snapshots | Time       |
-| ----------- | ----------- | --------- | ---------- |
-| _8 total_   | _32 total_  | _0 total_ |
-| _8 passed_  | _32 passed_ |           | _16.675 s_ |
+<br>
 
 ## 📊 다이어그램
 
